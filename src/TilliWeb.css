@@ -1,0 +1,1213 @@
+.tilli-web .App {
+  text-align: center;
+}
+
+.tilli-web .App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tilli-web .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.tilli-web .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.tilli-web .App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tilli-web input[type=text], .tilli-web input[type=password] {
+  width: 100%;
+  padding: 12px 40px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #18191f;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.tilli-web button {
+  background-color: black;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.tilli-web .container {
+  padding: 16px;
+}
+
+.tilli-web .fontuser {
+  position: relative;
+}
+
+.tilli-web .fontuser i {
+  position: absolute;
+  left: 15px;
+  top: 24px;
+  color: #18191f;
+}
+
+.tilli-web .fontpassword {
+  position: relative;
+}
+
+.tilli-web .fontpassword i {
+  position: absolute;
+  left: 15px;
+  top: 24px;
+  color: #18191f;
+}
+
+.tilli-web ::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #808080;
+  font-family: 'montserrat-medium';
+  font-size: 21px;
+  line-height: 28px;
+  font-weight: '500';
+}
+
+.tilli-web :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #808080;
+  font-family: 'montserrat-medium';
+  font-size: 21px;
+  line-height: 28px;
+  font-weight: '500';
+}
+
+.tilli-web ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #808080;
+  font-family: 'montserrat-medium';
+  font-size: 21px;
+  line-height: 28px;
+  font-weight: '500';
+}
+
+.tilli-web .row {
+  width: 100%;
+}
+
+.tilli-web .scrolldiv {
+  /* for chrome and safari*/
+  -webkit-animation-duration: 4s;
+  -webkit-animation-name: slidein;
+  /*for firefox*/
+  -moz-animation-duration: 4s;
+  -moz-animation-name: slidein;
+  /* for opera*/
+  -o-animation-duration: 1s;
+  -o-animation-name: slidein;
+  /* Standard syntax*/
+  animation-duration: 4s;
+  animation-name: slidein;
+}
+
+@-webkit-keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+@-moz-keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+@-o-keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+}
+
+.tilli-web .boder_radius {
+  background: linear-gradient(0deg, rgba(196, 214, 62, 0), rgba(196, 214, 62, 0)), #a9f2f9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.tilli-web .hide {
+  visibility: hidden;
+}
+
+.tilli-web .visible {
+  visibility: visible;
+}
+
+.tilli-web .questionDivShow {
+  visibility: hidden;
+  animation: 1s linear 0s forwards delayedmoveFisrt;
+}
+
+@keyframes delayedmoveFisrt {
+  from {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.tilli-web .imghoverdiv {
+  display: none;
+  margin-top: -10px;
+  padding-top: 5px;
+  position: relative;
+  border: 1px solid black;
+  /* width: 10%;
+  */
+  /* text-align: center;
+  */
+}
+
+.tilli-web #imgmenu:hover+.imghoverdiv {
+  display: block;
+}
+
+.tilli-web .imghoverdiv:hover {
+  display: block;
+}
+
+.tilli-web .leftalign {
+  /* margin-top:50px;
+ margin-left:50px;
+  */
+  padding-bottom: 20px;
+  font-size: 50px;
+}
+
+.tilli-web .mobile-responsive {
+  width: 768px;
+  margin: 0 auto !important;
+  float: none !important;
+  position: relative;
+  min-height: 100vh;
+  border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.tilli-web .mobile-responsive-ios {
+  margin: 0 auto !important;
+  float: none !important;
+  position: relative;
+  min-height: 97vh;
+  border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.tilli-web .module-content {
+  height: 100%;
+  width: 100%;
+  /* overflow-y: scroll;
+  */
+}
+
+.tilli-web .forward-step {
+  /* position: fixed;
+  */
+  right: 0;
+  /* bottom: 8%;
+  */
+  padding-right: 8%;
+  /* width: 768px;
+  */
+  text-align: right;
+}
+
+.tilli-web .dashboard-img {
+  display: inline-block;
+  width: 100%;
+  background-color: #ffbd12;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.tilli-web .dashboard-img img {
+  width: 90%;
+  height: 90%;
+}
+
+.tilli-web .vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.tilli-web .center-page {
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+}
+
+.tilli-web .dashboard-level {
+  height: 70px;
+  border-radius: 16px;
+  border: 2px solid #18191f;
+  position: relative;
+  margin: 0 auto;
+  max-width: 70px;
+}
+
+.tilli-web .font-17-14 {
+  font-size: 17px;
+}
+
+.tilli-web .font-24-18 {
+  font-size: 24px;
+}
+
+.tilli-web .font-20-18 {
+  font-size: 20px;
+}
+
+.tilli-web .footer-tab {
+  position: fixed;
+  bottom: 0px;
+  background-color: #fff;
+  box-shadow: #000 0px 1px 0px inset;
+  padding-top: 10px;
+  width: 768px;
+}
+
+@media only screen and (max-width: 768px) {
+  .tilli-web {
+    /* For mobile phones: */
+    /* .forward-step {
+      width: 100% !important;
+   }
+    */
+  }
+
+  .tilli-web .mobile-responsive {
+    width: 100% !important;
+  }
+
+  .tilli-web .footer-tab {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-height: 568px) {
+  .tilli-web {
+    /* Iphone 5: */
+  }
+
+  .tilli-web .dashboard {
+    max-height: 88vh;
+    overflow-y: scroll;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .tilli-web .font-17-14 {
+    font-size: 14px;
+  }
+
+  .tilli-web .font-24-18 {
+    font-size: 18px;
+  }
+
+  .tilli-web .font-20-18 {
+    font-size: 18px;
+  }
+}
+
+.tilli-web .custom-invalid-feedback {
+  width: 100%;
+  font-size: 80%;
+  color: #dc3545;
+  text-align: left;
+}
+
+.tilli-web .custom-invalid {
+  border-color: #dc3545 !important;
+}
+
+.tilli-web .boxHeight {
+  background-color: #00c6ae;
+  border-radius: 0px 0px 32px 32px;
+  min-height: 40vh;
+}
+
+.tilli-web .level-margin {
+  margin-top: 15px;
+}
+
+.tilli-web .lego_profile {
+  width: 65px !important;
+  padding: 5px;
+}
+
+@media screen and (min-height: 600px) {
+  .tilli-web .boxHeight {
+    min-height: 48vh;
+  }
+
+  .tilli-web .vertical-align {
+    margin-top: 4vh;
+  }
+
+  .tilli-web .point-margin {
+    margin-top: 3vh;
+  }
+
+  .tilli-web .level-margin {
+    margin-top: 5vh;
+  }
+
+  .tilli-web .level-heading {
+    margin-top: 2vh !important;
+  }
+
+  .tilli-web .module-box {
+    margin-top: 1.2vh;
+  }
+
+  .tilli-web .circle-text-top {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+  }
+
+  .tilli-web .circle-margin {
+    margin-top: 5vh !important;
+  }
+
+  .tilli-web .forward-step {
+    /* bottom: 5% !important;
+    */
+  }
+}
+
+@media screen and (min-height: 800px) {
+  .tilli-web .boxHeight {
+    min-height: 55vh;
+  }
+
+  .tilli-web .level-heading {
+    margin-top: 4vh !important;
+  }
+
+  .tilli-web .module-box {
+    margin-top: 3vh;
+  }
+
+  .tilli-web .box-margin, .tilli-web .checkbox-margin {
+    margin-top: 50px !important;
+  }
+
+  .tilli-web .circle-text-top {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+  }
+
+  .tilli-web .circle-margin {
+    margin-top: 10vh !important;
+  }
+
+  .tilli-web .drag-margin {
+    margin-top: 5vh !important;
+  }
+}
+
+.tilli-web .char-limit {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tilli-web .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tilli-web .align-left {
+  text-align: left;
+}
+
+.tilli-web .says-content {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+@media screen and (max-width: 360px) {
+  .tilli-web {
+    /* background-color: red;
+    */
+  }
+
+  .tilli-web .imgttext>p>span {
+    font-size: 14px !important;
+  }
+}
+
+.tilli-web .tamil .imgttext>p>span {
+  font-size: 11px !important;
+}
+
+@media screen and (max-width: 320px) {
+  .tilli-web {
+    /* background-color: red;
+    */
+  }
+
+  .tilli-web .intro-saystext>p>span {
+    font-size: 11px !important;
+  }
+
+  .tilli-web .intro-header>p>span {
+    /* background-color: red;
+    */
+    font-size: 14px !important;
+  }
+
+  .tilli-web .single-image-text>p>span {
+    font-size: 13px !important;
+  }
+
+  .tilli-web .single-image-header>p>span {
+    font-size: 13px !important;
+  }
+
+  .tilli-web .msp-header>p>span {
+    font-size: 17px !important;
+  }
+
+  .tilli-web .msp-body>p>span {
+    font-size: 14px !important;
+  }
+
+  .tilli-web .msp-btmtxt>p>span {
+    font-size: 12px !important;
+  }
+
+  .tilli-web .msp-question>p>span {
+    font-size: 12px !important;
+  }
+
+  .tilli-web .msp-question>p, .tilli-web .msp-body>p {
+    line-height: 18px !important;
+  }
+
+  .tilli-web .bottom-style>div>a>img {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .tilli-web .audiospeak-img>a>img {
+    width: 37px !important;
+    height: 37px !important;
+    left: 17px !important;
+  }
+
+  .tilli-web .repeat-img {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .tilli-web .progress-div {
+    font-size: 12px;
+  }
+
+  .tilli-web .record-text {
+    padding-top: 0.5rem !important;
+  }
+
+  .tilli-web .st-btn-text>p {
+    font-size: 8px !important;
+  }
+}
+
+.tilli-web .rectextIssue>p>span {
+  font-size: 20px !important;
+}
+
+.tilli-web .rectextType {
+  font-family: "montserrat-medium";
+}
+
+.tilli-web .barDesign {
+  /* background-color: #FFFFFF !important;
+  */
+  border-radius: 1.25rem !important;
+}
+
+.tilli-web .barDesign>.progress-bar {
+  border-radius: 16px !important;
+}
+
+.tilli-web html {
+  scroll-behavior: smooth;
+}
+
+@media screen and (max-width: 600px) {
+  .tilli-web .record-font>p>span, .tilli-web .record-font>div {
+    font-size: 11px !important;
+  }
+
+  .tilli-web .record-font>p {
+    line-height: 15px;
+    text-align: start !important;
+  }
+
+  .tilli-web .record-text {
+    font-size: 15px !important;
+  }
+}
+
+.tilli-web .record-text {
+  font-size: 18px;
+  color: #8094ff;
+  font-weight: 700;
+  font-family: montserrat-medium;
+}
+
+@media screen and (min-height: 800px) {
+  .tilli-web .st-img-bg {
+    width: 120px;
+    height: 120px;
+    background-color: #ffbd12;
+    border-radius: 60px;
+  }
+
+  .tilli-web .st-img {
+    width: 125px;
+    height: 270px;
+    margin-top: -10px;
+  }
+
+  .tilli-web .st-bg-green {
+    background-color: #00c6ae;
+    height: 270px;
+    border-radius: 0px 0px 32px 32px;
+  }
+
+  .tilli-web .margin-space {
+    margin-top: 120px;
+  }
+
+  .tilli-web .img_1 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tilli-web .img_2 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tilli-web .img_3 {
+    width: 60px;
+    height: 55px;
+  }
+
+  .tilli-web .img_font {
+    text-align: start;
+    font-size: 23px;
+    font-family: montserrat-medium;
+    color: #000;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .tilli-web .heading_text {
+    margin-top: 35px;
+    text-align: start;
+    font-weight: 800;
+    font-size: 30px;
+    font-family: montserrat-extrabold;
+    margin-left: 20px;
+  }
+
+  .tilli-web .heder_sub_text {
+    text-align: start;
+    font-family: montserrat-medium;
+    margin-left: 20px;
+    font-size: 22px;
+  }
+
+  .tilli-web .row-space-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .tilli-web .row-space {
+    margin-top: 30px;
+  }
+
+  .tilli-web .mar-top-row {
+    margin-top: 140px;
+  }
+
+  .tilli-web .st-btn-text {
+    background-color: #61e4c5;
+    border-radius: 18px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    text-align: center;
+    padding-top: 12px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .tilli-web .st-img-bg {
+    width: 100px;
+    height: 100px;
+    background-color: #ffbd12;
+    border-radius: 50px;
+  }
+
+  .tilli-web .st-img {
+    width: 100px;
+    height: 220px;
+    margin-top: -10px;
+  }
+
+  .tilli-web .st-bg-green {
+    background-color: #00c6ae;
+    height: 220px;
+    border-radius: 0px 0px 32px 32px;
+  }
+
+  .tilli-web .img_1 {
+    width: 35px;
+    height: 33px;
+  }
+
+  .tilli-web .img_2 {
+    width: 35px;
+    height: 33px;
+  }
+
+  .tilli-web .img_3 {
+    width: 35px;
+    height: 33px;
+  }
+
+  .tilli-web .margin-space {
+    margin-top: 50px;
+  }
+
+  .tilli-web .img_font {
+    text-align: start;
+    font-size: 19px;
+    font-family: montserrat-medium;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .tilli-web .heading_text {
+    margin-top: 25px;
+    text-align: start;
+    font-weight: 800;
+    font-size: 28px;
+    font-family: montserrat-extrabold;
+  }
+
+  .tilli-web .heder_sub_text {
+    text-align: start;
+    font-family: montserrat-medium;
+    font-size: 18px;
+  }
+
+  .tilli-web .row-space {
+    margin-top: 30px;
+  }
+
+  .tilli-web .row-space-btn {
+    margin-top: 20px;
+  }
+
+  .tilli-web .mar-top-row {
+    margin-top: 50px;
+  }
+
+  .tilli-web .st-btn-text {
+    background-color: #61e4c5;
+    border-radius: 15px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    text-align: center;
+    padding-top: 14px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-height: 570px) {
+  .tilli-web .forward-step>a>img {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .tilli-web .rocket-image {
+    width: 45px !important;
+    height: 40px !important;
+  }
+
+  .tilli-web .drag-text_1>p {
+    line-height: 18px !important;
+  }
+
+  .tilli-web .drag-text_2>p {
+    line-height: 16px !important;
+    text-align: center;
+  }
+
+  .tilli-web .question-font>p>span {
+    font-size: 12px !important;
+  }
+
+  .tilli-web .positionremove {
+    position: unset !important;
+  }
+
+  .tilli-web .heading_text, .tilli-web .heder_sub_text {
+    padding-left: 10px;
+  }
+
+  .tilli-web .singala .question-title>p>span {
+    font-size: 9px !important;
+  }
+
+  .tilli-web .img_font {
+    margin-bottom: 0 !important;
+  }
+
+  .tilli-web .row-space-btn {
+    margin-top: 2px;
+  }
+
+  .tilli-web .img_font {
+    font-size: 14px;
+  }
+
+  .tilli-web .heading_text {
+    font-size: 20px;
+  }
+
+  .tilli-web .intro-header {
+    font-size: 20px;
+  }
+
+  .tilli-web .intro-saystext>p {
+    line-height: 17px;
+  }
+
+  .tilli-web .intro-img {
+    width: 90px !important;
+  }
+
+  .tilli-web .tamil .intro-saystext {
+    font-size: 9px !important;
+  }
+
+  .tilli-web .tamilintro {
+    /* position: unset !important;
+    */
+  }
+}
+
+.tilli-web .bottom-style {
+  position: absolute;
+  bottom: 0px;
+  padding: 0px 10px 10px;
+  width: 100%;
+  z-index: 1;
+  /* background: rgb(255, 255, 255);
+  */
+  max-width: 768px;
+}
+
+.tilli-web .progress-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
+}
+
+.tilli-web .module-content {
+  /* margin-bottom: 100px;
+  */
+}
+
+.tilli-web #root {
+  /* margin-bottom: 100px;
+  */
+}
+
+@media screen and (max-height: 850px) {
+  .tilli-web .tamil .img_font {
+    font-size: 12px;
+  }
+
+  .tilli-web .tamil .heading_text {
+    font-size: 18px;
+  }
+
+  .tilli-web .tamil .heder_sub_text {
+    font-size: 15px;
+  }
+
+  .tilli-web .tamil .st-btn-text>P {
+    font-size: 10px;
+  }
+
+  .tilli-web .singala .img_font {
+    font-size: 12px;
+  }
+
+  .tilli-web .singala .heading_text {
+    font-size: 18px;
+  }
+
+  .tilli-web .singala .heder_sub_text {
+    font-size: 15px;
+  }
+
+  .tilli-web .singala .st-btn-text>P {
+    font-size: 10px;
+  }
+}
+
+.tilli-web .horizontal .bottom-style {
+  position: absolute;
+}
+
+.tilli-web .audio-scroll {
+  overflow: auto;
+}
+
+.tilli-web .center-loader {
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.tilli-web ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tilli-web ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+.tilli-web ::-webkit-scrollbar-thumb {
+  background: 808080;
+  border-radius: 10px;
+}
+
+.tilli-web ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.tilli-web .module-parent {
+  padding-bottom: 90px;
+}
+
+.tilli-web .module-parent-meet-single-person {
+  padding-bottom: 66px;
+}
+
+.tilli-web .module-parent-audio-screen {
+  padding-bottom: 76px;
+}
+
+.tilli-web .audio-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.tilli-web .circl-img-style {
+  width: 63%;
+  padding-left: 10px;
+  padding-top: 14%;
+  font-size: 10px;
+  font-family: "montserrat-medium";
+}
+
+.tilli-web .tamil .circl-img-style {
+  padding-top: 9%;
+}
+
+.tilli-web .horizontal .audio-img {
+  min-height: 20vh;
+}
+
+.tilli-web .audio-img {
+  min-height: 10vh;
+}
+
+@media screen and (max-height: 640px) {
+  .tilli-web .img-size-askGender {
+    width: 105px !important;
+    height: 230px !important;
+  }
+
+  .tilli-web .askGender-divHeight {
+    height: 200px !important;
+  }
+
+  .tilli-web .askAge-divHeight {
+    height: 200px !important;
+  }
+
+  .tilli-web .img-size-askAge {
+    width: 105px !important;
+    height: 230px !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .tilli-web .img-size-askAge {
+    width: 130px !important;
+    height: 250px !important;
+    margin-right: 10px;
+    padding-right: 10px;
+  }
+
+  .tilli-web .askAge-divHeight {
+    height: 200px !important;
+  }
+
+  .tilli-web .img-size-askGender {
+    width: 130px !important;
+    height: 250px !important;
+    margin-right: 15px;
+    padding-right: 10px;
+  }
+
+  .tilli-web .askGender-divHeight {
+    height: 200px !important;
+  }
+}
+
+.tilli-web .box-bgcolor {
+  background-color: rgb(255, 97, 97);
+  /* top: 200px; */
+  height: auto;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  padding-bottom: 20px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 4px 8px 0px, rgb(0 0 0 / 19%) 0px 6px 20px 0px;
+}
+
+.tilli-web .box-btnbg {
+  font-family: montserrat-extrabold;
+  font-weight: 800;
+  font-size: 12px;
+  border: 2px solid rgb(255, 255, 255);
+  box-shadow: rgb(0 0 0 / 25%) 0px 4px 4px inset;
+  border-radius: 12px;
+  background-color: rgb(255, 189, 18);
+}
+
+.tilli-web .lego-box-bgcolor {
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+}
+
+.tilli-web .bor-color {
+  border: 3px solid #18191F;
+}
+
+.tilli-web .lego-box-btnbg {
+  background: #FFBD12;
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: inset 0px 4px 4px rgb(0 0 0 / 25%);
+  border-radius: 12px;
+}
+
+.tilli-web .bg1 {
+  background-color: #E9E7FC
+}
+
+.tilli-web .bg2 {
+  background-color: rgb(255, 189, 18);
+}
+
+.tilli-web .audio-font {
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.tilli-web .lego-font {
+  font-weight: 700 !important;
+  /* color: #18191F !important; */
+}
+
+@media only screen and (max-width: 700px) {
+  .tilli-web .audio-font>div>p>span {
+    /* font-size: 17px !important; */
+  }
+  .tilli-web .Speakdiv {
+    font-size: 19px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .tilli-web .audio-font>div>p>span {
+    font-size: 1em !important;
+  }
+}
+
+.tilli-web .Speakdiv {
+  font-family: montserrat-medium;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.4;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.tilli-web .manage-container .logo {
+  max-height: 25vh;
+}
+
+.tilli-web .manage-container .header-text {
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+}
+
+.tilli-web .manage-container .age-box {
+  border: 1px solid #57c7af;
+  padding: 5px;
+  margin: 0 5px;
+  flex: 1;
+  cursor: pointer;
+}
+.tilli-web .manage-container .age-box.active {
+  background: #57c7af;
+  color: #fff;
+  border: 1px solid #17725f;
+}
+.tilli-web .manage-container .box {
+  padding: 10px 25px;
+  border: 1px solid #57c7af;
+  margin: 10px 25px;
+  cursor: pointer;
+}
+
+.tilli-web .manage-container .box.active {
+  background: #57c7af;
+  color: #fff;
+  border: 1px solid #17725f;
+}
+.tilli-web .manage-container .submit-div {
+  margin: 10px 25px;
+}
+.tilli-web .manage-container .submit {
+  border-color: rgb(24, 25, 31);
+  border-radius: 10px;
+  background: #000;
+  background-color: black;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+}
+
+.tilli-web .manage-container .logo img {
+  height: 15vh;
+}
+.btn-warning {
+  color: #212529;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}

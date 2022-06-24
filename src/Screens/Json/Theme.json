@@ -1,0 +1,654 @@
+{
+   "English": [
+      {
+         "title": "What is trust",
+         "theme": "DoubleBoxOverlapWithImage",
+         "content": {
+            "text": "Trust is a feeling you experience towards someone or something\n +that makes you feel safe, happy and comfortable.",
+            "image": ""
+         }
+      },
+      {
+         "title": "What is trust",
+         "theme": "DoubleBoxUnderWithImage",
+         "content": {
+            "text": "Trust is a feeling you experience towards someone or something\n'+'that makes you feel safe, happy and comfortable.",
+            "image": "",
+            "boxBgColor_1": "",
+            "boxBgColor_2": ""
+         }
+      },
+      {
+         "title": "What is trust",
+         "theme": "ImageWithThinking",
+         "content": {
+            "text": "This is Raji, she feels safe when her father lifts her into the air, that is because Raji TRUSTS her father not to let her go. .",
+            "image": ""
+         }
+      },
+      {
+         "title": "What is trust",
+         "theme": "QuestionsList",
+         "content": {
+            "questionTitle": "Four questions you can ask yourself, when figuring out who you can trust:",
+            "questionList": [
+               {
+                  "question": "Is this person dependable?",
+                  "color": "#FFC737"
+               },
+               {
+                  "question": "Does this person always say the truth?",
+                  "color": "#C4D63E"
+               },
+               {
+                  "question": "Will you trust this person with a secret? Are you sure they will not tell it to someone else?",
+                  "color": "#A9F2F9"
+               },
+               {
+                  "question": "Are you sure this person won`t do something that will make you feel sad, unsafe or angry?",
+                  "color": "#FF5C5C"
+               }
+            ]
+         }
+      },
+      {
+         "title": "Trust",
+         "theme": "IntroducePersons",
+         "content": {
+            "persons": [
+               {
+                  "name": "Tilly",
+                  "image": "",
+                  "imageBg": "#8AC381",
+                  "bg": "#30DEC9",
+                  "says": "She is eight years old and today you will be help her make some smart choices about who she can trust and can not trust in her life."
+               },
+               {
+                  "name": "Sameera",
+                  "image": "",
+                  "imageBg": "#FFBD12",
+                  "bg": "#FFC737",
+                  "says": "He is Tilly`s best friend. They have known each other since Grade 1. Sameera often goes to Tilly to get advice or to tell a secret. Sameera is always helpful and kind to those around him."
+               }
+            ]
+         }
+      },
+      {
+         "title": "Trust",
+         "theme": "ChooseCheckboxQuestions",
+         "content": {
+            "questionTitle": "How do you think Tilly will answer these questions about Sameera?",
+            "checkBoxesOption": [
+               {
+                  "content": "Does he change his mind often?",
+                  "bgcolor": "#FFC737"
+               },
+               {
+                  "content": "Does he always tell the truth?",
+                  "bgcolor": "#C4D63E"
+               },
+               {
+                  "content": "Will you trust this person with a secret?",
+                  "bgcolor": "#A9F2F9"
+               },
+               {
+                  "content": "Are you sure this person won`t do something to make you feel sad, angry or unsafe?",
+                  "bgcolor": "#FF5C5C"
+               }
+            ],
+            "colors": {
+               "checked": "#FF89BB",
+               "unChecked": "#FFBD12",
+               "text": "#000",
+               "box": "#00C6AE"
+            }
+         }
+      },
+      {
+         "title": "TRUST CIRCLE",
+         "theme": "CircleWithInfoAnimations",
+         "content": {
+            "text": [
+               {
+                  "value": "THIS IS THE",
+                  "style": {
+                     "color": "#474A57"
+                  }
+               },
+               {
+                  "value": "TRUST CIRCLE",
+                  "style": {
+                     "color": "#E35B77"
+                  }
+               }
+            ],
+            "circles": [
+               {
+                  "name": "HIGH TRUST",
+                  "color": "#F4ED31"
+               },
+               {
+                  "name": "LOW TRUST",
+                  "color": "#527FC7"
+               },
+               {
+                  "name": "NO TRUST",
+                  "color": "#F75A5B"
+               }
+            ],
+            "image": ""
+         }
+      },
+      {
+         "title": "Help Tily",
+         "theme": "MeetSinglePerson",
+         "content": {
+            "personName": "",
+            "body": "",
+            "question": "",
+            "bottomText": "",
+            "color_1": "",
+            "color_2": "",
+            "image": ""
+         }
+      },
+      {
+         "title": "Tilly",
+         "theme": "PersonWithTextAnimation",
+         "content": {
+            "image": "",
+            "text": [
+               {
+                  "value": "How much does Tilly trust herself?",
+                  "style": {
+                     "color": "#474A57"
+                  }
+               },
+               {
+                  "value": "Test text1",
+                  "style": {
+                     "color": "#474A57",
+                     "paddingTop": 10
+                  }
+               },
+               {
+                  "value": "Test text2",
+                  "style": {
+                     "color": "#474A57",
+                     "paddingTop": 10
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "title": "Tilly",
+         "theme": "AudioQuizScreen",
+         "content": {
+            "feelingsDataList": [
+               {
+                  "questions": "Can Tilli trust herself?",
+                  "results": []
+               },
+               {
+                  "questions": "Why do you think so?",
+                  "results": []
+               },
+               {
+                  "questions": "What about you? Can you trust yourself?",
+                  "results": []
+               }
+            ]
+         }
+      },
+      {
+         "title": "TRUST CIRCLE",
+         "theme": "DropToSelection",
+         "content": {
+            "text1": "",
+            "text2": "",
+            "text": [
+               {
+                  "value": "THIS IS THE",
+                  "style": {
+                     "color": "#474A57"
+                  }
+               },
+               {
+                  "value": "TRUST CIRCLE",
+                  "style": {
+                     "color": "#E35B77"
+                  }
+               }
+            ],
+            "circles": [
+               {
+                  "name": "HIGH TRUST",
+                  "color": "#F4ED31",
+                  "isCorrectanswer": false
+               },
+               {
+                  "name": "LOW TRUST",
+                  "color": "#527FC7",
+                  "isCorrectanswer": false
+               },
+               {
+                  "name": "NO TRUST",
+                  "color": "#F75A5B",
+                  "isCorrectanswer": false
+               }
+            ],
+            "image": "",
+            "message": {
+               "failure_header_1": "Are you sure?",
+               "failure_body_1": "Think again!",
+               "failure_button_1": "Try again",
+               "failure_header_2": "Ooops",
+               "failure_body_2": "No one is allowed to touch you in a way that makes you feel uncomfortable. Even if they are family. Your body is yours and Tilli should say no to Aunty Nita’s hugs. If the way someone touches you is not okay, usually your Gut Feeling will give you a signal.",
+               "failure_button_2": "Try again",
+               "success_header_1": "Awesome Job!",
+               "success_body_1": "You just helped Tilly learn how to listen to her inner voice. You have also added a new tool to your saefty toolbox.",
+               "success_button_1": " Unlock Learning Point!",
+               "success_header_2": "Learning Point",
+               "success_body_2": "No one is allowed to touch you in a way that makes you feel uncomfortable. Even if they are family. Your body is yours and Tilli should say no to Aunty Nita’s hugs. If the way someone touches you is not okay, usually your Gut Feeling will give you a signal.",
+               "success_button_2": "Next Story"
+            }
+         }
+      },
+      {
+         "title": "Success",
+         "theme": "Success",
+         "content": {
+            "title": {
+               "value": "LEVEL PASSED",
+               "style": [
+                  {
+                     "color": "#fddc24"
+                  }
+               ],
+               "bColor": "#93c884"
+            },
+            "message": {
+               "value": "The person you can trust most in the world is you! You have the power to decide who you trust and don’t trust",
+               "style": [
+                  {
+                     "color": "#8dbaaf"
+                  }
+               ],
+               "bColor": "#2b4850"
+            }
+         }
+      },
+      {
+         "title": "Story Card",
+         "theme": "StoryCard",
+         "content": [
+            {
+               "title": "Help Tily",
+               "theme": "MeetSinglePerson",
+               "content": {
+                  "personName": "",
+                  "body": "",
+                  "question": "",
+                  "bottomText": "",
+                  "color_1": "",
+                  "color_2": "",
+                  "image": ""
+               }
+            },
+            {
+               "title": "Tilly",
+               "theme": "AudioQuizScreen",
+               "content": {
+                  "feelingsDataList": [
+                     {
+                        "questions": "Can Tilli trust herself?",
+                        "results": []
+                     },
+                     {
+                        "questions": "Why do you think so?",
+                        "results": []
+                     },
+                     {
+                        "questions": "What about you? Can you trust yourself?",
+                        "results": []
+                     }
+                  ]
+               }
+            },
+            {
+               "title": "TRUST CIRCLE",
+               "theme": "DropToSelection",
+               "content": {
+                  "text1": "",
+                  "text2": "",
+                  "circles": [
+                     {
+                        "name": "HIGH TRUST",
+                        "color": "#F4ED31",
+                        "isCorrectanswer": false
+                     },
+                     {
+                        "name": "LOW TRUST",
+                        "color": "#527FC7",
+                        "isCorrectanswer": false
+                     },
+                     {
+                        "name": "NO TRUST",
+                        "color": "#F75A5B",
+                        "isCorrectanswer": false
+                     }
+                  ],
+                  "image": "",
+                  "message": {
+                     "failure_header_1": "Are you sure?",
+                     "failure_body_1": "Think again!",
+                     "failure_button_1": "Try again",
+                     "failure_header_2": "Ooops",
+                     "failure_body_2": "No one is allowed to touch you in a way that makes you feel uncomfortable. Even if they are family. Your body is yours and Tilli should say no to Aunty Nita’s hugs. If the way someone touches you is not okay, usually your Gut Feeling will give you a signal.",
+                     "failure_button_2": "Try again",
+                     "success_header_1": "Awesome Job!",
+                     "success_body_1": "You just helped Tilly learn how to listen to her inner voice. You have also added a new tool to your saefty toolbox.",
+                     "success_button_1": " Unlock Learning Point!",
+                     "success_header_2": "Learning Point",
+                     "success_body_2": "No one is allowed to touch you in a way that makes you feel uncomfortable. Even if they are family. Your body is yours and Tilli should say no to Aunty Nita’s hugs. If the way someone touches you is not okay, usually your Gut Feeling will give you a signal.",
+                     "success_button_2": "Next Story"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "title": "",
+         "theme": "Ask Age",
+         "content": {
+            "question": "",
+            "question_2": "",
+            "chooseType_1": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "Ask Gender",
+         "content": {
+            "question": "",
+            "question_2": "",
+            "chooseType_1": "",
+            "chooseType_2": "",
+            "chooseType_3": ""
+         }
+      }
+   ],
+   "Tamil": [
+      {
+         "title": "",
+         "theme": "DoubleBoxOverlapWithImage",
+         "content": {
+            "text": "",
+            "image": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "DoubleBoxUnderWithImage",
+         "content": {
+            "text": "",
+            "image": "",
+            "boxBgColor_1": "",
+            "boxBgColor_2": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "ImageWithThinking",
+         "content": {
+            "text": "",
+            "image": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "QuestionsList",
+         "content": {
+            "questionTitle": "",
+            "questionList": [
+               {
+                  "question": "",
+                  "color": ""
+               },
+               {
+                  "question": "",
+                  "color": ""
+               },
+               {
+                  "question": "",
+                  "color": ""
+               },
+               {
+                  "question": "",
+                  "color": ""
+               }
+            ]
+         }
+      },
+      {
+         "title": "",
+         "theme": "IntroducePersons",
+         "content": {
+            "persons": [
+               {
+                  "name": "",
+                  "image": "",
+                  "imageBg": "",
+                  "bg": "",
+                  "says": ""
+               }
+            ]
+         }
+      },
+      {
+         "title": "",
+         "theme": "ChooseCheckboxQuestions",
+         "content": {
+            "questionTitle": "",
+            "checkBoxesOption": [
+               {
+                  "content": "",
+                  "bgcolor": ""
+               },
+               {
+                  "content": "",
+                  "bgcolor": ""
+               },
+               {
+                  "content": "",
+                  "bgcolor": ""
+               },
+               {
+                  "content": "",
+                  "bgcolor": ""
+               }
+            ],
+            "colors": {
+               "checked": "",
+               "unChecked": "",
+               "text": "",
+               "box": ""
+            }
+         }
+      },
+      {
+         "title": "",
+         "theme": "CircleWithInfoAnimations",
+         "content": {
+            "text": [
+               {
+                  "value": "",
+                  "style": {
+                     "color": ""
+                  }
+               },
+               {
+                  "value": "",
+                  "style": {
+                     "color": ""
+                  }
+               }
+            ],
+            "circles": [
+               {
+                  "name": "",
+                  "color": ""
+               },
+               {
+                  "name": "",
+                  "color": ""
+               },
+               {
+                  "name": "",
+                  "color": ""
+               }
+            ],
+            "image": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "MeetSinglePerson",
+         "content": {
+            "personName": "",
+            "body": "",
+            "question": "",
+            "bottomText": "",
+            "color_1": "red",
+            "color_2": "",
+            "image": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "AudioQuizScreen",
+         "content": {
+            "feelingsDataList": [
+               {
+                  "questions": "",
+                  "results": []
+               },
+               {
+                  "questions": "",
+                  "results": []
+               },
+               {
+                  "questions": "",
+                  "results": []
+               }
+            ]
+         }
+      },
+      {
+         "title": "",
+         "theme": "DropToSelection",
+         "content": {
+            "text": [
+               {
+                  "value": "",
+                  "style": {
+                     "color": ""
+                  }
+               },
+               {
+                  "value": "",
+                  "style": {
+                     "color": ""
+                  }
+               }
+            ],
+            "circles": [
+               {
+                  "name": "",
+                  "color": "",
+                  "isCorrectanswer": true
+               },
+               {
+                  "name": "",
+                  "color": "",
+                  "isCorrectanswer": false
+               },
+               {
+                  "name": "",
+                  "color": "",
+                  "isCorrectanswer": false
+               }
+            ],
+            "image": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "SingleTextImage",
+         "content": {
+            "text": "",
+            "bottomtext": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "StoryCard",
+         "content": {
+            "title": "",
+            "theme": "MeetSinglePerson",
+            "content": [
+               {
+                  "personName": "",
+                  "body": "",
+                  "question": "",
+                  "bottomText": "",
+                  "color_1": "",
+                  "color_2": "",
+                  "image": ""
+               },
+               {
+                  "title": "Tilly",
+                  "theme": "AudioQuizScreen",
+                  "content": {
+                     "feelingsDataList": [
+                        {
+                           "questions": "",
+                           "results": []
+                        },
+                        {
+                           "questions": "",
+                           "results": []
+                        },
+                        {
+                           "questions": "",
+                           "results": []
+                        }
+                     ]
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "title": "",
+         "theme": "Ask Age",
+         "content": {
+            "question": "",
+            "question_2": "",
+            "chooseType_1": ""
+         }
+      },
+      {
+         "title": "",
+         "theme": "Ask Gender",
+         "content": {
+            "question": "",
+            "question_2": "",
+            "chooseType_1": "",
+            "chooseType_2": "",
+            "chooseType_3": ""
+         }
+      }
+   ]
+}
