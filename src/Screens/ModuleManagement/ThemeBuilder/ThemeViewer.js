@@ -39,7 +39,7 @@ export default class ThemeViewer extends React.Component {
         let { themeId } = this.state;
         let postJson = { themeId };
         let responseData = await doConnect("getThemeContent", "POST", postJson);
-        
+        responseData = JSON.parse(responseData)
         if (responseData.response !== null) {
             this.setState({
                 layers: JSON.parse(responseData.response)
