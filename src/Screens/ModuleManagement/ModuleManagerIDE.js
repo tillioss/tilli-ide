@@ -805,6 +805,7 @@ export default class ModuleManagerIDE extends React.Component {
       let themeId = e.json.id;
       let postJson = { themeId };
       let responseData = await doConnect("getThemeContent", "POST", postJson);
+      responseData = JSON.parse(responseData)
           let layers = [];
           if (responseData.response !== null) {
             layers = JSON.parse(responseData.response);

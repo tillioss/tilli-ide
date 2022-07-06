@@ -106,7 +106,7 @@ export default class Builder extends React.Component {
         let { themeId } = this.state;
         let postJson = { themeId };
         let responseData = await doConnect("getThemeContent", "POST", postJson);
-        
+        responseData = JSON.parse(responseData)
         if (responseData.response !== null) {
             this.setState({
                 layers: JSON.parse(responseData.response)
@@ -506,6 +506,7 @@ export default class Builder extends React.Component {
         let { themeId, layers } = this.state;
         let postJson = { themeId, data: JSON.stringify(layers) };
         let responseData = await doConnect("updateThemeContent", "POST", postJson);
+        responseData = JSON.parse(responseData)
         if (responseData.response === "Success") {
             toast.success('Successfully updated.', {
                 position: "top-center",
