@@ -343,25 +343,25 @@ export default class ModuleManagerIDE extends React.Component {
     let postJson = { sessionId: '1223', themeId: '' };
     let that = this;
     let responseData = await doConnect("getThemes", "POST", postJson);
-        let json = responseData;
-        if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
-          let themesMap = json['themesMap'];
-          //console.log('themesList ==>',themesMap)
-          let options = []
-          let storyOption = []
-          Object.keys(themesMap).forEach(value => {
-            //   console.log('themesList ==>',themesMap[value].name)
-            if (themesMap[value].name != "StoryCard") {
-              options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
-            else {
-              storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
-
-          })
-          //console.log('options',options)
-          that.setState({ themeOptions: options, storyOption })
+    let json = responseData;
+    if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
+      let themesMap = json['themesMap'];
+      //console.log('themesList ==>',themesMap)
+      let options = []
+      let storyOption = []
+      Object.keys(themesMap).forEach(value => {
+        //   console.log('themesList ==>',themesMap[value].name)
+        if (themesMap[value].name != "StoryCard") {
+          options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
         }
+        else {
+          storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
+        }
+
+      })
+      //console.log('options',options)
+      that.setState({ themeOptions: options, storyOption })
+    }
   }
 
   removeFunction(value) {
@@ -397,8 +397,8 @@ export default class ModuleManagerIDE extends React.Component {
     let postJson = { fileType: 'image', sessionId: '1223' };
     let responseData = await doConnect("getGameFilesList", "POST", postJson);
     let json = responseData;
-      this.setState({ fileData: json.filesMap })
-      this.getGifImage()
+    this.setState({ fileData: json.filesMap })
+    this.getGifImage()
   }
 
 
@@ -406,8 +406,8 @@ export default class ModuleManagerIDE extends React.Component {
     let postJson = { fileType: 'gif', sessionId: '1223' };
     let responseData = await doConnect("getGameFilesList", "POST", postJson);
     let json = responseData;
-        let data_merge = { ...this.state.fileData, ...json.filesMap }
-        this.setState({ fileData: data_merge })
+    let data_merge = { ...this.state.fileData, ...json.filesMap }
+    this.setState({ fileData: data_merge })
   }
 
 
@@ -419,48 +419,49 @@ export default class ModuleManagerIDE extends React.Component {
       return false
     }
 
-    let addData = { sectionLearning, sectionBuildStory };
+    // let addData = { sectionLearning, sectionBuildStory };
+    let addData = [...sectionLearning, ...sectionBuildStory];
     let postJson = { levelId: this.state.levelSelect.value, stagesData: JSON.stringify(addData), sessionId: '1223' };
     let responseData = await doConnect("updateLevelMapping", "POST", postJson);
-        var json = responseData;
-        var response = json.response;
-        if (response == 'Success') {
-          toast.success('Added data !', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          this.setState({ enableLoader: false })
+    var json = responseData;
+    var response = json.response;
+    if (response == 'Success') {
+      toast.success('Added data !', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      this.setState({ enableLoader: false })
 
-        } else {
-          alert(response);
-        }
+    } else {
+      alert(response);
+    }
   }
 
   async getLevels() {
     let postJson = { sessionId: '1223', levelId: '' };
     let responseData = await doConnect("getGameLevels", "POST", postJson);
     let that = this;
-        let json = responseData;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
-          let levelsMap = json['levelsMap'];
-          let level_Id = this.props.match.params.levelid
-          let select_Level = {}
-          if (level_Id) {
-            select_Level.value = level_Id;
-            select_Level.label = levelsMap[level_Id].name;
-          }
+    let json = responseData;
+    if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+      let levelsMap = json['levelsMap'];
+      let level_Id = this.props.match.params.levelid
+      let select_Level = {}
+      if (level_Id) {
+        select_Level.value = level_Id;
+        select_Level.label = levelsMap[level_Id].name;
+      }
 
 
-          that.setState({ levelsJson: levelsMap, levelSelect: select_Level })
+      that.setState({ levelsJson: levelsMap, levelSelect: select_Level })
 
-          this.getLevelMappingData(level_Id)
+      this.getLevelMappingData(level_Id)
 
-        }
+    }
   }
 
 
@@ -471,50 +472,50 @@ export default class ModuleManagerIDE extends React.Component {
     let that = this;
     let responseData = await doConnect("getLevelMappingData", "POST", postJson);
 
-        // alert(JSON.stringify(responseData))
-        let contentdata = responseData.response;
-        if (contentdata) {
-          let imageViews = []
-          let withOutStory = []
-          let withStory = []
-          let changeIndex = 0
+    // alert(JSON.stringify(responseData))
+    let contentdata = responseData.response;
+    if (contentdata) {
+      let imageViews = []
+      let withOutStory = []
+      let withStory = []
+      let changeIndex = 0
 
-          contentdata = JSON.parse(contentdata);
-          if (Array.isArray(contentdata)) {
-            contentdata.map((ival, index) => {
-              var found_index = this.state.themeOptions.findIndex((a) =>
-                a.label === ival.theme)
-              imageViews[index] = this.state.themeOptions[found_index]
+      contentdata = JSON.parse(contentdata);
+      if (Array.isArray(contentdata)) {
+        contentdata.map((ival, index) => {
+          var found_index = this.state.themeOptions.findIndex((a) =>
+            a.label === ival.theme)
+          imageViews[index] = this.state.themeOptions[found_index]
 
-              if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
-                withStory.push(ival)
-                storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
-                changeIndex++;
-              }
-              else {
-                withOutStory.push(ival)
-              }
-            })
-          } else {
-            let { sectionLearning, sectionBuildStory } = contentdata;
-            withOutStory = sectionLearning;
-            withStory = sectionBuildStory;
-
-            sectionBuildStory.map((ival) => {
-              storyThemeSelect.push({ label: ival.theme, value: ival.theme })
-            })
+          if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
+            withStory.push(ival)
+            storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
+            changeIndex++;
           }
+          else {
+            withOutStory.push(ival)
+          }
+        })
+      } else {
+        let { sectionLearning, sectionBuildStory } = contentdata;
+        withOutStory = sectionLearning;
+        withStory = sectionBuildStory;
 
-          that.setState({
-            sectionLearning: withOutStory,
-            sectionBuildStory: withStory,
-            imageView: imageViews,
-            storyThemeSelect
-          }, () => {
-            that.historyCapture()
-          })
+        sectionBuildStory.map((ival) => {
+          storyThemeSelect.push({ label: ival.theme, value: ival.theme })
+        })
+      }
 
-        }
+      that.setState({
+        sectionLearning: withOutStory,
+        sectionBuildStory: withStory,
+        imageView: imageViews,
+        storyThemeSelect
+      }, () => {
+        that.historyCapture()
+      })
+
+    }
 
   }
 
@@ -806,17 +807,17 @@ export default class ModuleManagerIDE extends React.Component {
       let postJson = { themeId };
       let responseData = await doConnect("getThemeContent", "POST", postJson);
       responseData = JSON.parse(responseData)
-          let layers = [];
-          if (responseData.response !== null) {
-            layers = JSON.parse(responseData.response);
-          }
+      let layers = [];
+      if (responseData.response !== null) {
+        layers = JSON.parse(responseData.response);
+      }
 
-          if (sectionTab === "learning") {
-            sectionLearning[index].layers = layers;
-          }
-          this.setState({
-            sectionLearning
-          })
+      if (sectionTab === "learning") {
+        sectionLearning[index].layers = layers;
+      }
+      this.setState({
+        sectionLearning
+      })
     } else {
       this.setState({
         sectionLearning
@@ -1096,12 +1097,12 @@ export default class ModuleManagerIDE extends React.Component {
           storyCardTab: "audioQuiz"
         })}>
           Audio Quiz
-          </div>
+        </div>
         <div className={`tab ${storyCardTab === "circleWithInfo" ? "active" : ""}`} onClick={() => this.setState({
           storyCardTab: "circleWithInfo"
         })}>
           Circle With info
-          </div>
+        </div>
       </div>
       <div className="p-2" style={{ border: '1px solid #d9edf7' }}>
         {
@@ -1494,17 +1495,17 @@ export default class ModuleManagerIDE extends React.Component {
     let themeId = e.json.id;
     let postJson = { themeId };
     let responseData = await doConnect("getThemeContent", "POST", postJson);
-    
-        let layers = [];
-        if (responseData.response !== null) {
-          layers = JSON.parse(responseData.response);
-        }
 
-        sectionBuildStory[index].content.themes[themeIndex].theme = e.label;
-        sectionBuildStory[index].content.themes[themeIndex].layers = layers;
-        this.setState({
-          sectionBuildStory
-        })
+    let layers = [];
+    if (responseData.response !== null) {
+      layers = JSON.parse(responseData.response);
+    }
+
+    sectionBuildStory[index].content.themes[themeIndex].theme = e.label;
+    sectionBuildStory[index].content.themes[themeIndex].layers = layers;
+    this.setState({
+      sectionBuildStory
+    })
   }
 
   buildContent() {
@@ -2582,14 +2583,14 @@ export default class ModuleManagerIDE extends React.Component {
                             themeIndex: 0
                           })}>
                             Section 1: LEARNING (Add Learning Card)
-                              </div>
+                          </div>
                           <div className={`tab ${sectionTab === "storyFlow" ? "active" : ""}`} onClick={() => this.setState({
                             sectionTab: "storyFlow",
                             themeIndex: 0,
                             storyCardTab: sectionBuildStory[0] !== undefined ? (sectionBuildStory[0].theme === "Dynamic Theme" ? 0 : "meetPerson") : 0
                           })}>
                             Section 2:  Apply (Building a story flow)
-                            </div>
+                          </div>
                         </div>
 
                         <div className="tabs">
