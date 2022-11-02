@@ -362,7 +362,7 @@ h2 {
   width: 300px;
   height: calc(100vh - 100px);
   overflow-y: scroll;
-  background: #3b79f6;
+  background: #DD3B96;
   border-right: 1px solid #fff;
 }
 
@@ -370,7 +370,8 @@ h2 {
   width: 300px;
   height: 100px;
   text-align: center;
-  border-right: 1px solid #FFF;
+  border-right: 1px solid #DD3B96;
+  background-color: #FFF;
 }
 
 .app-content .top-header .logo img {
@@ -422,7 +423,7 @@ h2 {
 
 .app-content .top-header {
   height: 100px;
-  background: #3b79f6;
+  background: #DD3B96;
   border-bottom: 1px solid #fff;
   display: flex;
   align-items: center;
@@ -440,12 +441,13 @@ h2 {
 
 .app-content .top-header .teqbahn-logo {
   flex: 1;
-  height: 100px;
+  height: 60px;
   text-align: right;
 }
 
 .app-content .top-header .teqbahn-logo img {
   height: 100%;
+  margin-right: 12px;
 }
 
 .app-content .main-content {
