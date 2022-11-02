@@ -18,19 +18,21 @@ class Menu extends React.Component {
             toggleMenu: [],
             errors: [],
             userListOption: [],
-
             pageAccess: [],
-            developerLogin: false
+            developerLogin: false,
+            logged_UserName:""
         }
     }
 
     componentDidMount() {
         this.getPageAccess();
-
+        let logged_UserName = localStorage.getItem("loggedUsername");
+console.log("logged_UserName",logged_UserName)
         let { menuOpen } = this.props;
         if (menuOpen !== undefined) {
             this.setState({
-                menuOpen
+                menuOpen,
+                logged_UserName
             })
         }
     }
@@ -125,7 +127,7 @@ class Menu extends React.Component {
     }
     render() {
         let { menuDisplay } = this.props
-        let { menuOpen, toggleMenu, pageAccess, developerLogin } = this.state;
+        let { menuOpen, toggleMenu, pageAccess, developerLogin ,logged_UserName} = this.state;
         return menuDisplay ? <div className="header">
             <div className="top-header">
                 <div className="logo">
@@ -137,6 +139,14 @@ class Menu extends React.Component {
                     })
                 }}>
                     <i className="fa fa-bars"></i>
+                </div>
+                <div className="pr-5">
+                    <span className="">
+                        <label style={{ color: "#fff", fontFamily: "system-ui", fontSize: 16, fontWeight: "bold" }}>UserName : </label>
+                    </span>
+                    <span className="">
+                        <label style={{ color: "#ffcc35", fontFamily: "system-ui", fontSize: 16, paddingLeft: 4, fontWeight: "bold" }}>{logged_UserName}</label>
+                    </span>
                 </div>
                 <div className="teqbahn-logo">
                     <img src={teqbahnLogo} className="" />
