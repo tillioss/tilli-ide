@@ -301,7 +301,11 @@ class Level extends React.Component {
                                             <div className="float-right">
                                                 <button className="btn btn-success" onClick={() => {
                                                     this.setState({
-                                                        defineModule: true
+                                                        defineModule: true,
+                                                        sortOrder: "",
+                                                        levelColor: "",
+                                                        selectedOption: {},
+                                                        levelName: ""
                                                     })
                                                 }}>Add Module</button>
                                             </div>
@@ -370,7 +374,11 @@ class Level extends React.Component {
                                                                                 }}>{buttonName}</button>
                                                                                 <button type="button" className="btn btn-danger" onClick={() => {
                                                                                     this.setState({
-                                                                                        defineModule: false
+                                                                                        defineModule: false,
+                                                                                        levelNameValidate: "",
+                                                                                        levelColorValidate: "",
+                                                                                        levelImageValidate: "",
+                                                                                        sortOrderValidate: ""
                                                                                     })
                                                                                 }}>Cancel</button>
                                                                             </div>
@@ -389,7 +397,11 @@ class Level extends React.Component {
                                                                                     typeSelect: '', 
                                                                                     idvalue: "", 
                                                                                     levelColor: "", 
-                                                                                    levelName: ""
+                                                                                    levelName: "",
+                                                                                    levelNameValidate: "",
+                                                                                        levelColorValidate: "",
+                                                                                        levelImageValidate: "",
+                                                                                        sortOrderValidate: ""
                                                                                 })
                                                                             }}>Cancel</button>
                                                                         </div>
