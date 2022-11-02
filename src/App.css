@@ -884,3 +884,12 @@ h2 {
     width: 100% !important;
   }
 }
+
+.btnc{
+  background-color: #007bff;
+  color: #fff;
+}
+.btnc:hover{
+  color: #fff;
+  background-color: #308cee;
+}

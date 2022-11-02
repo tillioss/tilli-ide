@@ -27,7 +27,6 @@ class Menu extends React.Component {
     componentDidMount() {
         this.getPageAccess();
         let logged_UserName = localStorage.getItem("loggedUsername");
-console.log("logged_UserName",logged_UserName)
         let { menuOpen } = this.props;
         if (menuOpen !== undefined) {
             this.setState({

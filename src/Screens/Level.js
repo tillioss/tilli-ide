@@ -217,7 +217,7 @@ class Level extends React.Component {
                     let image = row.image;
                     return <div style={{ padding: 10 }}>
 
-                        <button id={row.id} className="btn btn-info" onClick={() => {
+                        <button id={row.id} className="btn btnc" onClick={() => {
                             this.props.history.push('/' + MyConstant.keyList.projectUrl + '/module-manager-ide/' + row.id)
                         }}>Manage</button>
 
