@@ -18,7 +18,8 @@ class Level extends React.Component {
             data: [], gamingArray: {}, typeSelect: "", levelColor: '', levelName: '',
             buttonName: "Submit",
             sortOrder: '',
-            defineModule: false
+            defineModule: false,
+            sortOrderArray: []
         }
     }
 
@@ -42,7 +43,13 @@ class Level extends React.Component {
         let that = this;
         if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
             let levelsMap = json['levelsMap'];
-            that.setState({ gamingArray: levelsMap })
+            let sortOrderArray = []
+            Object.keys(levelsMap).map((sortOrderObjects) => {
+                let sortOrderAllData = levelsMap[sortOrderObjects]
+                let sortOrderUniqData = sortOrderAllData.sortOrder
+                sortOrderArray.push(sortOrderUniqData.toString())
+            })
+            that.setState({ gamingArray: levelsMap,sortOrderArray})
         }
     }
 
@@ -69,7 +76,8 @@ class Level extends React.Component {
 
 
     async createLevel() {
-        const { levelName, levelColor, selectedOption, sortOrder } = this.state;
+        const { levelName, levelColor, selectedOption, sortOrder ,sortOrderArray
+        } = this.state;
         var validLength = levelColor ? levelColor.search("#") : 0;
         if (levelName.length == 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
@@ -99,7 +107,11 @@ class Level extends React.Component {
             this.setState({ levelImageValidate: '' })
         }
         if (!Number(sortOrder)) {
-            this.setState({ sortOrderValidate: 'Please Sort Order' })
+            this.setState({ sortOrderValidate: 'Please enter sort order' })
+            return false
+        }
+        else if (sortOrderArray.includes(sortOrder.toString())) {
+            this.setState({ sortOrderValidate: 'This order number is already available' })
             return false
         }
         else {
@@ -121,7 +133,7 @@ class Level extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "" })
+                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "",defineModule:false })
                 this.getLevels();
             } else {
                 alert(response);
@@ -130,7 +142,7 @@ class Level extends React.Component {
     }
 
     async updateLevels() {
-        const { levelName, levelColor, sortOrder } = this.state;
+        const { levelName, levelColor, sortOrder ,sortOrderArray} = this.state;
         let validLength = levelColor ? levelColor.search("#") : 0;
         if (levelName.length == 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
@@ -147,6 +159,17 @@ class Level extends React.Component {
             return false
         } else {
             this.setState({ levelColorValidate: '' })
+        }
+        if (!Number(sortOrder)) {
+            this.setState({ sortOrderValidate: 'Please enter sort order' })
+            return false
+        }
+        else if (sortOrderArray.includes(sortOrder.toString())) {
+            this.setState({ sortOrderValidate: 'This order number is already available' })
+            return false
+        }
+        else {
+            this.setState({ sortOrderValidate: '' })
         }
         let found = this.state.levelArray.findIndex((a) =>
             a.id === this.state.idvalue
@@ -169,7 +192,7 @@ class Level extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "" })
+                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "",defineModule:false})
 
                 this.getLevels();
             } else {
@@ -182,7 +205,7 @@ class Level extends React.Component {
 
     render() {
 
-        const { buttonName, defineModule } = this.state;
+        const { buttonName, defineModule,sortOrder } = this.state;
 
         const columns = [
             {
@@ -255,7 +278,8 @@ class Level extends React.Component {
 
                             let levelName = this.state.gamingArray[e.target.id].name
                             let levelColor = this.state.gamingArray[e.target.id].color
-                            this.setState({ defineModule: true,buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName })
+                            let sortOrder = this.state.gamingArray[e.target.id].sortOrder
+                            this.setState({ defineModule: true,buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName,sortOrder })
                         }}>Edit</button>
                     </div>,
             },
