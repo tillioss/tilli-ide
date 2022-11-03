@@ -46,7 +46,7 @@ class Theme extends React.Component {
         let postJson = { sessionId: '1223', themeId: themeId };
         let responseData = await doConnect("deleteThemes", "POST", postJson);
         if (responseData.response == 'Success') {
-            toast.success(' Data deleted !', {
+            toast.success(' Theme is deleted successfully!!', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -240,7 +240,9 @@ class Theme extends React.Component {
                     <div id={row.id} >
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={row.id} className="btn btn-danger" onClick={(e) => {
-                            this.deleteThemes(e.target.id)
+                            if (window.confirm("Please confirm to Delete this Theme")) {
+                                this.deleteThemes(e.target.id)
+                            }
                         }}>Delete</button>
                     </div>,
             }
@@ -330,7 +332,9 @@ class Theme extends React.Component {
                                                 themeModal && <Modal
                                                     visible={themeModal}
                                                     size={"modal-lg"}
-                                                    closeModal={() => this.setState({ themeModal: false })}
+                                                    closeModal={() => this.setState({
+                                                        themeModal: false, themeName: "", selectedOption: "", imageView: ""
+                                                    })}
                                                     heading={`Manage Theme`}
                                                     body={<React.Fragment>
                                                         <div className="row">
