@@ -49,34 +49,34 @@ class Level extends React.Component {
                 let sortOrderUniqData = sortOrderAllData.sortOrder
                 sortOrderArray.push(sortOrderUniqData.toString())
             })
-            that.setState({ gamingArray: levelsMap,sortOrderArray})
+            that.setState({ gamingArray: levelsMap, sortOrderArray })
         }
     }
 
     async deleteLevels(levelId) {
         let postJson = { sessionId: '1223', levelId: levelId };
         let responseData = await doConnect("deleteGameLevels", "POST", postJson);
-                if (responseData.response == 'Success') {
-                    toast.success(' Data deleted !', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+        if (responseData.response == 'Success') {
+            toast.success(' Module is deleted successfully!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
 
-                    this.getLevels();
+            this.getLevels();
 
-                } else {
-                    alert(responseData.response);
-                }
+        } else {
+            alert(responseData.response);
+        }
     }
 
 
     async createLevel() {
-        const { levelName, levelColor, selectedOption, sortOrder ,sortOrderArray
+        const { levelName, levelColor, selectedOption, sortOrder, sortOrderArray
         } = this.state;
         var validLength = levelColor ? levelColor.search("#") : 0;
         if (levelName.length == 0) {
@@ -124,7 +124,7 @@ class Level extends React.Component {
             var json = responseData;
             var response = json.response;
             if (response == 'Success') {
-                toast.success('Added data !', {
+                toast.success('Module is created Successfully !', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -133,7 +133,7 @@ class Level extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "",defineModule:false })
+                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "", defineModule: false })
                 this.getLevels();
             } else {
                 alert(response);
@@ -142,7 +142,7 @@ class Level extends React.Component {
     }
 
     async updateLevels() {
-        const { levelName, levelColor, sortOrder ,sortOrderArray} = this.state;
+        const { levelName, levelColor, sortOrder, sortOrderArray } = this.state;
         let validLength = levelColor ? levelColor.search("#") : 0;
         if (levelName.length == 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
@@ -183,7 +183,7 @@ class Level extends React.Component {
             let postJson = { levelId: this.state.idvalue, name: levelName, color: levelColor, sessionId: '1223', image: this.state.selectedOption.json, sortOrder: Number(sortOrder) };
             let responseData = await doConnect("updateGameLevel", "POST", postJson);
             if (responseData.response == 'Success') {
-                toast.success('Updated data !', {
+                toast.success('Module is updated Successfully !', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -192,7 +192,7 @@ class Level extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "",defineModule:false})
+                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "", defineModule: false })
 
                 this.getLevels();
             } else {
@@ -205,7 +205,7 @@ class Level extends React.Component {
 
     render() {
 
-        const { buttonName, defineModule,sortOrder } = this.state;
+        const { buttonName, defineModule, sortOrder } = this.state;
 
         const columns = [
             {
@@ -279,7 +279,7 @@ class Level extends React.Component {
                             let levelName = this.state.gamingArray[e.target.id].name
                             let levelColor = this.state.gamingArray[e.target.id].color
                             let sortOrder = this.state.gamingArray[e.target.id].sortOrder
-                            this.setState({ defineModule: true,buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName,sortOrder })
+                            this.setState({ defineModule: true, buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName, sortOrder })
                         }}>Edit</button>
                     </div>,
             },
@@ -292,7 +292,9 @@ class Level extends React.Component {
                     >
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={row.id} className="btn btn-danger" onClick={(e) => {
-                            this.deleteLevels(e.target.id)
+                            if (window.confirm("Please confirm to Delete this Module")) {
+                                this.deleteLevels(e.target.id)
+                            }
                         }}>Delete</button>  </div>,
             }
         ];
@@ -407,30 +409,30 @@ class Level extends React.Component {
                                                                                 }}>Cancel</button>
                                                                             </div>
                                                                         </div>
-                                                                        </React.Fragment> : <React.Fragment>
+                                                                    </React.Fragment> : <React.Fragment>
                                                                         <div className="row">
                                                                             <div className="col-12 text-right">
                                                                                 <button type="button" className={'btn btn-success '} onClick={() => {
                                                                                     this.updateLevels()
                                                                                 }}>{buttonName}
                                                                                 </button>
-                                                                            <button type="button" className="btn btn-danger" onClick={() => {
-                                                                                this.setState({
-                                                                                    defineModule: false,
-                                                                                    selectedOption: {}, 
-                                                                                    typeSelect: '', 
-                                                                                    idvalue: "", 
-                                                                                    levelColor: "", 
-                                                                                    levelName: "",
-                                                                                    levelNameValidate: "",
+                                                                                <button type="button" className="btn btn-danger" onClick={() => {
+                                                                                    this.setState({
+                                                                                        defineModule: false,
+                                                                                        selectedOption: {},
+                                                                                        typeSelect: '',
+                                                                                        idvalue: "",
+                                                                                        levelColor: "",
+                                                                                        levelName: "",
+                                                                                        levelNameValidate: "",
                                                                                         levelColorValidate: "",
                                                                                         levelImageValidate: "",
                                                                                         sortOrderValidate: ""
-                                                                                })
-                                                                            }}>Cancel</button>
+                                                                                    })
+                                                                                }}>Cancel</button>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </React.Fragment>
+                                                                    </React.Fragment>
                                                                 }
                                                             </div>
                                                         </div>
