@@ -101,7 +101,7 @@ class Theme extends React.Component {
             };
             let responseData = await doConnect("addTheme", "POST", postJson);
             if (responseData.response == 'Success') {
-                toast.success('Added data !', {
+                toast.success('Theme is added successfully!', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -141,7 +141,7 @@ class Theme extends React.Component {
         };
         let responseData = await doConnect("updateTheme", "POST", postJson);
         if (responseData.response == 'Success') {
-            toast.success('Updated data !', {
+            toast.success('Theme is updated successfully !', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
