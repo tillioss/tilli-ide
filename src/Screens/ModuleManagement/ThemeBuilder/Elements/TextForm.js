@@ -79,6 +79,7 @@ export default class TextForm extends React.Component {
                             layers[layerActive].text = value
                             this.props.setValue(layers)
                         }}
+                        layerActive={layerActive}
                     />
                 </div>
             </div>
