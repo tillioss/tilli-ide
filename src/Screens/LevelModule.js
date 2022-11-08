@@ -216,7 +216,7 @@ class LevelModule extends React.Component {
                     let image = row.image;
                     return <div style={{ padding: 10 }}>
 
-                        <button id={row.id} className="btn btn-info" onClick={() => {
+                        <button id={row.id} className="btn btn-primary" onClick={() => {
                             // this.props.history.push('/'+MyConstant.keyList.projectUrl+'/ModuleLanguageMapping/'+row.id )
                             this.props.history.push('/' + MyConstant.keyList.projectUrl + '/ModuleLanguageJson/' + row.id)
                         }}>Manage</button>
