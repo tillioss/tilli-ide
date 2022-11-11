@@ -112,6 +112,7 @@ class Theme extends React.Component {
                 });
 
                 this.getThemes();
+                this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
 
             } else {
                 alert(responseData.response);
@@ -151,6 +152,7 @@ class Theme extends React.Component {
                 progress: undefined,
             });
             this.getThemes();
+            this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
         } else {
             alert(responseData.response);
         }
