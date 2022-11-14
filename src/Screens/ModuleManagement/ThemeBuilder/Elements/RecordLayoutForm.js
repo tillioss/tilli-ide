@@ -17,13 +17,14 @@ export default class RecordLayoutForm extends React.Component {
             setHidden: [],
             layers: [],
             setRecordHold: [],
-            setRecordValue: []
+            setRecordValue: [],
+            setQuestionMark: []
         }
     }
 
     componentDidMount() {
         let layers = JSON.parse(JSON.stringify(this.props.layers));
-        let { visible, hidden, recordValue, recordHold } = this.props.changedLayers;
+        let { visible, hidden, recordValue, recordHold,questionMark} = this.props.changedLayers;
 
         visible.map((row, index) => {
             layers[row].visibility = "visible";
@@ -37,14 +38,16 @@ export default class RecordLayoutForm extends React.Component {
             setVisible: visible,
             setHidden: hidden,
             setRecordHold: recordHold,
-            setRecordValue: recordValue
+            setRecordValue: recordValue,
+            setQuestionMark: Array.isArray(questionMark) ? questionMark : []
+
         })
     }
 
     componentDidUpdate(prevProps) {
         if(prevProps.changedLayers !== this.props.changedLayers) {
             let layers = JSON.parse(JSON.stringify(this.props.layers));
-            let { visible, hidden, recordValue, recordHold } = this.props.changedLayers;
+            let { visible, hidden, recordValue, recordHold ,questionMark} = this.props.changedLayers;
             
             visible.map((row, index) => {
                 layers[row].visibility = "visible";
@@ -53,13 +56,14 @@ export default class RecordLayoutForm extends React.Component {
                 layers[row].visibility = "hidden";
             })
 
-            console.log("update", layers)
             this.setState({
                 layers,
                 setVisible: visible,
                 setHidden: hidden,
                 setRecordHold: recordHold,
-                setRecordValue: recordValue
+                setRecordValue: recordValue,
+                setQuestionMark: Array.isArray(questionMark) ? questionMark : []
+
             })
         }
     }
@@ -236,16 +240,27 @@ export default class RecordLayoutForm extends React.Component {
             setRecordValue
         })
     }
-
+    markQuestionFun(value) {
+        let { setQuestionMark } = this.state
+        if (setQuestionMark.includes(value)) {
+            const index = setQuestionMark.indexOf(value);
+            setQuestionMark.splice(index, 1);
+        } else {
+            setQuestionMark.push(value);
+        }
+        this.setState({
+            setQuestionMark
+        })
+    }
     save() {
-        let { setVisible, setHidden, setRecordHold, setRecordValue } = this.state;
-        this.props.setValue({visible: setVisible, hidden: setHidden, recordValue: setRecordValue, recordHold: setRecordHold});
+        let { setVisible, setHidden, setRecordHold, setRecordValue,setQuestionMark } = this.state;
+        this.props.setValue({visible: setVisible, hidden: setHidden, recordValue: setRecordValue, recordHold: setRecordHold, questionMark: setQuestionMark });
         this.setState({
             setupModal: false
         })
     }
     render() {
-        let { setupModal, layers, setVisible, setHidden,setRecordHold, setRecordValue } = this.state;
+        let { setupModal, layers, setVisible, setHidden,setRecordHold, setRecordValue,setQuestionMark } = this.state;
         return <div>
             <button className="btn btn-primary" onClick={() => {
                 this.setState({
@@ -335,6 +350,18 @@ export default class RecordLayoutForm extends React.Component {
                                 }
                                 </Card>
                             </div>
+                            <div className="pt-2">
+                                    <Card
+                                        title="Question  (Set to question)">
+                                        {
+                                            layers.map((row, rowIndex) => {
+                                                return <div className="pt-2 px-2" key={rowIndex}>
+                                                    <input type="checkbox" name="layers" onChange={() => this.markQuestionFun(rowIndex)} checked={setQuestionMark.includes(rowIndex)} /> Layer {rowIndex + 1}
+                                                </div>
+                                            })
+                                        }
+                                    </Card>
+                                </div>
                         </div>
                     </div>
                     }
