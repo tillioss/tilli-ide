@@ -7,7 +7,7 @@ The IDE (Integrated Development Environment) helps users create, manage, and mod
 
 1. Configuration :
 
-b. Need to change IP address of Your Server IP and Port in config/Myconstant.js :
+   Need to change IP address of Your Server IP and Port in config/Myconstant.js :
 
 Ex:apiURL: 'http://192.yyy.1.xxx:8093/tilli-api/'
 
