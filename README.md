@@ -14,7 +14,10 @@ We would love your input! We want to make contributing to this project as easy a
 ### Code of Conduct
 <br>Please note that Tilli’s open-source projects are governed by our [Code of conduct](https://tillioss.github.io/docs/code-of-conduct). 
 
-# Installing Tilli IDE
+## Getting started
+To get started, please have a look at our [User and Developer Documentation](https://tillioss.github.io/docs/getting-started-developer).
+
+## Installing Tilli IDE
 
 1. Configuration :
 
