@@ -4,9 +4,12 @@ The IDE (Integrated Development Environment) helps users create, manage, and mod
 
 ******************** 
 
+## Joining the Tilli Community 
+We are a community of learning designers, game designers, developers and educators with an interest in designing game-based, social emotional learning experience for kids. We create an environment where our community can effectively explore, create innovative and open aid distribution technology services that are inclusive, accountable, and accessible for everyone.
+
 ### Contribution Guidelines
 
-We would love your input to add new features or fix existing bugs for teh IDE! We want to make contributing to this project as easy and transparent as possible so kindly go through our contribution guidelines here: [Contribution Guidelines](https://tillioss.github.io/docs/Contribution-Guidelines)
+We would love your input! We want to make contributing to this project as easy and transparent as possible so kindly go through our contribution guidelines here: [Contribution Guidelines](https://tillioss.github.io/docs/Contribution-Guidelines)
 
 ### Code of Conduct
 <br>Please note that Tilli’s open-source projects are governed by our [Code of conduct](https://tillioss.github.io/docs/code-of-conduct). 
