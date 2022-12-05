@@ -1,6 +1,6 @@
 # tilli-ide
 
-The IDE (Integrated Development Environment) helps users create, manage, and modify content on the Tilli Web App without the need for specialized technical knowledge. In simple terms this tool helps you build more modules without needing to write all the code from scratch (or even know how to code at all)
+The IDE (Integrated Development Environment) helps users create, manage, and modify content on the Tilli Web App without the need for specialized technical knowledge. In simple terms this tool helps you build more modules.
 
 ******************** 
 # Installing Tilli IDE
