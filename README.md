@@ -1,5 +1,10 @@
 # tilli-ide
+
+The IDE (Integrated Development Environment) helps users create, manage, and modify content on the Tilli Web App without the need for specialized technical knowledge. In simple terms this tool helps you build more modules without needing to write all the code from scratch (or even know how to code at all)
+
 ******************** 
+# Installing Tilli IDE
+
 1. Configuration :
 
 b. Need to change IP address of Your Server IP and Port in config/Myconstant.js :
