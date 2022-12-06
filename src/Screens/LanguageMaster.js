@@ -9,7 +9,7 @@ export default class LanguageMaster extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            columns: [], data_value: {}, EnterValue: "", editable: false, editId: ""
+            columns: [], data_value: {}, enterLanguage: "", editable: false, editId: "",errors:{}
         }
     }
 
@@ -28,9 +28,15 @@ export default class LanguageMaster extends React.Component {
     }
 
     async submitFunction() {
-        const { EnterValue } = this.state
+        let { enterLanguage } = this.state
+        let errors={}
+        if(enterLanguage.trim() == ""){
+            errors["enterLanguage"] = "Please enter the language name";
+        }
+        this.setState({errors})
+        if(Object.keys(errors).length == 0){
 
-        let postJson = { sessionId: '1223', languageName: EnterValue };
+        let postJson = { sessionId: '1223', languageName: enterLanguage };
         let responseData = await doConnect("addLanguage", "POST", postJson);
         console.log('postJson', postJson)
         let json = responseData;
@@ -45,32 +51,30 @@ export default class LanguageMaster extends React.Component {
             draggable: true,
             progress: undefined,
         });
-
-
-        this.setState({ EnterValue: "  " })
-
+        this.setState({ enterLanguage: "" })
+    }
     }
 
     editFunction(index) {
 
-        const { EnterValue, data_value } = this.state
+        const { enterLanguage, data_value } = this.state
 
 
-        this.setState({ EnterValue: data_value[index], editable: true, editId: index })
+        this.setState({ enterLanguage: data_value[index], editable: true, editId: index })
 
     }
 
     async UpdateFunction() {
-        const { editId, EnterValue, data_value } = this.state;
+        const { editId, enterLanguage, data_value } = this.state;
 
 
         // languageId:String,languageName:String, sessionId: String
-        let postJson = { languageId: editId, languageName: EnterValue, sessionId: '1223' };
+        let postJson = { languageId: editId, languageName: enterLanguage, sessionId: '1223' };
         let responseData = await doConnect("updateLanguage", "POST", postJson);
         
                 this.getLanguageData()
 
-                toast.success('Updated data !', {
+                toast.success('Language is updated successfully !', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -80,20 +84,16 @@ export default class LanguageMaster extends React.Component {
                     progress: undefined,
                 });
 
-        this.setState({ EnterValue: "", data_value, editable: false, editId: "" })
+        this.setState({ enterLanguage: "", data_value, editable: false, editId: "" })
     }
 
     render() {
-
-        const { data_value, EnterValue, editable } = this.state;
-
+        const { data_value, enterLanguage, editable,errors } = this.state;
         let data = [];
-        Object.keys(this.state.data_value).map((ival, index) => {
+        Object.keys(data_value).map((ival, index) => {
             // alert(this.state.data_value[ival])
-            data.push({ id: ival, name: this.state.data_value[ival] })
+            data.push({ id: ival, name:data_value[ival] })
         });
-
-
         let columns = [
             {
                 name: 'Language',
@@ -107,7 +107,7 @@ export default class LanguageMaster extends React.Component {
                 cell: (row, index, column, id) =>
                     <div >
                         <div style={{ fontWeight: 700 }}></div>
-                        <button id={index} className="btn btn-danger" onClick={(e) => {
+                        <button id={index} className="btn btn-info" onClick={(e) => {
                             console.log(e.target.id)
                             this.editFunction(row.id)
                         }}>Edit</button>
@@ -146,12 +146,15 @@ export default class LanguageMaster extends React.Component {
                                         <ToastContainer />
                                         <div className="row form-group" >
                                             <div className="col-1" />
-                                            <div className="col-3"> <label> Language</label> </div>
+                                            <div className="col-3"> <label style={{float:"right"}}> Language</label> </div>
                                             <div className="col-4">
-                                                <input type={'text'} value={EnterValue} style={{ width: "100%", paddingTop: 5, paddingBottom: 5, paddingLeft: 10 }} placeholder={'Enter Language'}
+                                                <input type={'text'} value={enterLanguage} style={{ width: "100%", paddingTop: 5, paddingBottom: 5, paddingLeft: 10 }} placeholder={'Enter Language'}
                                                     onChange={(e) => {
-                                                        this.setState({ EnterValue: e.target.value })
+                                                        this.setState({ enterLanguage: e.target.value })
                                                     }} />
+                                                     {
+                                        errors['enterLanguage'] && <div  style={{color:"red"}}>{errors['enterLanguage']}</div>
+                                    }
                                             </div>
                                             <div className="col-4" />
                                         </div>
@@ -159,8 +162,8 @@ export default class LanguageMaster extends React.Component {
 
                                         <div className="row form-group mt-3" >
 
-                                            <div className="col-3"> </div>
-                                            <div className="col-6">
+                                            <div className="col-4"> </div>
+                                            <div className="col-5">
                                                 <button type="button" className="btn btn-primary" onClick={() => {
                                                     if (editable) {
                                                         this.UpdateFunction()

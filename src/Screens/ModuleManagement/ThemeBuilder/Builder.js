@@ -124,8 +124,68 @@ export default class Builder extends React.Component {
 
     deleteLayer() {
         let { layers, layerActive } = this.state;
-        layers.splice(layerActive, 1);
+        if (window.confirm("Please confirm to Delete this Layer")) {
+            console.log(layerActive, layers[layerActive])
+            let findRecordIndex = layers.findIndex((e) => { return e.action === "Record" });
+            let findCheckLayOutIndex = layers.findIndex((e) => { return e.action === "Checked Layout" });
+            let findChangeLayOutIndex = layers.findIndex((e) => { return e.action === "Change Layout" });
+            if (findRecordIndex != "-1" && layers[findRecordIndex] && layers[findRecordIndex].action === "Record") {
+                console.log("layers-->", layers[findRecordIndex], layerActive)
+                let { hidden, questionMark, recordHold, recordValue, visible } = layers[findRecordIndex].layers;
+                if (Array.isArray(recordHold) && recordHold.includes(layerActive)) {
+                    recordHold = recordHold.filter((e) => { return e !== layerActive })
+                    layers[findRecordIndex].layers.recordHold = recordHold
+                }
+                if (Array.isArray(recordValue) && recordValue.includes(layerActive)) {
+                    recordValue = recordValue.filter((e) => { return e !== layerActive })
+                    layers[findRecordIndex].layers.recordValue = recordValue
+                }
+                if (Array.isArray(visible) && visible.includes(layerActive)) {
+                    visible = visible.filter((e) => { return e !== layerActive })
+                    layers[findRecordIndex].layers.visible = visible
+                }
+                if (Array.isArray(hidden) && hidden.includes(layerActive)) {
+                    hidden = hidden.filter((e) => { return e !== layerActive })
+                    layers[findRecordIndex].layers.hidden = hidden
+                }
+                if (Array.isArray(questionMark) && questionMark.includes(layerActive)) {
+                    questionMark = questionMark.filter((e) => { return e !== layerActive })
+                    layers[findRecordIndex].layers.questionMark = questionMark
+                }
+                console.log("recordIndex-->", layers[findRecordIndex], layerActive)
+            }
 
+            if (findCheckLayOutIndex != "-1" && layers[findCheckLayOutIndex] && layers[findCheckLayOutIndex].action === "Checked Layout") {
+                let { hidden, visible } = layers[findCheckLayOutIndex].layers;
+                console.log("layers-->", layers[findCheckLayOutIndex], layerActive)
+                if (visible.includes(layerActive)) {
+                    visible = visible.filter((e) => { return e !== layerActive })
+                    layers[findCheckLayOutIndex].layers.visible = visible
+                }
+                if (hidden.includes(layerActive)) {
+                    hidden = hidden.filter((e) => { return e !== layerActive })
+                    layers[findCheckLayOutIndex].layers.hidden = hidden
+                }
+                console.log("checkLayout-->", layers[findCheckLayOutIndex], layerActive)
+            }
+
+            if (findChangeLayOutIndex != "-1" && layers[findChangeLayOutIndex] && layers[findChangeLayOutIndex].action === "Change Layout") {
+                let { hidden, visible } = layers[findChangeLayOutIndex].layers;
+                console.log("layers-->", layers[findChangeLayOutIndex], layerActive)
+                if (Array.isArray(visible) && visible.includes(layerActive)) {
+                    visible = visible.filter((e) => { return e !== layerActive })
+                    layers[findChangeLayOutIndex].layers.visible = visible
+                }
+                if (Array.isArray(hidden) && hidden.includes(layerActive)) {
+                    hidden = hidden.filter((e) => { return e !== layerActive })
+                    layers[findChangeLayOutIndex].layers.hidden = hidden
+                }
+                console.log("changeLayout-->", layers[findChangeLayOutIndex], layerActive)
+            }
+
+            layers.splice(layerActive, 1);
+        }
+        console.log("layers-->", layers)
         this.setState({
             layers,
             layerActive: ""

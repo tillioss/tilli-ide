@@ -284,7 +284,7 @@ class ImageManager extends React.Component {
                 sortable: true,
                 cell: (row, index, column, id) =>
                     <div id={row.id} >
-                        <button id={row.id} className="btn btn-danger" onClick={(e) => {
+                        <button id={row.id} className="btn btn-info" onClick={(e) => {
                             this.setState({ editId: row.id, editTitle: row.title, actionType: 'edit' })
                         }}>Edit</button>
 

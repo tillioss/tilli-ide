@@ -361,7 +361,7 @@ this.addMoreButton(index_1)
                                         <div className="row mt-5">
                                             <div className="col-3"></div>
                                             <div className="col-5">
-                                                <button type="button" className="btn btn-success" onClick={async () => {
+                                                <button type="button" className="btn btn-primary" onClick={async () => {
 
                                                     if (!selectedOption.label) {
                                                         this.setState({ errorGroup: "Please Select" })
