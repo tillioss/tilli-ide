@@ -11,6 +11,13 @@ const AudioRecognize = (props) => {
         }
     }, [transcript]);
 
+    React.useEffect(() => {
+        if (props.resetTextState) {
+          console.log("reset-->")
+          resetTranscript()
+          props.updateResetText()
+        }
+      });
     return props.children
 }
 export default AudioRecognize;

@@ -129,6 +129,8 @@ export default class Builder extends React.Component {
             let findRecordIndex = layers.findIndex((e) => { return e.action === "Record" });
             let findCheckLayOutIndex = layers.findIndex((e) => { return e.action === "Checked Layout" });
             let findChangeLayOutIndex = layers.findIndex((e) => { return e.action === "Change Layout" });
+            let findResetLayOutIndex = layers.findIndex((e) => { return e.action === "Reset Text" });
+
             if (findRecordIndex != "-1" && layers[findRecordIndex] && layers[findRecordIndex].action === "Record") {
                 console.log("layers-->", layers[findRecordIndex], layerActive)
                 let { hidden, questionMark, recordHold, recordValue, visible } = layers[findRecordIndex].layers;
@@ -182,7 +184,13 @@ export default class Builder extends React.Component {
                 }
                 console.log("changeLayout-->", layers[findChangeLayOutIndex], layerActive)
             }
-
+            if (findResetLayOutIndex != "-1" && layers[findResetLayOutIndex] && layers[findResetLayOutIndex].action === "Reset Text") {
+                let { resetText } = layers[findResetLayOutIndex].layers;
+                if (Array.isArray(resetText) && resetText.includes(layerActive)) {
+                    resetText = resetText.filter((e) => { return e !== layerActive })
+                    layers[findResetLayOutIndex].layers.resetText = resetText
+                }
+            }
             layers.splice(layerActive, 1);
         }
         console.log("layers-->", layers)
