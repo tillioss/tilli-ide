@@ -8,6 +8,7 @@ module.exports = {
     { value: 'Wrong Answer', label: 'Wrong Answer' },
     { value: 'Change Layout', label: 'Change Layout' },
     { value: 'Checked Layout', label: 'Checked Layout' },
+    { value: 'Reset Text', label: 'Reset Text' },
   ],
   formInput: [
     { value: 'checkbox', label: 'Checkbox' },

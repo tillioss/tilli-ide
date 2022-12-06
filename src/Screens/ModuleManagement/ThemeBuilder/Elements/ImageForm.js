@@ -4,6 +4,8 @@ import MyConfig from '../../../../config/MyConfig';
 import ImageSelect from '../../Component/ImageSelect';
 import CheckedLayoutForm from './CheckedLayoutForm';
 import RecordLayoutForm from './RecordLayoutForm';
+import ReSetTextLayoutForm from './ReSetTextLayoutForm';
+
 
 export default class ImageForm extends React.Component {
 
@@ -111,6 +113,11 @@ export default class ImageForm extends React.Component {
                                     recordHold: []
                                 }
                             }
+                            else if (e.value === "Reset Text") {
+                                layers[layerActive].layers = {
+                                    resetText: []
+                                }
+                            }
                             this.props.setValue(layers)
                         }}
                         options={onClickOptions}
@@ -138,6 +145,16 @@ export default class ImageForm extends React.Component {
                             layers={layers}
                         />
                     }
+                     {
+                            (layers[layerActive].action === "Reset Text") && <ReSetTextLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
                     </div>
                 </div>
                 <div className="col-3">

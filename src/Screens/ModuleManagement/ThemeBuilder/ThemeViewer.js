@@ -15,7 +15,8 @@ export default class ThemeViewer extends React.Component {
             deviceHeight: "",
             deviceWidth: "",
             audioRecognize: "",
-            recordText: ""
+            recordText: "",
+            resetTextState: false
         }
         this.dynamicThemeAction = this.dynamicThemeAction.bind(this);
         this.setRecord = this.setRecord.bind(this);
@@ -110,6 +111,13 @@ export default class ThemeViewer extends React.Component {
                 btn.addEventListener("mouseup", (e) => {
                     this.mouseMouseLeavefunction()
                 }, false);
+                break;
+                case "Reset Text":
+                let resetDiv = "layer" + layer.layers.resetText[0];
+                if (resetDiv) {
+                    document.getElementById(resetDiv).innerHTML = "";
+                    this.setState({ recordText: "", resetTextState: true })
+                }
                 break;
         }
 
@@ -333,8 +341,10 @@ export default class ThemeViewer extends React.Component {
             <div className="dynamic-form" style={{ position: "relative", height: "100%" }}>
                 {
                     layers.map((layer, index) => {
-                        return audioRecognize === index ? <AudioRecognize
-                            setRecord={this.setRecord}>{this.layerBuildRecord(layer, index, recordText)}</AudioRecognize> : this.layerBuild(layer, index)
+                        return audioRecognize === index ? <AudioRecognize resetTextState={this.state.resetTextState}
+                            setRecord={this.setRecord} updateResetText={() => {
+                                this.setState({ resetTextState: false })
+                            }}>{this.layerBuildRecord(layer, index, recordText)}</AudioRecognize> : this.layerBuild(layer, index)
                     })
                 }
             </div>
