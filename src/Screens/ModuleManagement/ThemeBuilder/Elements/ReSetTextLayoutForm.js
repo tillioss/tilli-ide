@@ -6,64 +6,38 @@ import LabelAnimation from '../ThemeView/LabelAnimation';
 import drag_drop from '../../../../images/drag_drop.png';
 import Card from '../../../../Component/Card';
 
-export default class RecordLayoutForm extends React.Component {
+
+export default class ReSetTextLayoutForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             setupModal: false,
             deviceHeight: "",
             deviceWidth: "",
-            setVisible: [],
-            setHidden: [],
             layers: [],
-            setRecordHold: [],
-            setRecordValue: [],
-            setQuestionMark: []
+            resetText: []
         }
     }
 
     componentDidMount() {
-        let layers = JSON.parse(JSON.stringify(this.props.layers));
-        let { visible, hidden, recordValue, recordHold,questionMark} = this.props.changedLayers;
-
-        visible.map((row, index) => {
-            layers[row].visibility = "visible";
-        })
-        hidden.map((row, index) => {
-            layers[row].visibility = "hidden";
-        })
-
-        this.setState({
-            layers,
-            setVisible: visible,
-            setHidden: hidden,
-            setRecordHold: recordHold,
-            setRecordValue: recordValue,
-            setQuestionMark: Array.isArray(questionMark) ? questionMark : []
-
-        })
+        if (this.props.changedLayers) {
+            let layers = JSON.parse(JSON.stringify(this.props.layers));
+            let { resetText } = this.props.changedLayers;
+            this.setState({
+                layers,
+                resetText: Array.isArray(resetText) ? resetText : []
+            })
+        }
     }
 
     componentDidUpdate(prevProps) {
-        if(prevProps.changedLayers !== this.props.changedLayers) {
+        if (prevProps.changedLayers !== this.props.changedLayers) {
             let layers = JSON.parse(JSON.stringify(this.props.layers));
-            let { visible, hidden, recordValue, recordHold ,questionMark} = this.props.changedLayers;
-            
-            visible.map((row, index) => {
-                layers[row].visibility = "visible";
-            })
-            hidden.map((row, index) => {
-                layers[row].visibility = "hidden";
-            })
-
+            let { resetText } = this.props.changedLayers;
+            console.log("update", layers)
             this.setState({
                 layers,
-                setVisible: visible,
-                setHidden: hidden,
-                setRecordHold: recordHold,
-                setRecordValue: recordValue,
-                setQuestionMark: Array.isArray(questionMark) ? questionMark : []
-
+                resetText: Array.isArray(resetText) ? resetText : []
             })
         }
     }
@@ -182,85 +156,31 @@ export default class RecordLayoutForm extends React.Component {
         return builder;
     }
 
-    layerAdd(value) {
-        let { setVisible, layers } = this.state;
-        if(setVisible.includes(value)) {
-            const index = setVisible.indexOf(value);
-            setVisible.splice(index, 1);
-            layers[value].visibility = "hidden";
-        } else {
-            setVisible.push(value);
-            layers[value].visibility = "visible";
-        }
 
-        this.setState({
-            setVisible,
-            layers
-        })
-    }
-    layerHide(value) {
-        let { setHidden, layers } = this.state;
-        if(setHidden.includes(value)) {
-            const index = setHidden.indexOf(value);
-            setHidden.splice(index, 1);
-            layers[value].visibility = "visible";
-        } else {
-            setHidden.push(value);
-            layers[value].visibility = "hidden";
-        }
 
-        this.setState({
-            setHidden,
-            layers
-        })
-    }
-    holdAdd(value) {
-        let { setRecordHold } = this.state;
-        if(setRecordHold.includes(value)) {
-            const index = setRecordHold.indexOf(value);
-            setRecordHold.splice(index, 1);
-        } else {
-            setRecordHold.push(value);
-        }
 
+    resetTextFun(value) {
+        let { resetText } = this.state
+        if (resetText.includes(value)) {
+            const index = resetText.indexOf(value);
+            resetText.splice(index, 1);
+        } else {
+            resetText.push(value);
+        }
         this.setState({
-            setRecordHold
+            resetText
         })
     }
-    recordDisplayAdd(value) {
-        let { setRecordValue } = this.state;
-        if(setRecordValue.includes(value)) {
-            const index = setRecordValue.indexOf(value);
-            setRecordValue.splice(index, 1);
-        } else {
-            setRecordValue.push(value);
-        }
 
-        this.setState({
-            setRecordValue
-        })
-    }
-    markQuestionFun(value) {
-        let { setQuestionMark } = this.state
-        if (setQuestionMark.includes(value)) {
-            const index = setQuestionMark.indexOf(value);
-            setQuestionMark.splice(index, 1);
-        } else {
-            setQuestionMark.push(value);
-        }
-        this.setState({
-            setQuestionMark
-        })
-    }
     save() {
-        let { setVisible, setHidden, setRecordHold, setRecordValue,setQuestionMark } = this.state;
-        this.props.setValue({visible: setVisible, hidden: setHidden, recordValue: setRecordValue, recordHold: setRecordHold, questionMark: setQuestionMark });
+        let { resetText } = this.state;
+        this.props.setValue({ resetText: resetText });
         this.setState({
             setupModal: false
         })
     }
     render() {
-        let { setupModal, layers, setVisible, setHidden,setRecordHold, setRecordValue,setQuestionMark } = this.state;
+        let { setupModal, layers, resetText, } = this.state;
         return <div>
             <button className="btn btn-primary" onClick={() => {
                 this.setState({
@@ -274,96 +194,48 @@ export default class RecordLayoutForm extends React.Component {
                     });
                 })
             }}>Layout Change</button>
-             {
+            {
                 setupModal && <Modal
                     visible={setupModal}
                     closeModal={() => this.setState({ setupModal: false })}
                     heading={`Preview`}
                     size="modal-xl"
                     body={
-                    <div className="d-flex">
-                        <div className="smartphone">
-                            <div className="smartphone-content tilli-web" ref={(e) => { this.mobile = e }}>
-                                <div style={{ position: "relative", height: "100%" }}>
-                                    {
-                                        layers.map((layer, index) => {
-                                            return this.layerBuild(layer, index)
-                                        })
-                                    }
+                        <div className="d-flex">
+                            <div className="smartphone">
+                                <div className="smartphone-content tilli-web" ref={(e) => { this.mobile = e }}>
+                                    <div style={{ position: "relative", height: "100%" }}>
+                                        {
+                                            layers.map((layer, index) => {
+                                                return this.layerBuild(layer, index)
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="px-3" style={{flex: 1}}>
-                            <div style={{ 
+                            <div className="px-3" style={{ flex: 1 }}>
+                                <div style={{
                                     background: '#3b79f6',
                                     padding: 10,
                                     color: '#fff',
                                     fontWeight: 'bold'
                                 }}>
-                                Layout
-                            </div>
-                            <div className="pt-2">
-                                <Card 
-                                title="Visible Layers (Set to hidden)">
-                                    {
-                                        layers.map((row, rowIndex) => {
-                                            return ((row.visibility === "visible" || setHidden.includes(rowIndex)) && !setVisible.includes(rowIndex)) && <div className="pt-2 px-2" key={rowIndex}>
-                                                <input type="checkbox" name="layers" onChange={() => this.layerHide(rowIndex) } checked={setHidden.includes(rowIndex)} /> Layer {rowIndex + 1}
-                                            </div>
-                                        })
-                                    }
-                                </Card>
-                            </div>
-                            <div className="pt-2">
-                                <Card 
-                                title="Hidden Layers (Set to visible)">
-                                {
-                                    layers.map((row, rowIndex) => {
-                                        return ((row.visibility !== "visible" || setVisible.includes(rowIndex)) && !setHidden.includes(rowIndex)) && <div className="pt-2 px-2" key={rowIndex}>
-                                            <input type="checkbox" name="layers" onChange={() => this.layerAdd(rowIndex) } checked={setVisible.includes(rowIndex)} /> Layer {rowIndex + 1}
-                                        </div>
-                                    })
-                                }
-                                </Card>
-                            </div>
-                            <div className="pt-2">
-                                <Card 
-                                title="Hold">
-                                {
-                                    layers.map((row, rowIndex) => {
-                                        return <div className="pt-2 px-2" key={rowIndex}>
-                                            <input type="checkbox" name="layers" onChange={() => this.holdAdd(rowIndex) } checked={setRecordHold.includes(rowIndex)} /> Layer {rowIndex + 1}
-                                        </div>
-                                    })
-                                }
-                                </Card>
-                            </div>
-                            <div className="pt-2">
-                                <Card 
-                                title="Record value">
-                                {
-                                    layers.map((row, rowIndex) => {
-                                        return <div className="pt-2 px-2" key={rowIndex}>
-                                            <input type="checkbox" name="layers" onChange={() => this.recordDisplayAdd(rowIndex) } checked={setRecordValue.includes(rowIndex)} /> Layer {rowIndex + 1}
-                                        </div>
-                                    })
-                                }
-                                </Card>
-                            </div>
-                            <div className="pt-2">
+                                    Layout
+                                </div>
+                                <div className="pt-2">
                                     <Card
-                                        title="Question  (Set to question)">
+                                        title="Reset Text  (Set to Reset Text)">
                                         {
                                             layers.map((row, rowIndex) => {
                                                 return <div className="pt-2 px-2" key={rowIndex}>
-                                                    <input type="checkbox" name="layers" onChange={() => this.markQuestionFun(rowIndex)} checked={setQuestionMark.includes(rowIndex)} /> Layer {rowIndex + 1}
+                                                    <input type="checkbox" name="layers" onChange={() => this.resetTextFun(rowIndex)} checked={resetText.includes(rowIndex)} /> Layer {rowIndex + 1}
                                                 </div>
                                             })
                                         }
                                     </Card>
                                 </div>
+                            </div>
                         </div>
-                    </div>
                     }
 
                     footer={

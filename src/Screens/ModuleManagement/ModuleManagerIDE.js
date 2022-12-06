@@ -1515,6 +1515,10 @@ export default class ModuleManagerIDE extends React.Component {
       let index = themeIndex;
       let chooseDataview = "";
       let selectBoxConditon = "";
+      console.log(sectionLearning[index])
+      if (!sectionLearning[index]) {
+        return false
+      }
       if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage" || sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
         if (sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label == "Image") {
           let imageOptions = this.getImageOption()
@@ -1900,6 +1904,9 @@ export default class ModuleManagerIDE extends React.Component {
       let jindex = themeIndex;
       let titleContentVew = "";
       let storyCardContent = "";
+      if (!sectionBuildStory[jindex]) {
+        return false
+      }
       if (sectionBuildStory[jindex].theme == "StoryCard" && sectionBuildStory[jindex].theme.length != 0 && Object.keys(sectionBuildStory[jindex].content).length != 0) {
         storyCardContent = this.StoryCardReturnData(sectionBuildStory, jindex)
       }

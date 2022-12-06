@@ -46,7 +46,7 @@ class Theme extends React.Component {
         let postJson = { sessionId: '1223', themeId: themeId };
         let responseData = await doConnect("deleteThemes", "POST", postJson);
         if (responseData.response == 'Success') {
-            toast.success(' Data deleted !', {
+            toast.success(' Theme is deleted successfully!!', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -101,7 +101,7 @@ class Theme extends React.Component {
             };
             let responseData = await doConnect("addTheme", "POST", postJson);
             if (responseData.response == 'Success') {
-                toast.success('Added data !', {
+                toast.success('Theme is added successfully!', {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -112,6 +112,7 @@ class Theme extends React.Component {
                 });
 
                 this.getThemes();
+                this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
 
             } else {
                 alert(responseData.response);
@@ -141,7 +142,7 @@ class Theme extends React.Component {
         };
         let responseData = await doConnect("updateTheme", "POST", postJson);
         if (responseData.response == 'Success') {
-            toast.success('Updated data !', {
+            toast.success('Theme is updated successfully !', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -151,6 +152,7 @@ class Theme extends React.Component {
                 progress: undefined,
             });
             this.getThemes();
+            this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
         } else {
             alert(responseData.response);
         }
@@ -240,7 +242,9 @@ class Theme extends React.Component {
                     <div id={row.id} >
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={row.id} className="btn btn-danger" onClick={(e) => {
-                            this.deleteThemes(e.target.id)
+                            if (window.confirm("Please confirm to Delete this Theme")) {
+                                this.deleteThemes(e.target.id)
+                            }
                         }}>Delete</button>
                     </div>,
             }
@@ -330,7 +334,9 @@ class Theme extends React.Component {
                                                 themeModal && <Modal
                                                     visible={themeModal}
                                                     size={"modal-lg"}
-                                                    closeModal={() => this.setState({ themeModal: false })}
+                                                    closeModal={() => this.setState({
+                                                        themeModal: false, themeName: "", selectedOption: "", imageView: ""
+                                                    })}
                                                     heading={`Manage Theme`}
                                                     body={<React.Fragment>
                                                         <div className="row">

@@ -26,12 +26,24 @@ class EditorContent extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.text !== prevProps.text) {
-      
+
+    }
+    let checkNumberIsTrue = !isNaN(parseFloat(this.props.layerActive)) && isFinite(this.props.layerActive)
+    if (checkNumberIsTrue && this.props.layerActive !== prevProps.layerActive) {
+      let editorState = '';
+      if (JSON.stringify(this.props.text)) {
+        let { contentBlocks, entityMap } = htmlToDraft(this.props.text);
+        let contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+        editorState = EditorState.createWithContent(contentState);
+      }
+      this.setState({
+        editorState: editorState ? editorState : EditorState.createEmpty(),
+      })
     }
   }
   onEditorStateChange = (editorState) => {
     let editorContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    if(typeof this.props.textOnchange !== "undefined") {
+    if (typeof this.props.textOnchange !== "undefined") {
       this.props.textOnchange(editorContent)
     }
 
