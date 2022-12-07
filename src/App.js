@@ -41,7 +41,7 @@ import Menu from './Screens/Menu/Menu';
 import Builder from './Screens/ModuleManagement/ThemeBuilder/Builder';
 import ThemeViewer from './Screens/ModuleManagement/ThemeBuilder/ThemeViewer';
 import ModuleManagerThemeIDE from './Screens/ModuleManagement/ThemeBuilder/ModuleManagerThemeIDE';
-import { doConnect } from './config/Common';
+import GodotPreview from './Screens/GodotPreview';
 
 class App extends React.Component {
     constructor(props) {
@@ -59,7 +59,7 @@ class App extends React.Component {
             this.onRouteChanged();
         }
     }
-    
+
     onRouteChanged() {
         let pathname = this.props.location.pathname;
         let menuDisplay = false;
@@ -96,7 +96,7 @@ class App extends React.Component {
 
 
         let menuOpen = true;
-        if(pathname.includes("/tilli/module-manager-ide") || pathname.includes("/tilli/module-manager-theme-ide") || pathname.includes("/tilli/theme-builder")) {
+        if (pathname.includes("/tilli/module-manager-ide") || pathname.includes("/tilli/module-manager-theme-ide") || pathname.includes("/tilli/theme-builder")) {
             menuOpen = false;
         }
         this.setState({
@@ -106,11 +106,11 @@ class App extends React.Component {
     }
 
     render() {
-        let { menuDisplay,  menuOpen } = this.state;
+        let { menuDisplay, menuOpen } = this.state;
         return (
             <div className="App">
                 <div className="app-content">
-                    
+
                     <Menu menuDisplay={menuDisplay} menuOpen={menuOpen}>
                         <Switch>
                             <Route exact path={"/" + MyConstant.keyList.projectUrl} render={(props) =>
@@ -191,6 +191,10 @@ class App extends React.Component {
                             } />
                             <Route exact path={"/" + MyConstant.keyList.projectUrl + "/theme-viewer/:themeId"} render={(props) =>
                                 <ThemeViewer {...props} />
+                            } />
+
+                            <Route exact path={"/" + MyConstant.keyList.projectUrl + "/godotpreview/:themeId"} render={(props) =>
+                                <GodotPreview {...props} />
                             } />
 
                         </Switch>

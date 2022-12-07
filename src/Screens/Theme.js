@@ -4,9 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from 'uuid';
 import DropDown from "../Component/DropDown";
-import MyConstant from "../config/MyConstant";
-import TopMenu from '../Screens/Menu/TopMenu';
-import SideMenu from '../Screens/Menu/SideMenu';
+import MyConstant from "../config/MyConstant";;
 import { Link } from 'react-router-dom';
 import Modal from '../Component/Modal';
 import { doConnect } from '../config/Common';
@@ -28,7 +26,8 @@ class Theme extends React.Component {
             displayImage: 'none', submitButtton: 'Submit',
             themeModal: false,
             themeType: "Static",
-            zipFileSelectValidate:"",
+            submitLoader: false,
+            zipFileSelectValidate: "",
             fileObj: {},
 
         }
@@ -81,9 +80,7 @@ class Theme extends React.Component {
     }
 
     async submitFunction() {
-        const { themeName, selectedOption, themeType,fileObj,
-    } = this.state;
-
+        const { themeName, selectedOption, themeType, fileObj, } = this.state;
         if (themeName.length == 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
             return false
@@ -112,6 +109,7 @@ class Theme extends React.Component {
             await doFileConnectZip(fileObj)
         }
         if (themeName && themeName.length != 0) {
+            this.setState({ submitLoader: true })
             let postJson = {
                 name: themeName,
                 sessionId: '1223',
@@ -133,7 +131,7 @@ class Theme extends React.Component {
                 });
 
                 this.getThemes();
-                this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: "",fileObj: {},})
+                this.setState({ themeModal: false, themeName: "", selectedOption: "", imageView: "", fileObj: {}, submitLoader: false, })
 
             } else {
                 alert(responseData.response);
@@ -142,7 +140,7 @@ class Theme extends React.Component {
     }
 
     async UpdateFunction() {
-        const { themeName, themeType ,fileObj} = this.state;
+        const { themeName, themeType, fileObj } = this.state;
 
         if (themeName.length == 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
@@ -154,6 +152,7 @@ class Theme extends React.Component {
         let found = this.state.themeValue.findIndex((a) =>
             a.id === this.state.idvalue
         );
+        this.setState({ submitLoader: true })
         let postJson = {
             themeId: this.state.idvalue,
             name: themeName,
@@ -174,7 +173,7 @@ class Theme extends React.Component {
                 progress: undefined,
             });
             this.getThemes();
-            this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: "",fileObj: {},themeType: "Static",})
+            this.setState({ themeModal: false, themeName: "", selectedOption: "", imageView: "", fileObj: {}, themeType: "Static", submitLoader: false, })
         } else {
             alert(responseData.response);
         }
@@ -188,9 +187,8 @@ class Theme extends React.Component {
 
     render() {
 
-        const { displayImage, submitButtton, themeModal, themeType,zipFileSelectValidate } = this.state;
-        console.log(themeType)
-
+        const { displayImage, submitButtton, themeModal, themeType, zipFileSelectValidate } = this.state;
+        let { submitLoader } = this.state
         const columns = [
             {
                 name: 'Name',
@@ -231,36 +229,36 @@ class Theme extends React.Component {
                         <div style={{ fontWeight: 700 }}></div>
                         {
                             row.themeType === "godot" && false ? <div>-</div> :
-                        <button id={row.id} className="btn btn-info" onClick={(e) => {
-                            console.log('e', e.target.id)
-                            //console.log(this.state.themesList)
-                            var found = Object.keys(this.state.themesList).findIndex((a) =>
-                                this.state.themesList[e.target.id] === e.target.id
-                            )
+                                <button id={row.id} className="btn btn-info" onClick={(e) => {
+                                    console.log('e', e.target.id)
+                                    //console.log(this.state.themesList)
+                                    var found = Object.keys(this.state.themesList).findIndex((a) =>
+                                        this.state.themesList[e.target.id] === e.target.id
+                                    )
 
-                            let object = {};
-                            object.value = this.state.themesList[e.target.id].id;
-                            object.label = this.state.themesList[e.target.id].image.title;
-                            object.json = this.state.themesList[e.target.id].image
+                                    let object = {};
+                                    object.value = this.state.themesList[e.target.id].id;
+                                    object.label = this.state.themesList[e.target.id].image.title;
+                                    object.json = this.state.themesList[e.target.id].image
 
-                            // console.log(object)
-                            let themeName = this.state.themesList[e.target.id].name
-                            let themeType = this.state.themesList[e.target.id].themeType
-                            let gameFile = this.state.themesList[e.target.id].gameFile
+                                    // console.log(object)
+                                    let themeName = this.state.themesList[e.target.id].name
+                                    let themeType = this.state.themesList[e.target.id].themeType
+                                    let gameFile = this.state.themesList[e.target.id].gameFile
 
 
-                            this.setState({
-                                themeModal: true,
-                                selectedOption: object,
-                                typeSelect: 'Edit',
-                                idvalue: e.target.id,
-                                themeName,
-                                submitButtton: 'Update',
-                                themeType,
-                                fileObj: gameFile ? gameFile : {}
-                            })
-                        }}>Edit</button>
-                    }
+                                    this.setState({
+                                        themeModal: true,
+                                        selectedOption: object,
+                                        typeSelect: 'Edit',
+                                        idvalue: e.target.id,
+                                        themeName,
+                                        submitButtton: 'Update',
+                                        themeType,
+                                        fileObj: gameFile ? gameFile : {}
+                                    })
+                                }}>Edit</button>
+                        }
                     </div>,
             },
             {
@@ -486,13 +484,17 @@ class Theme extends React.Component {
                                                             submitButtton == 'Submit' ?
                                                                 <button type="button" className={'btn btn-primary'} onClick={() => {
                                                                     this.submitFunction()
-                                                                }}>{submitButtton}
+                                                                }}>
+                                                                    {submitLoader ? <i className="fa fa-spinner fa-spin"></i> : null}
+                                                                    {submitButtton}
                                                                 </button>
                                                                 :
                                                                 <span>
                                                                     <button type="button" className={'btn btn-primary '} onClick={() => {
                                                                         this.UpdateFunction()
-                                                                    }}>{submitButtton}
+                                                                    }}>
+                                                                        {submitLoader ? <i className="fa fa-spinner fa-spin"></i> : null}
+                                                                        {submitButtton}
                                                                     </button>
                                                                 </span>
                                                         }
