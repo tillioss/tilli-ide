@@ -10,6 +10,8 @@ import SideMenu from '../Screens/Menu/SideMenu';
 import { Link } from 'react-router-dom';
 import Modal from '../Component/Modal';
 import { doConnect } from '../config/Common';
+import { doFileConnectZip } from '../config/Common';
+
 
 class Theme extends React.Component {
 
@@ -25,7 +27,10 @@ class Theme extends React.Component {
             themesList: {},
             displayImage: 'none', submitButtton: 'Submit',
             themeModal: false,
-            themeType: "Static"
+            themeType: "Static",
+            zipFileSelectValidate:"",
+            fileObj: {},
+
         }
     }
 
@@ -76,7 +81,8 @@ class Theme extends React.Component {
     }
 
     async submitFunction() {
-        const { themeName, selectedOption, themeType } = this.state;
+        const { themeName, selectedOption, themeType,fileObj,
+    } = this.state;
 
         if (themeName.length == 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
@@ -91,13 +97,28 @@ class Theme extends React.Component {
         else {
             this.setState({ levelImageValidate: '' })
         }
+        if (themeType === "godot") {
+            let zipFileSelectValidate = "";
+            let validateFile = false
+            if (Object.keys(fileObj).length === 0) {
+                zipFileSelectValidate = "Please Upload Zip File"
+                validateFile = true
+            }
+            this.setState({ zipFileSelectValidate })
+            if (validateFile) {
+                return false
+            }
 
+            await doFileConnectZip(fileObj)
+        }
         if (themeName && themeName.length != 0) {
             let postJson = {
                 name: themeName,
                 sessionId: '1223',
                 image: this.state.selectedOption.json,
-                themeType
+                themeType,
+                gameFile: themeType === "godot" ? fileObj : {}
+
             };
             let responseData = await doConnect("addTheme", "POST", postJson);
             if (responseData.response == 'Success') {
@@ -112,7 +133,7 @@ class Theme extends React.Component {
                 });
 
                 this.getThemes();
-                this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
+                this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: "",fileObj: {},})
 
             } else {
                 alert(responseData.response);
@@ -121,7 +142,7 @@ class Theme extends React.Component {
     }
 
     async UpdateFunction() {
-        const { themeName, themeType } = this.state;
+        const { themeName, themeType ,fileObj} = this.state;
 
         if (themeName.length == 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
@@ -138,7 +159,8 @@ class Theme extends React.Component {
             name: themeName,
             image: this.state.selectedOption.json,
             sessionId: '1223',
-            themeType
+            themeType,
+            gameFile: themeType === "godot" ? fileObj : {}
         };
         let responseData = await doConnect("updateTheme", "POST", postJson);
         if (responseData.response == 'Success') {
@@ -152,7 +174,7 @@ class Theme extends React.Component {
                 progress: undefined,
             });
             this.getThemes();
-            this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: ""})
+            this.setState({themeModal: false, themeName: "", selectedOption: "", imageView: "",fileObj: {},themeType: "Static",})
         } else {
             alert(responseData.response);
         }
@@ -166,7 +188,8 @@ class Theme extends React.Component {
 
     render() {
 
-        const { displayImage, submitButtton, themeModal, themeType } = this.state;
+        const { displayImage, submitButtton, themeModal, themeType,zipFileSelectValidate } = this.state;
+        console.log(themeType)
 
         const columns = [
             {
@@ -206,6 +229,8 @@ class Theme extends React.Component {
                 cell: (row, index, column, id) =>
                     <div id={row.id}                       >
                         <div style={{ fontWeight: 700 }}></div>
+                        {
+                            row.themeType === "godot" && false ? <div>-</div> :
                         <button id={row.id} className="btn btn-info" onClick={(e) => {
                             console.log('e', e.target.id)
                             //console.log(this.state.themesList)
@@ -221,6 +246,8 @@ class Theme extends React.Component {
                             // console.log(object)
                             let themeName = this.state.themesList[e.target.id].name
                             let themeType = this.state.themesList[e.target.id].themeType
+                            let gameFile = this.state.themesList[e.target.id].gameFile
+
 
                             this.setState({
                                 themeModal: true,
@@ -229,9 +256,11 @@ class Theme extends React.Component {
                                 idvalue: e.target.id,
                                 themeName,
                                 submitButtton: 'Update',
-                                themeType
+                                themeType,
+                                fileObj: gameFile ? gameFile : {}
                             })
                         }}>Edit</button>
+                    }
                     </div>,
             },
             {
@@ -247,7 +276,20 @@ class Theme extends React.Component {
                             }
                         }}>Delete</button>
                     </div>,
-            }
+            },
+            {
+                name: 'Godot Preview',
+                selector: '',
+                sortable: true,
+                cell: (row, index, column, id) =>
+                    (row.themeType === "godot" && row.gameFile && Object.keys(row.gameFile).length > 0) ? <div id={row.id}>
+                        <div style={{ fontWeight: 700 }}></div>
+                        <Link className="btn btn-primary" onClick={() => {
+                            window.open("/" + MyConstant.keyList.projectUrl + "/godotpreview/" + row.id);
+
+                        }}>Godot Preview</Link>
+                    </div> : "-",
+            },
 
         ];
 
@@ -375,7 +417,10 @@ class Theme extends React.Component {
                                                                             <input className="form-check-input" type="radio" name="themeType" value="Dynamic" onChange={(e) => this.onThemeTypeChanged(e)} checked={themeType === "Dynamic"} />
                                                                             <label className="form-check-label">Dynamic</label>
                                                                         </div>
-
+                                                                        <div className="form-check form-check-inline">
+                                                                            <input className="form-check-input" type="radio" name="godot" value="godot" onChange={(e) => this.onThemeTypeChanged(e)} checked={themeType === "godot"} />
+                                                                            <label className="form-check-label">Godot</label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -392,7 +437,48 @@ class Theme extends React.Component {
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        {themeType === "godot" && this.state.typeSelect === 'Edit' && Object.keys(this.state.fileObj).length > 0 && <>
+                                                            <i style={{ fontSize: 30 }} className="fa fa-file-zip-o"></i>
+                                                        </>}
+                                                        {themeType === "godot" && this.state.typeSelect !== 'Edit' && <>
+                                                            <div className="row item form-group" style={{ marginTop: 10 }}>
+                                                                <div className="col-sm-1">Zip File </div>
+                                                                <div className="col-sm-4">
+                                                                    <input type="file"
+                                                                        accept=".zip"
+                                                                        onChange={async (event) => {
+                                                                            var files = event.target.files;
+                                                                            var length = files.length;
+                                                                            var urlfile = ''
+                                                                            if (length > 0) {
+                                                                                for (var i = 0; i < length; i++) {
+                                                                                    var fileUrl = URL.createObjectURL(files[i]);
+                                                                                    var file = files[i];
+                                                                                    var filename = file.name;
+                                                                                    var ext = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+                                                                                    urlfile = fileUrl
+                                                                                    var uid = uuidv4();
+                                                                                    var fileObj = {
+                                                                                        file: file,
+                                                                                        fileUrl: fileUrl,
+                                                                                        fileName: uid + "." + ext,
+                                                                                        docsId: uid,
+                                                                                        processType: "module",
+                                                                                        fileType: ext,
+                                                                                        origFileName: filename
+                                                                                    };
+                                                                                    // console.log("fileObj", fileObj)
+                                                                                    this.setState({ fileObj, })
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        }
+                                                                    />
+                                                                    <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 5 }}> {zipFileSelectValidate} </span>
+                                                                </div>
+                                                                <div className="col-sm-7"> </div>
+                                                            </div>
+                                                        </>}
                                                     </React.Fragment>
                                                     }
                                                     footer={<React.Fragment>
