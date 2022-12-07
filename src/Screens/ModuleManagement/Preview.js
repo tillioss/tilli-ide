@@ -17,6 +17,8 @@ import DragAndDrop from "./ThemeBuilder/ThemeView/DragAndDrop";
 import LabelAnimation from "./ThemeBuilder/ThemeView/LabelAnimation";
 import drag_drop from '../../images/drag_drop.png';
 import GroupedInput from "./ThemeBuilder/ThemeView/GroupedInput";
+import outlineRightIcon from '../../images/outlineRightIcon.png';
+
 
 export default class Preview extends React.Component {
     constructor(props) {
@@ -316,7 +318,23 @@ export default class Preview extends React.Component {
                             })
                         }
                     </div>
-                } else {
+                } 
+                else if (themeType === "godot") {
+                    return <>
+                        <div className='zipfile-center'><i class="fa fa-file-zip-o"></i>
+                        </div>
+                        {this.state.moduleJson.stages.length !== stageIndex &&
+                            <div style={{ position: "absolute", top: "85%", left: "85%", width: "12%", height: "64px" }}>
+                                <img src={outlineRightIcon} style={{ width: "100%", height: "100%" }} onClick={() => {
+                                    this.changeStage("Next", this.state.stage);
+                                }} />
+                            </div>
+                        }
+
+                    </>
+
+                }
+                else {
                     let theme = stage.theme;
                     let total = totalPoint / parseInt(storyCount * 200)
                     PercentageTotal = total.toString().substring(0, 5) * 100

@@ -318,6 +318,11 @@ export default class ModuleManagerIDE extends React.Component {
       themeSelectedJson: {},
       deviceHeight: "",
       deviceWidth: "",
+      audioFiles: [],
+      selectAudioFiles: "",
+      audioJsonFiles: {},
+      sectionAudioSelected: {},
+      storySelectAudioFiles: {}
     }
 
     this.setThemeSelected = this.setThemeSelected.bind(this);
@@ -334,6 +339,7 @@ export default class ModuleManagerIDE extends React.Component {
     }, () => {
       this.getThemes()
       this.getImages()
+      this.getAudioFils()
       this.getLevels()
     });
   }
@@ -365,18 +371,14 @@ export default class ModuleManagerIDE extends React.Component {
   }
 
   removeFunction(value) {
-    const { sectionLearning } = this.state;
-
-    console.log(value)
-    delete sectionLearning[value]
-
-    let RemoveData = sectionLearning.filter(function (el) {
-      return el != null;
-    });
-
-
+    let { sectionLearning, sectionAudioSelected } = this.state;
+    sectionLearning = sectionLearning.filter((e, i) => { return i !== value })
+    if (sectionAudioSelected[value]) {
+      sectionAudioSelected[value] = {}
+    }
     this.setState({
-      sectionLearning: RemoveData
+      sectionLearning,
+      sectionAudioSelected
     }, () => {
       this.historyCapture();
     })
@@ -409,6 +411,26 @@ export default class ModuleManagerIDE extends React.Component {
     let data_merge = { ...this.state.fileData, ...json.filesMap }
     this.setState({ fileData: data_merge })
   }
+
+  async getAudioFils() {
+    let postJson = { fileType: 'audio', sessionId: '1223' };
+    console.log("postJson", postJson)
+    let responseData = await doConnect("getGameFilesList", "POST", postJson);
+    let audioJsonFiles = {}
+    let audioFiles = []
+    console.log("json", responseData)
+    if (responseData && responseData.filesMap) {
+      audioJsonFiles = responseData.filesMap;
+      Object.keys(audioJsonFiles).map((key) => {
+        let fileObj = audioJsonFiles[key];
+        let filePath = MyConstant.keyList.apiURL + "vp?action=module&key=" + fileObj.fileName + "&id=" + fileObj.fileType;
+        fileObj.previewAudioPath = filePath
+        audioFiles.push({ value: key, label: fileObj.title, json: fileObj })
+      })
+    }
+    this.setState({ audioFiles, audioJsonFiles })
+  }
+
 
 
   async submitFuntion() {
@@ -467,6 +489,7 @@ export default class ModuleManagerIDE extends React.Component {
 
   async getLevelMappingData(levelId) {
     const { imageView, sectionLearning, storyThemeSelect } = this.state;
+    let { audioFiles } = this.state
     console.log('levelId', levelId)
     let postJson = { levelId: levelId, sessionId: '1223' };
     let that = this;
@@ -480,12 +503,25 @@ export default class ModuleManagerIDE extends React.Component {
       let withStory = []
       let changeIndex = 0
 
+      let sectionAudioSelected = {}
+      let storySelectAudioFiles = {}
+
       contentdata = JSON.parse(contentdata);
       if (Array.isArray(contentdata)) {
         contentdata.map((ival, index) => {
           var found_index = this.state.themeOptions.findIndex((a) =>
             a.label === ival.theme)
           imageViews[index] = this.state.themeOptions[found_index]
+
+          if (ival.themeType && ival.themeType == "Dynamic") {
+            if (ival.backgroundAudio && ival.backgroundAudio != "") {
+              let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.previewAudioPath === ival.backgroundAudio })
+              if (filterAudioIndex != "-1") {
+                let selectedFile = audioFiles[filterAudioIndex]
+                sectionAudioSelected[index] = { ...selectedFile }
+              }
+            }
+          }
 
           if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
             withStory.push(ival)
@@ -496,6 +532,28 @@ export default class ModuleManagerIDE extends React.Component {
             withOutStory.push(ival)
           }
         })
+
+
+        let filterInsideContentThemes = contentdata.filter((e) => { return e.content && Object.keys(e.content).length > 0 })
+        if (filterInsideContentThemes && filterInsideContentThemes.length > 0) {
+          filterInsideContentThemes.map((ival, index) => {
+            let filterDynamicData = ival.content.themes && ival.content.themes.filter((e) => { return e.themeType === "Dynamic" })
+            if (filterDynamicData && filterDynamicData.length > 0) {
+              filterDynamicData.map((dtheme, dindex) => {
+                if (dtheme.backgroundAudio && dtheme.backgroundAudio != "") {
+                  let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.previewAudioPath === dtheme.backgroundAudio })
+                  if (filterAudioIndex != "-1") {
+                    let selectedFile = audioFiles[filterAudioIndex]
+                    storySelectAudioFiles[index] = {}
+                    storySelectAudioFiles[index][dindex] = { ...selectedFile }
+                  }
+                }
+              })
+            }
+          })
+
+        }
+
       } else {
         let { sectionLearning, sectionBuildStory } = contentdata;
         withOutStory = sectionLearning;
@@ -510,7 +568,9 @@ export default class ModuleManagerIDE extends React.Component {
         sectionLearning: withOutStory,
         sectionBuildStory: withStory,
         imageView: imageViews,
-        storyThemeSelect
+        storyThemeSelect,
+        sectionAudioSelected,
+        storySelectAudioFiles
       }, () => {
         that.historyCapture()
       })
@@ -818,7 +878,21 @@ export default class ModuleManagerIDE extends React.Component {
       this.setState({
         sectionLearning
       })
-    } else {
+    }
+    else if (e.json.themeType === "godot") {
+      sectionLearning[index].gameFileInfo = {}
+      let getFileName = e.json.gameFile.fileName;
+      getFileName = getFileName.split(".")
+      if (Array.isArray(getFileName)) {
+        let gameId = getFileName[0]
+        let themeId = e.json.id
+        sectionLearning[index].gameFileInfo = { gameId, themeId }
+      }
+      this.setState({
+        sectionLearning
+      })
+    }
+    else {
       this.setState({
         sectionLearning
       }, () => {
@@ -1181,17 +1255,27 @@ export default class ModuleManagerIDE extends React.Component {
 
   storyCardRemove(value) {
     const { sectionBuildStory } = this.state;
-
     console.log(value)
     delete sectionBuildStory[value]
-
+    let { storySelectAudioFiles } = this.state
     let RemoveData = sectionBuildStory.filter(function (el) {
       return el != null;
     });
 
+    if (storySelectAudioFiles[value]) {
+      delete storySelectAudioFiles[value];
+      let newObj = {}
+      Object.keys(storySelectAudioFiles).map((key, index) => {
+        newObj[index] = {}
+        newObj[index] = { ...storySelectAudioFiles[key] }
+      })
+      storySelectAudioFiles = newObj
+    }
+
 
     this.setState({
-      sectionBuildStory: RemoveData
+      sectionBuildStory: RemoveData,
+      storySelectAudioFiles
     }, () => {
       this.historyCapture();
     })
@@ -1493,23 +1577,46 @@ export default class ModuleManagerIDE extends React.Component {
   async changeStoryTheme(index, themeIndex, e) {
     let { sectionBuildStory } = this.state;
     let themeId = e.json.id;
-    let postJson = { themeId };
-    let responseData = await doConnect("getThemeContent", "POST", postJson);
-
-    let layers = [];
-    if (responseData.response !== null) {
-      layers = JSON.parse(responseData.response);
+    let getThemeType = e.json.themeType;
+    if (getThemeType === "godot") {
+      sectionBuildStory[index].content.themes[themeIndex].theme = e.label;
+      if (sectionBuildStory[index].content.themes[themeIndex].layers) {
+        delete sectionBuildStory[index].content.themes[themeIndex].layers
+      }
+      sectionBuildStory[index].content.themes[themeIndex].themeType = "godot"
+      sectionBuildStory[index].content.themes[themeIndex].gameFileInfo = {}
+      let getFileName = e.json.gameFile.fileName;
+      getFileName = getFileName.split(".")
+      if (Array.isArray(getFileName)) {
+        let gameId = getFileName[0]
+        let themeId = e.json.id
+        sectionBuildStory[index].content.themes[themeIndex].gameFileInfo = { gameId, themeId }
+      }
+      this.setState({
+        sectionBuildStory
+      })
+    } else {
+      if (sectionBuildStory[index].content.themes[themeIndex] && sectionBuildStory[index].content.themes[themeIndex].themeType) {
+        delete sectionBuildStory[index].content.themes[themeIndex].themeType
+        delete sectionBuildStory[index].content.themes[themeIndex].gameFileInfo
+      }
+      let postJson = { themeId };
+      let responseData = await doConnect("getThemeContent", "POST", postJson);
+      let layers = [];
+      if (responseData.response !== null) {
+        layers = JSON.parse(responseData.response);
+      }
+      sectionBuildStory[index].content.themes[themeIndex].theme = e.label;
+      sectionBuildStory[index].content.themes[themeIndex].layers = layers;
+      this.setState({
+        sectionBuildStory
+      })
     }
 
-    sectionBuildStory[index].content.themes[themeIndex].theme = e.label;
-    sectionBuildStory[index].content.themes[themeIndex].layers = layers;
-    this.setState({
-      sectionBuildStory
-    })
   }
 
   buildContent() {
-    let { OptionData, themeOptions, sectionLearning, sectionBuildStory, storyThemeSelect, sectionTab, themeIndex, storyCardTab } = this.state;
+    let { OptionData, themeOptions, sectionLearning, sectionBuildStory, storyThemeSelect, sectionTab, themeIndex, storyCardTab, sectionAudioSelected, storySelectAudioFiles } = this.state;
     let returnContent;
     if (sectionTab === "learning" && sectionLearning.length > 0) {
       let index = themeIndex;
@@ -1774,6 +1881,12 @@ export default class ModuleManagerIDE extends React.Component {
         ThemeChooseData = <> {this.askGenderReturn(sectionLearning[index].theme, index)}  </>
       }
 
+      if (sectionLearning[index].themeType === "godot") {
+        ThemeChooseData = <>
+          <div className='zipfile-center'><i class="fa fa-file-zip-o"></i></div>
+        </>
+      }
+
       returnContent = <div className="panel panel-info" style={{ height: 780, overflowY: 'auto' }}>
         <div className="panel-heading">
           <div className="row" style={{ padding: 20, }}>
@@ -1851,6 +1964,25 @@ export default class ModuleManagerIDE extends React.Component {
               </div>
             </div>
           </div>
+
+          {sectionLearning[index].themeType && sectionLearning[index].themeType == "Dynamic" && <div className='row pl-4'>
+            <div className="col-sm-4">
+              <div className='form-group'>
+                <div> Background Audio</div>
+                <DropDown
+                  selectedOption={sectionAudioSelected[index] ? sectionAudioSelected[index] : []}
+                  onChange={(e) => {
+                    sectionAudioSelected[index] = {}
+                    sectionAudioSelected[index] = { ...e }
+                    let backgroundAudio = e.json.previewAudioPath
+                    sectionLearning[index].backgroundAudio = backgroundAudio;
+                    this.setState({ sectionLearning, sectionAudioSelected })
+                  }}
+                  options={this.state.audioFiles}
+                />
+              </div>
+            </div>
+          </div>}
 
         </div>
         <div className="panel-body">
@@ -2072,9 +2204,26 @@ export default class ModuleManagerIDE extends React.Component {
                     }}
                     options={themeOptions}
                   />
+                  {sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] && sectionBuildStory[jindex].content.themes[storyCardTab].themeType === "Dynamic" && <div className="mt-2 mb-2">
+                    <div className='form-group'>
+                      <div> Background Audio</div>
+                      <DropDown
+                        selectedOption={storySelectAudioFiles[jindex] && storySelectAudioFiles[jindex][storyCardTab] ? storySelectAudioFiles[jindex][storyCardTab] : []}
+                        onChange={(e) => {
+                          storySelectAudioFiles[jindex] = {}
+                          storySelectAudioFiles[jindex][storyCardTab] = { ...e }
+                          let backgroundAudio = e.json.previewAudioPath
+                          sectionBuildStory[jindex].content.themes[storyCardTab].backgroundAudio = backgroundAudio;
+                          this.setState({ sectionBuildStory, storySelectAudioFiles })
+                        }}
+                        options={this.state.audioFiles}
+                      />
+                    </div>
+                  </div>}
+
                   <div>
                     {
-                      (sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab].layers !== undefined) && sectionBuildStory[jindex].content.themes[storyCardTab].layers.length > 0 && <div>
+                      (sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab].layers !== undefined) && sectionBuildStory[jindex].content.themes[storyCardTab].layers.length > 0 && <div>
                         {
                           sectionBuildStory[jindex].content.themes[storyCardTab].layers.map((layer, themeIndex) => {
                             return <div className="" key={themeIndex}>
@@ -2084,6 +2233,11 @@ export default class ModuleManagerIDE extends React.Component {
                             </div>
                           })
                         }
+                      </div>
+                    }
+                    {
+                      (sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] && sectionBuildStory[jindex].content.themes[storyCardTab].themeType && sectionBuildStory[jindex].content.themes[storyCardTab].themeType === "godot") && <div>
+                        <div className='zipfile-center' style={{ top: "auto", left: "25%" }} ><i class="fa fa-file-zip-o"></i></div>
                       </div>
                     }
                   </div>
@@ -2278,6 +2432,10 @@ export default class ModuleManagerIDE extends React.Component {
       if (themeType === "Dynamic") {
         if (buildSection[themeIndex].theme === "Dynamic Theme") {
           let theme = buildSection[themeIndex].content.themes[storyCardTab];
+          let currentThemeType = false
+          if (theme) {
+            currentThemeType = buildSection[themeIndex].content.themes[storyCardTab].themeType;
+          }
           if (theme.layers !== undefined) {
             content = <div>
               {
@@ -2290,6 +2448,10 @@ export default class ModuleManagerIDE extends React.Component {
                 })
               }
             </div>
+          }
+          if (currentThemeType && currentThemeType === "godot") {
+            return (<div className='zipfile-center'><i class="fa fa-file-zip-o"></i>
+            </div>)
           }
         } else {
           if (buildSection[themeIndex].layers !== undefined) {
@@ -2306,7 +2468,17 @@ export default class ModuleManagerIDE extends React.Component {
             </div>
           }
         }
-      } else {
+      }
+      else if (themeType === "godot") {
+        content = <>
+          <div className='zipfile-center'><i class="fa fa-file-zip-o"></i>
+          </div>
+          {/* <div style={{ position: "absolute", top: "85%", left: "85%", width: "12%", height: "64px" }}>
+            <img src={outlineRightIcon} style={{ width: "100%", height: "100%" }} />
+          </div> */}
+        </>
+      }
+      else {
         switch (theme) {
           case 'DoubleBoxOverlapWithImage':
             content = <div>
