@@ -154,3 +154,28 @@ export function pageNumbers(totalPages, page, maxLength) {
 
     return pagination;
 }
+
+export async function doFileConnectZip(dataJson) {
+    if (dataJson != "{}" && Object.keys(dataJson).length > 0) {
+        var i = 0
+        const postFileUpload = new FormData();
+        postFileUpload.append('file' + (i + 1), dataJson.file);
+        postFileUpload.append('fileName' + (i + 1), dataJson.fileName);
+        postFileUpload.append('processType' + (i + 1), dataJson.processType);
+        postFileUpload.append('docsId' + (i + 1), dataJson.docsId);
+        let result = await fetch(MyConstant.keyList.apiURL + "uploads-game-file/" + dataJson.processType + "/" + dataJson.docsId + "/" + dataJson.fileName, {
+            method: "POST",
+            mode: 'cors',
+            redirect: 'follow',
+            body: postFileUpload,
+        }).then(
+            function (response) {
+                return response.json();
+            }
+        ).then(json => {
+            return json.response;
+        }).catch(error => console.warn(error));
+        return result
+    }
+
+}
