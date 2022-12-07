@@ -38,3 +38,9 @@ label{
 .panel-group .panel-heading {
     border-bottom: 0;
 }
+.zipfile-center{
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    font-size: 100px;
+}
