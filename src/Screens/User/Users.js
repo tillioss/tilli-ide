@@ -2,7 +2,6 @@ import React from "react";
 import Card from "../../Component/Card";
 import Modal from "../../Component/Modal";
 import PaginationDatatable from "../../Component/PaginationDatatable";
-import Menu from "../Menu/Menu";
 import { ToastContainer, toast } from 'react-toastify';
 import DropDown from "../../Component/DropDown";
 import { doConnect } from "../../config/Common";
@@ -32,10 +31,9 @@ export default class Users extends React.Component {
         let responseData = await doConnect("getRoles", "POST", postJson);
         let result = responseData.result;
         let roleOption = [];
-        Object.keys(result).map((option) => {
+        Object.keys(result).map((option) => (
             roleOption.push({ value: option, label: result[option].role })
-        })
-
+        ))
         this.setState({
             roleOption
         })
@@ -84,6 +82,7 @@ export default class Users extends React.Component {
             if (responseData.listOfRoleIds.includes(option.value)) {
                 selectedRoleOption.push(option)
             }
+            return selectedRoleOption
         })
         this.setState({
             userId,

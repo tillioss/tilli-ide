@@ -1,12 +1,11 @@
 import React from 'react';
 import { Style } from "react-style-tag";
 import backImage from '../../../images/outlineBackIcon.png';
-import nextImage from '../../../images/outlineRightIcon.png';
 import MyConstant from '../../../config/MyConstant';
-import textbox from '../../../images/textbox.png'
 import textboxyellow from '../../../images/combined.png'
-import Lilly_1 from '../../../images/Lilly_1.png';
-import Rocket_Launch from '../../../images/Rocket_Launch.gif';
+import { Link } from "react-router-dom";
+
+
 
 
 
@@ -51,6 +50,7 @@ class SingleTextImage extends React.Component {
                 if (i.length > 1) {
                     imagestyle[i[0]] = JSON.parse(i[1]);
                 }
+                return imgstyle
             })
         }
 
@@ -71,14 +71,14 @@ class SingleTextImage extends React.Component {
             }
         })();
 
-        let Orientation = false
+
         if (window.innerHeight > window.innerWidth || window.innerHeight > 768) {
 
         }
         else {
             deviceHeight = 680
             deviceWidth = 360
-            Orientation = true
+
         }
         let { trustPointText, totalPoint, PercentageTotal } = this.props
 
@@ -91,11 +91,11 @@ class SingleTextImage extends React.Component {
                 </Style>
                 <div className="module-content module-parent">
                     <div className="col-12" style={{ margin: 0, padding: 0 }}>
-                        <div className={"row ml-0  "+( deviceHeight < 640  ? "pt-2 ": "pt-4") }>
+                        <div className={"row ml-0  " + (deviceHeight < 640 ? "pt-2 " : "pt-4")}>
                             <div className="col-2">
-                                <a onClick={() => this.props.changeStage('Previous', stage)}>
-                                    <img style={{ width: 48, height: 48 }} src={backImage} />
-                                </a>
+                                <Link onClick={() => this.props.changeStage('Previous', stage)}>
+                                    <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                                </Link>
                             </div>
                             <div className="col-10" style={{ alignSelf: 'center' }}>
                                 <p style={{
@@ -112,8 +112,8 @@ class SingleTextImage extends React.Component {
                             <div className="col-9">
                                 <div className="img-single" style={{
                                     backgroundImage: `url(${textboxyellow})`, backgroundSize: 'contain',
-                                    height: deviceHeight > 800 ? 300 : deviceHeight < 680 ? 180 :  225, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center',
-                                    padding: browser == "Microsoft Edge" && deviceWidth > 600 ? 100 : 0,
+                                    height: deviceHeight > 800 ? 300 : deviceHeight < 680 ? 180 : 225, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                                    padding: browser === "Microsoft Edge" && deviceWidth > 600 ? 100 : 0,
                                     width: deviceWidth < 370 ? 300 : "",
                                 }}>
                                     <p style={{ width: deviceWidth < 400 ? '90%' : deviceHeight > 800 ? '50%' : '70%', fontSize: deviceHeight > 800 ? 19 : 15, }}>
@@ -128,7 +128,7 @@ class SingleTextImage extends React.Component {
                                 <img className={`${content.imageclassname}`} style={{
                                     width: '100%',
                                     height: deviceHeight < 680 ? deviceHeight / 3.8 : deviceHeight / 3.3, objectFit: 'contain', ...imagestyle
-                                }} src={textimg} />
+                                }} src={textimg} alt="loading" />
                             </div>
                             <div className="col-2" />
                         </div>
@@ -142,7 +142,7 @@ class SingleTextImage extends React.Component {
                     </div>
 
 
-                    <div className="bottom-style">                      
+                    <div className="bottom-style">
                         <div className="progress-div">
                             <div style={{ flex: 1 }} >
                                 {trustPointText} {totalPoint}

@@ -31,6 +31,7 @@ export default class Roles extends React.Component {
         let pageOption = [];
         Object.keys(result).map((option) => {
             pageOption.push({ value: option, label: result[option].title })
+            return pageOption
         })
 
         this.setState({
@@ -83,6 +84,7 @@ export default class Roles extends React.Component {
             if (responseData.listOfPageIds.includes(option.value)) {
                 selectedPageOption.push(option)
             }
+            return pageOption
         })
         this.setState({
             roleId,
