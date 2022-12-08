@@ -24,7 +24,7 @@ export function removeValueFromArray(arr) {
     var what, a = arguments, L = a.length, ax;
     while (L > 1 && arr.length) {
         what = a[--L];
-        while ((ax= arr.indexOf(what)) !== -1) {
+        while ((ax = arr.indexOf(what)) !== -1) {
             arr.splice(ax, 1);
         }
     }
@@ -32,8 +32,7 @@ export function removeValueFromArray(arr) {
 }
 
 export function checkNullAndReturnString(str) {
-    if(str!=null && str!=undefined && str!="")
-    {
+    if (str !== null && str !== undefined && str !== "") {
         return true
     }
     return false
@@ -42,16 +41,16 @@ export function checkNullAndReturnString(str) {
 
 export async function doFileConnect(dataJson) {
 
-   // alert(JSON.stringify(dataJson))
-    if( dataJson != "{}" && Object.keys(dataJson).length>0){
-        var i =0
+    // alert(JSON.stringify(dataJson))
+    if (dataJson !== "{}" && Object.keys(dataJson).length > 0) {
+        var i = 0
         const postFileUpload = new FormData();
-        postFileUpload.append('file' + (i+1), dataJson.file);
-        postFileUpload.append('fileName' + (i+1), dataJson.fileName);
-        postFileUpload.append('processType' + (i+1), dataJson.processType);
-        postFileUpload.append('docsId' + (i+1), dataJson.docsId);
-      //  postFileUpload.append('userId', dataJson.userId);
-       // alert(MyConstant.keyList.apiURL + "uploads/" + dataJson.processType + "/" + dataJson.fileType + "/" + dataJson.fileName)
+        postFileUpload.append('file' + (i + 1), dataJson.file);
+        postFileUpload.append('fileName' + (i + 1), dataJson.fileName);
+        postFileUpload.append('processType' + (i + 1), dataJson.processType);
+        postFileUpload.append('docsId' + (i + 1), dataJson.docsId);
+        //  postFileUpload.append('userId', dataJson.userId);
+        // alert(MyConstant.keyList.apiURL + "uploads/" + dataJson.processType + "/" + dataJson.fileType + "/" + dataJson.fileName)
 
         fetch(MyConstant.keyList.apiURL + "uploads/" + dataJson.processType + "/" + dataJson.fileType + "/" + dataJson.fileName, {
             method: "POST",
@@ -73,7 +72,7 @@ export async function doFileConnect(dataJson) {
 
 
 export async function doConnect(subUrl, method, postJson) {
-    let startTime=Date.now();
+    let startTime = Date.now();
     return fetch(MyConstant.keyList.apiURL + subUrl, {
         method: method,
         mode: 'cors',
@@ -89,8 +88,8 @@ export async function doConnect(subUrl, method, postJson) {
             return response.json();
         }
     ).then(function (dataresponse) {
-        let endTime=Date.now();
-        console.log(`TimeElapsed on HTTP - login submit - after parse : ${endTime-startTime}ms`)
+        let endTime = Date.now();
+        console.log(`TimeElapsed on HTTP - login submit - after parse : ${endTime - startTime}ms`)
         return dataresponse;
     });
 }
@@ -98,7 +97,7 @@ export async function doConnect(subUrl, method, postJson) {
 
 
 
-export function timeConverter(ts){
+export function timeConverter(ts) {
     var date_ob = new Date(parseInt(ts));
     var year = date_ob.getFullYear();
     var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
@@ -110,23 +109,18 @@ export function timeConverter(ts){
     return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
 }
 
-export function getMonthAndDate(UNIX_timestamp,fullmonth=false){
+export function getMonthAndDate(UNIX_timestamp, fullmonth = false) {
     var a = new Date(UNIX_timestamp);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var year = a.getFullYear();
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var month = months[a.getMonth()];
     var date = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    //var time = month + ' ' + date;
-    let day=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var time = fullmonth ?day[a.getDay()] + ', ' +  month + ' ' + date:month + ' ' + date;
+    let day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var time = fullmonth ? day[a.getDay()] + ', ' + month + ' ' + date : month + ' ' + date;
     return time;
 }
 
-export function pageNumbers(totalPages, page, maxLength) {
-    if (maxLength < 5) throw "maxLength must be at least 5";
+export function pageNumbers(totalPages, page, maxLength) {    
+    if (maxLength < 5) throw new Error("maxLength must be at least 5");
     function range(start, end) {
         return Array.from(Array(end - start + 1), (_, i) => i + start);
     }
@@ -156,7 +150,7 @@ export function pageNumbers(totalPages, page, maxLength) {
 }
 
 export async function doFileConnectZip(dataJson) {
-    if (dataJson != "{}" && Object.keys(dataJson).length > 0) {
+    if (dataJson !== "{}" && Object.keys(dataJson).length > 0) {
         var i = 0
         const postFileUpload = new FormData();
         postFileUpload.append('file' + (i + 1), dataJson.file);

@@ -50,7 +50,7 @@ class Theme extends React.Component {
     async deleteThemes(themeId) {
         let postJson = { sessionId: '1223', themeId: themeId };
         let responseData = await doConnect("deleteThemes", "POST", postJson);
-        if (responseData.response == 'Success') {
+        if (responseData.response === 'Success') {
             toast.success(' Theme is deleted successfully!!', {
                 position: "top-center",
                 autoClose: 5000,
@@ -74,7 +74,7 @@ class Theme extends React.Component {
         let responseData = await doConnect("getThemes", "POST", postJson);
 
         let json = responseData;
-        if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
             let themesMap = json['themesMap'];
             that.setState({ themesList: themesMap })
         }
@@ -82,7 +82,7 @@ class Theme extends React.Component {
 
     async submitFunction() {
         const { themeName, selectedOption, themeType, fileObj, } = this.state;
-        if (themeName.length == 0) {
+        if (themeName.length === 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
             return false
         } else {
@@ -109,7 +109,7 @@ class Theme extends React.Component {
 
             await doFileConnectZip(fileObj)
         }
-        if (themeName && themeName.length != 0) {
+        if (themeName && themeName.length !== 0) {
             this.setState({ submitLoader: true })
             let postJson = {
                 name: themeName,
@@ -120,7 +120,7 @@ class Theme extends React.Component {
 
             };
             let responseData = await doConnect("addTheme", "POST", postJson);
-            if (responseData.response == 'Success') {
+            if (responseData.response === 'Success') {
                 toast.success('Theme is added successfully!', {
                     position: "top-center",
                     autoClose: 5000,
@@ -143,16 +143,13 @@ class Theme extends React.Component {
     async UpdateFunction() {
         const { themeName, themeType, fileObj } = this.state;
 
-        if (themeName.length == 0) {
+        if (themeName.length === 0) {
             this.setState({ themeNameValidate: 'Please Enter Value' })
             return false
         } else {
 
             this.setState({ themeNameValidate: '' })
         }
-        let found = this.state.themeValue.findIndex((a) =>
-            a.id === this.state.idvalue
-        );
         this.setState({ submitLoader: true })
         let postJson = {
             themeId: this.state.idvalue,
@@ -163,7 +160,7 @@ class Theme extends React.Component {
             gameFile: themeType === "godot" ? fileObj : {}
         };
         let responseData = await doConnect("updateTheme", "POST", postJson);
-        if (responseData.response == 'Success') {
+        if (responseData.response === 'Success') {
             toast.success('Theme is updated successfully !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -203,10 +200,9 @@ class Theme extends React.Component {
                 sortable: true,
                 cell: (row, index, column, id) => {
                     let image = row.image;
-                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" onClick={async () => {
-
+                    let imgPath = MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType
+                    return <div style={{ padding: 10 }}><img src={imgPath} width="75" height="75" alt='loading' onClick={async () => {
                         await this.setState({ imageView: { json: row.image }, displayImage: "block" })
-
                     }} /></div>
                 },
 
@@ -231,23 +227,15 @@ class Theme extends React.Component {
                         {
                             row.themeType === "godot" && false ? <div>-</div> :
                                 <button id={row.id} className="btn btn-info" onClick={(e) => {
-                                    console.log('e', e.target.id)
-                                    //console.log(this.state.themesList)
-                                    var found = Object.keys(this.state.themesList).findIndex((a) =>
-                                        this.state.themesList[e.target.id] === e.target.id
-                                    )
-
+                                    //console.log(this.state.themesList)                                
                                     let object = {};
                                     object.value = this.state.themesList[e.target.id].id;
                                     object.label = this.state.themesList[e.target.id].image.title;
                                     object.json = this.state.themesList[e.target.id].image
-
                                     // console.log(object)
                                     let themeName = this.state.themesList[e.target.id].name
                                     let themeType = this.state.themesList[e.target.id].themeType
                                     let gameFile = this.state.themesList[e.target.id].gameFile
-
-
                                     this.setState({
                                         themeModal: true,
                                         selectedOption: object,
@@ -293,14 +281,15 @@ class Theme extends React.Component {
         ];
 
         let data = [];
-        Object.keys(this.state.themesList).map((ival, index) => {
+        Object.keys(this.state.themesList).map((ival) => {
             data.push(this.state.themesList[ival])
+            return data
         });
-
         let options = [];
-        Object.keys(this.state.imageList).map((ival, index) => {
+        Object.keys(this.state.imageList).map((ival) => {
             let image = this.state.imageList[ival];
             options.push({ value: image.id, label: image.title, json: image })
+            return options
         });
 
         return (
@@ -332,7 +321,7 @@ class Theme extends React.Component {
                                             </div>
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    {data.length != 0 ?
+                                                    {data.length !== 0 ?
                                                         <DataTable
                                                             title=""
                                                             columns={columns}
@@ -361,7 +350,7 @@ class Theme extends React.Component {
                                                 }}  >&times;</span>
                                                 {this.state.imageView ?
 
-                                                    <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView.json.fileName + "&id=" + this.state.imageView.json.fileType} className="modal-content_image" id="img01" />
+                                                    <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView.json.fileName + "&id=" + this.state.imageView.json.fileType} className="modal-content_image" id="img01" alt="loading" />
 
                                                     : null}
 
@@ -448,14 +437,14 @@ class Theme extends React.Component {
                                                                         onChange={async (event) => {
                                                                             var files = event.target.files;
                                                                             var length = files.length;
-                                                                            var urlfile = ''
+
                                                                             if (length > 0) {
                                                                                 for (var i = 0; i < length; i++) {
                                                                                     var fileUrl = URL.createObjectURL(files[i]);
                                                                                     var file = files[i];
                                                                                     var filename = file.name;
                                                                                     var ext = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
-                                                                                    urlfile = fileUrl
+
                                                                                     var uid = uuidv4();
                                                                                     var fileObj = {
                                                                                         file: file,
@@ -482,7 +471,7 @@ class Theme extends React.Component {
                                                     }
                                                     footer={<React.Fragment>
                                                         {
-                                                            submitButtton == 'Submit' ?
+                                                            submitButtton === 'Submit' ?
                                                                 <button type="button" className={'btn btn-primary'} onClick={() => {
                                                                     this.submitFunction()
                                                                 }}>

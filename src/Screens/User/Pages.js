@@ -2,7 +2,6 @@ import React from "react";
 import Card from "../../Component/Card";
 import Modal from "../../Component/Modal";
 import PaginationDatatable from "../../Component/PaginationDatatable";
-import Menu from "../Menu/Menu";
 import { ToastContainer, toast } from 'react-toastify';
 import { doConnect } from "../../config/Common";
 
