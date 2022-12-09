@@ -1,6 +1,5 @@
 import React from 'react';
 import DropDown from "../../Component/DropDown";
-import CloseImage from "../../../src/images/close.png";
 import EditorContent from "../EditorContent"
 import ClassNameSelect from './Component/ClassNameSelect';
 
@@ -16,7 +15,7 @@ class AskGender extends React.Component {
 
   render() {
 
-    const { index, sectionLearning, optionSelect, option, themeName,editable } = this.props
+    const { index, sectionLearning,  option, themeName,editable } = this.props
     let arrayvalue = []
     let appendData = ""
     appendData = <>
@@ -33,7 +32,7 @@ class AskGender extends React.Component {
             this.props.setValue(sectionLearning);
           }}
           options={option}
-          isDisabled={editable == "false" ? true : false}
+          isDisabled={editable === "false" ? true : false}
         />
         {/* <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index].content.image_error}</span> */}
       </div>

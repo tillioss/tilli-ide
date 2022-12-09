@@ -32,9 +32,10 @@ export default class ImageSelect extends React.Component {
 
         let searchOptions = [];
         options.map((row) => {
-            if(row.label.toLowerCase().includes(value.toLowerCase())) {
+            if (row.label.toLowerCase().includes(value.toLowerCase())) {
                 searchOptions.push(row)
             }
+            return true
         })
 
         this.setState({
@@ -65,7 +66,7 @@ export default class ImageSelect extends React.Component {
                     body={<React.Fragment>
                         <div className="row">
                             <div className="col-12 text-right">
-                                <input type="text" placeholder="Search" className="form-control" value={search} onChange={(e)=> this.search(e.target.value) }/>
+                                <input type="text" placeholder="Search" className="form-control" value={search} onChange={(e) => this.search(e.target.value)} />
                             </div>
                         </div>
                         <div className="row image-select p-2" style={{ maxHeight: "50vh", overflow: "auto" }}>
@@ -73,7 +74,7 @@ export default class ImageSelect extends React.Component {
                                 options.map((option, index) => {
                                     return <div className={`col-3 my-2 p-2 ${selectedImage === option.value ? "active" : ""}`} key={index} onClick={() => this.imageSelect(option.value)}>
                                         <div style={{ height: 50 }}>
-                                            <img src={option.value} style={{ maxHeight: "100%", maxWidth: "100%" }} />
+                                            <img src={option.value} style={{ maxHeight: "100%", maxWidth: "100%" }} alt="loading" />
                                         </div>
                                         <div>{option.label}</div>
                                     </div>

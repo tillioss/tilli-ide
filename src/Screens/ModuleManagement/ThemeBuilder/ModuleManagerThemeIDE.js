@@ -18,7 +18,7 @@ import { doConnect } from '../../../config/Common';
 
 export default class ModuleManagerThemeIDE extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       fileData: [],
       sectionTab: "learning",
@@ -48,7 +48,6 @@ export default class ModuleManagerThemeIDE extends React.Component {
 
   async getLevelMappingData() {
     let levelId = this.props.match.params.levelid;
-    const { imageView, sectionLearning, storyThemeSelect } = this.state;
     let postJson = { levelId: levelId, sessionId: '1223' };
     let responseData = await doConnect("getLevelMappingData", "POST", postJson);
     let contentdata = responseData.response;
@@ -67,22 +66,22 @@ export default class ModuleManagerThemeIDE extends React.Component {
   async getThemes() {
     let postJson = { sessionId: '1223', themeId: '' };
     let responseData = await doConnect("getThemes", "POST", postJson);
-        let json = responseData;
-        if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
-          let themesMap = json['themesMap'];
-          let options = []
-          let storyOption = []
-          Object.keys(themesMap).forEach(value => {
-            if (themesMap[value].name != "StoryCard") {
-              options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
-            else {
-              storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
-
-          })
-          this.setState({ themeOptions: options, storyOption })
+    let json = responseData;
+    if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
+      let themesMap = json['themesMap'];
+      let options = []
+      let storyOption = []
+      Object.keys(themesMap).forEach(value => {
+        if (themesMap[value].name !== "StoryCard") {
+          options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
         }
+        else {
+          storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
+        }
+
+      })
+      this.setState({ themeOptions: options, storyOption })
+    }
   }
 
   async changeTheme(index, e) {
@@ -92,23 +91,23 @@ export default class ModuleManagerThemeIDE extends React.Component {
       let themeId = e.json.id;
       let postJson = { themeId };
       let responseData = await doConnect("getThemeContent", "POST", postJson);
-          let layers = [];
-          if (responseData.response !== null) {
-            layers = JSON.parse(responseData.response);
-          }
+      let layers = [];
+      if (responseData.response !== null) {
+        layers = JSON.parse(responseData.response);
+      }
 
-          if (sectionTab === "learning") {
-            sectionLearning[index].layers = layers;
-            sectionLearning[index].theme = e.label;
-          } else if (sectionTab === "storyFlow") {
-            sectionBuildStory[index].layers = layers;
-            sectionBuildStory[index].theme = e.label;
-          }
+      if (sectionTab === "learning") {
+        sectionLearning[index].layers = layers;
+        sectionLearning[index].theme = e.label;
+      } else if (sectionTab === "storyFlow") {
+        sectionBuildStory[index].layers = layers;
+        sectionBuildStory[index].theme = e.label;
+      }
 
-          this.setState({
-            sectionLearning,
-            sectionBuildStory
-          })
+      this.setState({
+        sectionLearning,
+        sectionBuildStory
+      })
     }
   }
 
@@ -124,10 +123,10 @@ export default class ModuleManagerThemeIDE extends React.Component {
   async getGifImage() {
     let postJson = { fileType: 'gif', sessionId: '1223' };
     let responseData = await doConnect("getGameFilesList", "POST", postJson);
-    
-        let json = responseData;
-        let data_merge = { ...this.state.fileData, ...json.filesMap }
-        this.setState({ fileData: data_merge })
+
+    let json = responseData;
+    let data_merge = { ...this.state.fileData, ...json.filesMap }
+    this.setState({ fileData: data_merge })
   }
 
   getImageOption() {
@@ -135,6 +134,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
     Object.keys(this.state.fileData).map((ival, index) => {
       let image = this.state.fileData[ival];
       imageOptions.push({ value: MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType, label: image.title, json: image })
+      return true
     });
     return imageOptions
   }
@@ -179,14 +179,14 @@ export default class ModuleManagerThemeIDE extends React.Component {
             <div className="col-sm-5 d-flex">
               <div style={{ fontWeight: "bold", color: "#00008b" }}> Theme {index + 1}</div>
               <div className="pl-2" >
-                {index == '0' && buildObj.length - 1 != 0 ?
+                {index === '0' && buildObj.length - 1 !== 0 ?
                   <React.Fragment>
                     <span onClick={() => { this.indexChange(index, "Down") }} >
                       {/* <img src={downArrow} style={{width:30,height:30}}/> */}
                       <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                     </span>
                   </React.Fragment>
-                  : buildObj.length - 1 != 0 && buildObj.length - 1 == index ?
+                  : buildObj.length - 1 !== 0 && buildObj.length - 1 === index ?
                     <React.Fragment>
                       <span onClick={() => { this.indexChange(index, "Up") }}>
                         {/* <img src={upArrow} style={{width:30,height:30}}/>  */}
@@ -194,7 +194,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
 
                       </span>
                     </React.Fragment>
-                    : buildObj.length - 1 != 0 ? <React.Fragment>
+                    : buildObj.length - 1 !== 0 ? <React.Fragment>
                       <span style={{ padding: 4 }} onClick={() => { this.indexChange(index, "Up") }}>
                         {/* <img src={upArrow} style={{width:30,height:30}}/> */}
                         <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
@@ -288,6 +288,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
         case "video":
           builder = <VideoForm layerActive={layerActive} layers={layers} videoOptions={this.getVideoOption()} setValue={this.setValue} />
           break;
+          default:
       }
     }
     return builder;
@@ -391,7 +392,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
             width: layer.width + "%",
             height: parseInt((layer.height / 100) * deviceHeight) + "px",
           }} key={index}>
-          <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+          <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
         </div>
         break;
       case "video":
@@ -412,6 +413,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
           </video>
         </div>
         break;
+        default:
     }
     return builder;
   }
@@ -494,7 +496,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
     let responseData = await doConnect("updateLevelMapping", "POST", postJson);
     var json = responseData;
     var response = json.response;
-    if (response == 'Success') {
+    if (response === 'Success') {
       toast.success('Added data !', {
         position: "top-center",
         autoClose: 5000,
@@ -523,7 +525,7 @@ export default class ModuleManagerThemeIDE extends React.Component {
               themeIndex: 0
             })}>
               Section 1: LEARNING (Add Learning Card)
-                              </div>
+            </div>
             <div className={`tab ${sectionTab === "storyFlow" ? "active" : ""}`} onClick={() => this.setState({
               sectionTab: "storyFlow",
               themeIndex: 0

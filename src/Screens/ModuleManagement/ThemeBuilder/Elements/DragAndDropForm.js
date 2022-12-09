@@ -1,7 +1,6 @@
 import React from 'react';
 import DropDown from '../../../../Component/DropDown';
 import MyConfig from '../../../../config/MyConfig';
-import EditorContent from '../../Component/EditorContent';
 import ImageSelect from '../../Component/ImageSelect';
 
 export default class DragAndDropForm extends React.Component {
@@ -73,12 +72,6 @@ export default class DragAndDropForm extends React.Component {
             <div className="row">
                 <div className="col-3">
                     <label>Image</label>
-                    {/* <input type="color" className="form-control" value={""} value={activeLayer.drag.backgroundColor}
-                        onChange={(e) => {
-                            layers[layerActive].drag.backgroundColor = e.target.value
-                            this.props.setValue(layers)
-                        }}
-                    /> */}
                     <ImageSelect
                         selectedOption={imageOptions.filter(option => option.value === activeLayer.image)}
                         onChange={(e) => {
@@ -90,7 +83,7 @@ export default class DragAndDropForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Width</label>
-                    <input type="number" className="form-control" value={""} value={activeLayer.drag.borderWidth}
+                    <input type="number" className="form-control" value={activeLayer.drag.borderWidth}
                         onChange={(e) => {
                             layers[layerActive].drag.borderWidth = e.target.value
                             this.props.setValue(layers)
@@ -99,7 +92,7 @@ export default class DragAndDropForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Color</label>
-                    <input type="color" className="form-control" value={""} value={activeLayer.drag.borderColor}
+                    <input type="color" className="form-control" value={activeLayer.drag.borderColor}
                         onChange={(e) => {
                             layers[layerActive].drag.borderColor = e.target.value
                             this.props.setValue(layers)
@@ -108,7 +101,7 @@ export default class DragAndDropForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Radius</label>
-                    <input type="number" className="form-control" value={""} value={activeLayer.drag.borderRadius}
+                    <input type="number" className="form-control" value={activeLayer.drag.borderRadius}
                         onChange={(e) => {
                             layers[layerActive].drag.borderRadius = e.target.value
                             this.props.setValue(layers)
@@ -183,7 +176,7 @@ export default class DragAndDropForm extends React.Component {
                         <div className="row">
                             <div className="col-3">
                                 <label>Border Width</label>
-                                <input type="number" className="form-control" value={""} value={row.borderWidth}
+                                <input type="number" className="form-control" value={row.borderWidth}
                                     onChange={(e) => {
                                         layers[layerActive].drop[index].borderWidth = e.target.value
                                         this.props.setValue(layers)
@@ -192,7 +185,7 @@ export default class DragAndDropForm extends React.Component {
                             </div>
                             <div className="col-3">
                                 <label>Border Color</label>
-                                <input type="color" className="form-control" value={""} value={row.borderColor}
+                                <input type="color" className="form-control" value={row.borderColor}
                                     onChange={(e) => {
                                         layers[layerActive].drop[index].borderColor = e.target.value
                                         this.props.setValue(layers)
@@ -201,7 +194,7 @@ export default class DragAndDropForm extends React.Component {
                             </div>
                             <div className="col-3">
                                 <label>Border Radius</label>
-                                <input type="number" className="form-control" value={""} value={row.borderRadius}
+                                <input type="number" className="form-control" value={row.borderRadius}
                                     onChange={(e) => {
                                         layers[layerActive].drop[index].borderRadius = e.target.value
                                         this.props.setValue(layers)
@@ -212,7 +205,7 @@ export default class DragAndDropForm extends React.Component {
                         <div className="row mt-2">
                             <div className="col-3">
                                 <label>Action</label>
-                                <DropDown 
+                                <DropDown
                                     selectedOption={onClickOptions.filter(option => option.value === row.action)}
                                     onChange={(e) => {
                                         layers[layerActive].drop[index].action = e.value

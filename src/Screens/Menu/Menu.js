@@ -1,12 +1,9 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import DropDown from "../../Component/DropDown";
-import Modal from "../../Component/Modal";
 import MyConstant from "../../config/MyConstant";
 import logo from "../../images/logos.png"
 import teqbahnLogo from '../../images/Teqbahn_logo1.png';
-
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { doConnect } from "../../config/Common";
 
 let intervalId;
@@ -20,7 +17,7 @@ class Menu extends React.Component {
             userListOption: [],
             pageAccess: [],
             developerLogin: false,
-            logged_UserName:""
+            logged_UserName: ""
         }
     }
 
@@ -57,6 +54,7 @@ class Menu extends React.Component {
         Object.keys(result).map((pageId) => {
             pageAccess.push(result[pageId].title)
             routeAccess.push(result[pageId].route)
+            return true
         })
         let accessPage = false;
         let pathname = this.props.location.pathname;
@@ -91,6 +89,7 @@ class Menu extends React.Component {
             if (loginId !== option) {
                 userListOption.push({ value: option, label: result[option].name + " - " + result[option].email })
             }
+            return true
         })
 
         this.setState({
@@ -103,7 +102,7 @@ class Menu extends React.Component {
     }
 
 
-    
+
     menuToggle(type) {
         let { toggleMenu } = this.state;
         if (toggleMenu.includes(type)) {
@@ -126,11 +125,11 @@ class Menu extends React.Component {
     }
     render() {
         let { menuDisplay } = this.props
-        let { menuOpen, toggleMenu, pageAccess, developerLogin ,logged_UserName} = this.state;
+        let { menuOpen, toggleMenu, pageAccess, developerLogin, logged_UserName } = this.state;
         return menuDisplay ? <div className="header">
             <div className="top-header">
                 <div className="logo">
-                    <img src={logo} className="" />
+                    <img src={logo} className="" alt="loading" />
                 </div>
                 <div className="menu-toggle" onClick={() => {
                     this.setState({
@@ -148,7 +147,7 @@ class Menu extends React.Component {
                     </span>
                 </div>
                 <div className="teqbahn-logo">
-                    <img src={teqbahnLogo} className="" />
+                    <img src={teqbahnLogo} className="" alt="loading" />
                 </div>
             </div>
             <ToastContainer />
@@ -261,10 +260,10 @@ class Menu extends React.Component {
                                 }
 
                                 <li>
-                                    <a href="#" onClick={(e) => this.logout(e)} >
+                                    <Link to="#" onClick={(e) => this.logout(e)} >
                                         <span className="link-icon"><i className="fa fa-sign-out"></i></span>
                                         <span className="link-text">Logout</span>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

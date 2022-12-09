@@ -26,7 +26,6 @@ import IntroducePersonsTheme from './Themes/IntroducePersons';
 import AudioQuizScreenTheme from './Themes/AudioQuizScreen';
 import DropToSelectionTheme from './Themes/DropToSelection';
 import MeetSinglePersonTheme from './Themes/MeetSinglePerson';
-import StoryCardScreenTheme from './Themes/StoryCardScreen';
 import DoubleBoxUnderWithImageTheme from './Themes/DoubleBoxUnderWithImage';
 import SingleTextImageTheme from './Themes/SingleTextImage';
 import AskGenderTheme from './Themes/AskGender';
@@ -55,7 +54,7 @@ export default class ModuleManagerIDE extends React.Component {
     super(props)
     this.state = {
       OptionData: [{ label: "Video", value: "Video" }, { label: "Image", value: "Image" }],
-      SelectType: {}, themeSelected: "",
+      SelectType: {},
       sectionLearning: [],
       levelsJson: {},
       dummyOptionSelect: [], contentTextValidate: [],
@@ -350,14 +349,14 @@ export default class ModuleManagerIDE extends React.Component {
     let that = this;
     let responseData = await doConnect("getThemes", "POST", postJson);
     let json = responseData;
-    if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
+    if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
       let themesMap = json['themesMap'];
       //console.log('themesList ==>',themesMap)
       let options = []
       let storyOption = []
       Object.keys(themesMap).forEach(value => {
         //   console.log('themesList ==>',themesMap[value].name)
-        if (themesMap[value].name != "StoryCard") {
+        if (themesMap[value].name !== "StoryCard") {
           options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
         }
         else {
@@ -391,6 +390,7 @@ export default class ModuleManagerIDE extends React.Component {
     Object.keys(this.state.fileData).map((ival, index) => {
       let image = this.state.fileData[ival];
       imageOptions.push({ value: MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType, label: image.title, json: image })
+      return true;
     });
     return imageOptions
   }
@@ -426,6 +426,7 @@ export default class ModuleManagerIDE extends React.Component {
         let filePath = MyConstant.keyList.apiURL + "vp?action=module&key=" + fileObj.fileName + "&id=" + fileObj.fileType;
         fileObj.previewAudioPath = filePath
         audioFiles.push({ value: key, label: fileObj.title, json: fileObj })
+        return true;
       })
     }
     this.setState({ audioFiles, audioJsonFiles })
@@ -436,7 +437,7 @@ export default class ModuleManagerIDE extends React.Component {
   async submitFuntion() {
     const { sectionLearning, sectionBuildStory } = this.state
 
-    if (sectionBuildStory.length == 0 && sectionLearning.length == 0) {
+    if (sectionBuildStory.length === 0 && sectionLearning.length === 0) {
       alert("Add story")
       return false
     }
@@ -447,7 +448,7 @@ export default class ModuleManagerIDE extends React.Component {
     let responseData = await doConnect("updateLevelMapping", "POST", postJson);
     var json = responseData;
     var response = json.response;
-    if (response == 'Success') {
+    if (response === 'Success') {
       toast.success('Added data !', {
         position: "top-center",
         autoClose: 5000,
@@ -469,7 +470,7 @@ export default class ModuleManagerIDE extends React.Component {
     let responseData = await doConnect("getGameLevels", "POST", postJson);
     let that = this;
     let json = responseData;
-    if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+    if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
       let levelsMap = json['levelsMap'];
       let level_Id = this.props.match.params.levelid
       let select_Level = {}
@@ -488,7 +489,7 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   async getLevelMappingData(levelId) {
-    const { imageView, sectionLearning, storyThemeSelect } = this.state;
+    const { storyThemeSelect } = this.state;
     let { audioFiles } = this.state
     console.log('levelId', levelId)
     let postJson = { levelId: levelId, sessionId: '1223' };
@@ -513,17 +514,17 @@ export default class ModuleManagerIDE extends React.Component {
             a.label === ival.theme)
           imageViews[index] = this.state.themeOptions[found_index]
 
-          if (ival.themeType && ival.themeType == "Dynamic") {
-            if (ival.backgroundAudio && ival.backgroundAudio != "") {
+          if (ival.themeType && ival.themeType === "Dynamic") {
+            if (ival.backgroundAudio && ival.backgroundAudio !== "") {
               let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.previewAudioPath === ival.backgroundAudio })
-              if (filterAudioIndex != "-1") {
+              if (filterAudioIndex !== "-1") {
                 let selectedFile = audioFiles[filterAudioIndex]
                 sectionAudioSelected[index] = { ...selectedFile }
               }
             }
           }
 
-          if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
+          if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender") {
             withStory.push(ival)
             storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
             changeIndex++;
@@ -531,6 +532,7 @@ export default class ModuleManagerIDE extends React.Component {
           else {
             withOutStory.push(ival)
           }
+          return true;
         })
 
 
@@ -540,16 +542,18 @@ export default class ModuleManagerIDE extends React.Component {
             let filterDynamicData = ival.content.themes && ival.content.themes.filter((e) => { return e.themeType === "Dynamic" })
             if (filterDynamicData && filterDynamicData.length > 0) {
               filterDynamicData.map((dtheme, dindex) => {
-                if (dtheme.backgroundAudio && dtheme.backgroundAudio != "") {
+                if (dtheme.backgroundAudio && dtheme.backgroundAudio !== "") {
                   let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.previewAudioPath === dtheme.backgroundAudio })
-                  if (filterAudioIndex != "-1") {
+                  if (filterAudioIndex !== "-1") {
                     let selectedFile = audioFiles[filterAudioIndex]
                     storySelectAudioFiles[index] = {}
                     storySelectAudioFiles[index][dindex] = { ...selectedFile }
                   }
                 }
+                return true;
               })
             }
+            return true;
           })
 
         }
@@ -561,6 +565,7 @@ export default class ModuleManagerIDE extends React.Component {
 
         sectionBuildStory.map((ival) => {
           storyThemeSelect.push({ label: ival.theme, value: ival.theme })
+          return true;
         })
       }
 
@@ -602,7 +607,7 @@ export default class ModuleManagerIDE extends React.Component {
     sectionLearning[index].themeType = e.json.themeType;
     imageView[index] = e
 
-    if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage") {
+    if (sectionLearning[index].theme === "DoubleBoxOverlapWithImage") {
       let content = {
         text: "", image: "", chooseType: "", video: "", color: "", imagestyle: "",
         imageclassname: "", nameClassName: ""
@@ -610,7 +615,7 @@ export default class ModuleManagerIDE extends React.Component {
       sectionLearning[index].content = content
       sectionLearning[index].content.chooseType = { label: "Image", value: "Image" }
     }
-    else if (sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
+    else if (sectionLearning[index].theme === "DoubleBoxUnderWithImage") {
       let content = {
         text: "", image: "", chooseType: "", video: "", boxBgColor_1: "", boxBgColor_2: "",
         imagestyle: "", imageclassname: "", nameClassName: ""
@@ -618,11 +623,11 @@ export default class ModuleManagerIDE extends React.Component {
       sectionLearning[index].content = content
       sectionLearning[index].content.chooseType = { label: "Image", value: "Image" }
     }
-    else if (sectionLearning[index].theme == "ImageWithThinking") {
+    else if (sectionLearning[index].theme === "ImageWithThinking") {
       let content = { text: '', image: '', imagestyle: "", imageclassname: "", nameClassName: "" }
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "QuestionsList") {
+    else if (sectionLearning[index].theme === "QuestionsList") {
 
 
       let content = {
@@ -657,7 +662,7 @@ export default class ModuleManagerIDE extends React.Component {
 
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "IntroducePersons") {
+    else if (sectionLearning[index].theme === "IntroducePersons") {
       let content = {
         persons: [
           {
@@ -684,7 +689,7 @@ export default class ModuleManagerIDE extends React.Component {
 
     }
 
-    else if (sectionLearning[index].theme == "ChooseCheckboxQuestions") {
+    else if (sectionLearning[index].theme === "ChooseCheckboxQuestions") {
 
       let content = {
         questionTitle:
@@ -706,7 +711,7 @@ export default class ModuleManagerIDE extends React.Component {
       sectionLearning[index].content = content
 
     }
-    else if (sectionLearning[index].theme == "CircleWithInfoAnimations") {
+    else if (sectionLearning[index].theme === "CircleWithInfoAnimations") {
 
       let content = {
         "text": [
@@ -746,7 +751,7 @@ export default class ModuleManagerIDE extends React.Component {
       sectionLearning[index].content = content
 
     }
-    else if (sectionLearning[index].theme == "MeetSinglePerson") {
+    else if (sectionLearning[index].theme === "MeetSinglePerson") {
       let content = {
         personName: "", body: "", question: "", bottomText: "", color_1: "", color_2: "", image: '',
         imagestyle: "", imageclassname: "", personclassname: "", bottomclassName: "",
@@ -755,7 +760,7 @@ export default class ModuleManagerIDE extends React.Component {
       sectionLearning[index].content = content
     }
 
-    else if (sectionLearning[index].theme == "AudioQuizScreen") {
+    else if (sectionLearning[index].theme === "AudioQuizScreen") {
 
       let content = {
         feelingsDataList: [
@@ -781,7 +786,7 @@ export default class ModuleManagerIDE extends React.Component {
       }
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "DropToSelection") {
+    else if (sectionLearning[index].theme === "DropToSelection") {
       let content = {
         text1: "",
         text2: "",
@@ -825,7 +830,7 @@ export default class ModuleManagerIDE extends React.Component {
 
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "SingleTextImage") {
+    else if (sectionLearning[index].theme === "SingleTextImage") {
       let content = {
         text: 'Hi! It’s me Tilly.I need some help with knowing who to Trust.',
         image: '',
@@ -834,7 +839,7 @@ export default class ModuleManagerIDE extends React.Component {
       }
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "Ask Age") {
+    else if (sectionLearning[index].theme === "Ask Age") {
       let content = {
         question: '',
         image: '',
@@ -847,7 +852,7 @@ export default class ModuleManagerIDE extends React.Component {
       }
       sectionLearning[index].content = content
     }
-    else if (sectionLearning[index].theme == "Ask Gender") {
+    else if (sectionLearning[index].theme === "Ask Gender") {
       let content = {
         question: '',
         image: '',
@@ -906,7 +911,7 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   return_Content_doublebox(Select, index_1) {
-    const { Contentdata, LevelStage_1, dummyOptionSelect, ImageValidate, contentText, contentTextValidate, sectionLearning } = this.state;
+    const { LevelStage_1, dummyOptionSelect, ImageValidate, contentText, contentTextValidate, sectionLearning } = this.state;
     var found_index = LevelStage_1.findIndex((a) =>
       a.theme === Select
     )
@@ -915,8 +920,8 @@ export default class ModuleManagerIDE extends React.Component {
     let imageOptions = this.getImageOption()
 
 
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-    if (checkindex != "-1") {
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+    if (checkindex !== "-1") {
       //console.log('checkindex',imageOptions[checkindex])
       dummyOptionSelect[index_1] = imageOptions[checkindex]
 
@@ -947,8 +952,6 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   return_qustioncontent(value, index_1) {
-    let arrayvalue = [];
-
     const { LevelStage_1, sectionLearning, contentTextValidate } = this.state;
     let remove_undef = sectionLearning[index_1].content.questionList.filter(function (element) {
       return element !== null;
@@ -973,16 +976,8 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   return_Content_introduce(value, index_1) {
-
-    let arrayvalue = [];
-
-    const { LevelStage_1, Contentdata, dummyOptionSelect, OptionSelect, sectionLearning } = this.state;
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === value
-    )
-
+    const { LevelStage_1, dummyOptionSelect, sectionLearning } = this.state;
     let imageOptions = this.getImageOption()
-
     //bg,imageBg,name,says
     return <IntroducePersons
       LevelStage={LevelStage_1}
@@ -1004,10 +999,7 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   return_Content_choose_checkbox(value, index_1) {
-
-
-    const { LevelStage_1, sectionLearning } = this.state;
-
+    const { sectionLearning } = this.state;
     let remove_undef = sectionLearning[index_1].content.checkBoxesOption.filter(function (element) {
       return element !== null;
     });
@@ -1028,12 +1020,11 @@ export default class ModuleManagerIDE extends React.Component {
 
   return_content_circle(value, index_1, type) {
 
-    const { LevelStage_1, dummyOptionSelect, sectionLearning } = this.state;
-    let arrayvalue = []
+    const { dummyOptionSelect, sectionLearning } = this.state;
     let imageOptions = this.getImageOption()
-    if (Object.keys(sectionLearning[index_1].content).length != 0) {
-      let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-      if (checkindex != "-1") {
+    if (Object.keys(sectionLearning[index_1].content).length !== 0) {
+      let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+      if (checkindex !== "-1") {
         dummyOptionSelect[index_1] = imageOptions[checkindex]
       }
     }
@@ -1059,16 +1050,13 @@ export default class ModuleManagerIDE extends React.Component {
 
   MeetSinglePersonFunction(Value, index_1) {
 
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, dummyOptionSelect } = this.state;
     let imageOptions = this.getImageOption()
 
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-    if (checkindex != "-1") {
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+    if (checkindex !== "-1") {
       dummyOptionSelect[index_1] = imageOptions[checkindex]
     }
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === Value
-    )
 
     return <ModuleMeetSinglePerson
       optionSelect={dummyOptionSelect}
@@ -1082,9 +1070,7 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   return_content_audioscreen(Value, index_1) {
-
     const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
-
     let remove_undef = sectionLearning[index_1].content.feelingsDataList.filter(function (element) {
       return element !== null;
     });
@@ -1094,8 +1080,8 @@ export default class ModuleManagerIDE extends React.Component {
 
     let imageOptions = this.getImageOption()
     if (sectionLearning[index_1].content.id) {
-      let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-      if (checkindex != "-1") {
+      let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+      if (checkindex !== "-1") {
         //console.log('checkindex',imageOptions[checkindex])
         dummyOptionSelect[index_1] = imageOptions[checkindex]
       }
@@ -1117,7 +1103,7 @@ export default class ModuleManagerIDE extends React.Component {
   indexChange(index, type) {
     const { sectionLearning, themeIndex } = this.state;
 
-    if (type == "Down") {
+    if (type === "Down") {
       let value = [...sectionLearning]
       value[index] = sectionLearning[index + 1]
       value[index + 1] = sectionLearning[index]
@@ -1127,7 +1113,7 @@ export default class ModuleManagerIDE extends React.Component {
       }, () => {
         this.historyCapture();
       })
-    } else if (type == "Up") {
+    } else if (type === "Up") {
       let value = [...sectionLearning]
       value[index] = sectionLearning[index - 1]
       value[index - 1] = sectionLearning[index]
@@ -1259,7 +1245,7 @@ export default class ModuleManagerIDE extends React.Component {
     delete sectionBuildStory[value]
     let { storySelectAudioFiles } = this.state
     let RemoveData = sectionBuildStory.filter(function (el) {
-      return el != null;
+      return el !== null;
     });
 
     if (storySelectAudioFiles[value]) {
@@ -1268,6 +1254,7 @@ export default class ModuleManagerIDE extends React.Component {
       Object.keys(storySelectAudioFiles).map((key, index) => {
         newObj[index] = {}
         newObj[index] = { ...storySelectAudioFiles[key] }
+        return true;
       })
       storySelectAudioFiles = newObj
     }
@@ -1287,7 +1274,7 @@ export default class ModuleManagerIDE extends React.Component {
 
     //alert(type)
 
-    if (type == "Down") {
+    if (type === "Down") {
 
       let value = [...sectionBuildStory]
       let themeValue = [...storyThemeSelect]
@@ -1310,7 +1297,7 @@ export default class ModuleManagerIDE extends React.Component {
 
     }
 
-    if (type == "Up") {
+    if (type === "Up") {
       let value = [...sectionBuildStory]
       let themeValue = [...storyThemeSelect]
 
@@ -1339,7 +1326,7 @@ export default class ModuleManagerIDE extends React.Component {
     let contentStoryData = ""
 
     let storyCardTab = "meetPerson";
-    if (e.label == "StoryCard") {
+    if (e.label === "StoryCard") {
       contentStoryData = [
         {
           title: '',
@@ -1430,7 +1417,7 @@ export default class ModuleManagerIDE extends React.Component {
           },
         },
       ]
-    } else if (e.label == "Ask Age") {
+    } else if (e.label === "Ask Age") {
       let content = {
         question: '',
         image: '',
@@ -1442,7 +1429,7 @@ export default class ModuleManagerIDE extends React.Component {
         chooseType_1_ClassName: "",
       }
       contentStoryData = content
-    } else if (e.label == "Ask Gender") {
+    } else if (e.label === "Ask Gender") {
       let content = {
         question: '',
         image: '',
@@ -1477,15 +1464,12 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   SingleTextImageReturn(Value, index) {
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, dummyOptionSelect } = this.state;
     let imageOptions = this.getImageOption()
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index].content.image.id);
-    if (checkindex != "-1") {
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index].content.image.id);
+    if (checkindex !== "-1") {
       dummyOptionSelect[index] = imageOptions[checkindex]
     }
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === Value
-    )
     return <SingleTextImagePage
       optionSelect={dummyOptionSelect}
       option={imageOptions}
@@ -1503,7 +1487,7 @@ export default class ModuleManagerIDE extends React.Component {
 
 
   askAgereturn(Value, index) {
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, } = this.state;
     let imageOptions = this.getImageOption()
     return <AskAge
       option={imageOptions}
@@ -1521,7 +1505,7 @@ export default class ModuleManagerIDE extends React.Component {
   }
 
   askGenderReturn(Value, index) {
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, } = this.state;
     let imageOptions = this.getImageOption()
     return <AskGender
       option={imageOptions}
@@ -1626,8 +1610,8 @@ export default class ModuleManagerIDE extends React.Component {
       if (!sectionLearning[index]) {
         return false
       }
-      if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage" || sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
-        if (sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label == "Image") {
+      if (sectionLearning[index].theme === "DoubleBoxOverlapWithImage" || sectionLearning[index].theme === "DoubleBoxUnderWithImage") {
+        if (sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label === "Image") {
           let imageOptions = this.getImageOption()
           chooseDataview = <>
             <div className="mt-2">
@@ -1651,7 +1635,6 @@ export default class ModuleManagerIDE extends React.Component {
             </div>
             <div className="mt-2">
               <label htmlFor="text">Image Style</label>
-
               <textarea rows="1" cols="50" className="form-control" placeholder="style"
                 value={sectionLearning[index].content.imagestyle}
                 onChange={e => {
@@ -1666,17 +1649,6 @@ export default class ModuleManagerIDE extends React.Component {
             </div>
             <div className="mt-2">
               <label htmlFor="text">Image ClassName</label>
-
-              {/* <input type="text" className="form-control" placeholder="classname"
-                value={sectionLearning[index].content.imageclassname}
-                onChange={e => {
-                  sectionLearning[index].content.imageclassname = e.target.value;
-                  this.setState({
-                    sectionLearning
-                  }, () => {
-                    this.historyCapture();
-                  })
-                }} /> */}
               <ClassNameSelect
                 value={sectionLearning[index].content.imageclassname}
                 onChange={e => {
@@ -1714,16 +1686,7 @@ export default class ModuleManagerIDE extends React.Component {
 
             <div className="mt-2">
               <label htmlFor="Text">Class Name</label>
-              {/* <input type="text" className="form-control" placeholder="Class Name"
-                value={sectionLearning[index].content.nameClassName}
-                onChange={e => {
-                  sectionLearning[index].content.nameClassName = e.target.value;
-                  this.setState({
-                    sectionLearning
-                  }, () => {
-                    this.historyCapture();
-                  })
-                }} /> */}
+
               <ClassNameSelect
                 value={sectionLearning[index].content.nameClassName}
                 onChange={e => {
@@ -1739,7 +1702,7 @@ export default class ModuleManagerIDE extends React.Component {
           </>
 
         }
-        else if (Object.keys(sectionLearning[index]).length != 0 && sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label == "Video") {
+        else if (Object.keys(sectionLearning[index]).length !== 0 && sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label === "Video") {
           chooseDataview = <>
             <div className="mt-2">
               <label htmlFor="Video">Video</label>
@@ -1755,7 +1718,7 @@ export default class ModuleManagerIDE extends React.Component {
         }
       }
       let ThemeChooseData = "";
-      if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage") {
+      if (sectionLearning[index].theme === "DoubleBoxOverlapWithImage") {
         ThemeChooseData = <>
           {selectBoxConditon}
           <div className="mt-2">
@@ -1791,7 +1754,7 @@ export default class ModuleManagerIDE extends React.Component {
           {chooseDataview}
         </>
       }
-      else if (sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
+      else if (sectionLearning[index].theme === "DoubleBoxUnderWithImage") {
         ThemeChooseData = <>
           {selectBoxConditon}
           <div className="col-sm-3 topalign">
@@ -1843,41 +1806,41 @@ export default class ModuleManagerIDE extends React.Component {
         </>
 
       }
-      else if (sectionLearning[index].theme == "ImageWithThinking") {
+      else if (sectionLearning[index].theme === "ImageWithThinking") {
 
         ThemeChooseData = <> {this.return_Content_doublebox(sectionLearning[index].theme, index)} </>
       }
-      else if (sectionLearning[index].theme == "QuestionsList") {
+      else if (sectionLearning[index].theme === "QuestionsList") {
 
         ThemeChooseData = <> {this.return_qustioncontent(sectionLearning[index].theme, index)}  </>
 
       }
-      else if (sectionLearning[index].theme == "IntroducePersons") {
+      else if (sectionLearning[index].theme === "IntroducePersons") {
         ThemeChooseData = <> {this.return_Content_introduce(sectionLearning[index].theme, index)}  </>
 
       }
-      else if (sectionLearning[index].theme == "ChooseCheckboxQuestions") {
+      else if (sectionLearning[index].theme === "ChooseCheckboxQuestions") {
         ThemeChooseData = <> {this.return_Content_choose_checkbox(sectionLearning[index].theme, index)}  </>
       }
-      else if (sectionLearning[index].theme == "CircleWithInfoAnimations") {
+      else if (sectionLearning[index].theme === "CircleWithInfoAnimations") {
         ThemeChooseData = <> {this.return_content_circle(sectionLearning[index].theme, index, false)}  </>
       }
-      else if (sectionLearning[index].theme == "MeetSinglePerson") {
+      else if (sectionLearning[index].theme === "MeetSinglePerson") {
         ThemeChooseData = <> {this.MeetSinglePersonFunction(sectionLearning[index].theme, index)}  </>
       }
-      else if (sectionLearning[index].theme == "AudioQuizScreen") {
+      else if (sectionLearning[index].theme === "AudioQuizScreen") {
         ThemeChooseData = <> {this.return_content_audioscreen(sectionLearning[index].theme, index)}  </>
       }
-      else if (sectionLearning[index].theme == "DropToSelection") {
+      else if (sectionLearning[index].theme === "DropToSelection") {
         ThemeChooseData = <> {this.return_content_circle(sectionLearning[index].theme, index, true)}  </>
       }
-      else if (sectionLearning[index].theme == "SingleTextImage") {
+      else if (sectionLearning[index].theme === "SingleTextImage") {
         ThemeChooseData = <> {this.SingleTextImageReturn(sectionLearning[index].theme, index)}  </>
       }
-      else if (sectionLearning[index].theme == "Ask Age") {
+      else if (sectionLearning[index].theme === "Ask Age") {
         ThemeChooseData = <> {this.askAgereturn(sectionLearning[index].theme, index)}  </>
       }
-      else if (sectionLearning[index].theme == "Ask Gender") {
+      else if (sectionLearning[index].theme === "Ask Gender") {
         ThemeChooseData = <> {this.askGenderReturn(sectionLearning[index].theme, index)}  </>
       }
 
@@ -1906,10 +1869,11 @@ export default class ModuleManagerIDE extends React.Component {
             <div className="col-sm-2">
 
               {this.state.imageView[index] && this.state.imageView[index] ?
-                <img style={{ width: '100%', height: 100 }}
-                  src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView[index].json.image.fileName + "&id=" + this.state.imageView[index].json.image.fileType}
-
-                  alt={'No Image'} className="img-responsive" onClick={() => {
+                <img className={"img-responsive"}
+                  style={{ width: '100%', height: 100 }}
+                  src={MyConstant.keyList.apiURL + 'vp?action=module&key=' + this.state.imageView[index].json.image.fileName + '&id=' + this.state.imageView[index].json.image.fileType}
+                  alt={'loading'}
+                  onClick={() => {
                     this.setState({ imageBigView: this.state.imageView[index], displayImage: 'block' })
                   }} />
                 : null}
@@ -1918,28 +1882,25 @@ export default class ModuleManagerIDE extends React.Component {
             <div className="col-sm-4 d-flex">
               <div style={{ fontWeight: "bold", color: "#00008b" }}> Theme {index + 1}</div>
               <div className="pl-2" >
-                {index == '0' && sectionLearning.length - 1 != 0 ?
+                {index === '0' && sectionLearning.length - 1 !== 0 ?
                   <React.Fragment>
                     <span onClick={() => { this.indexChange(index, "Down") }} >
-                      {/* <img src={downArrow} style={{width:30,height:30}}/> */}
                       <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                     </span>
                   </React.Fragment>
-                  : sectionLearning.length - 1 != 0 && sectionLearning.length - 1 == index ?
+                  : sectionLearning.length - 1 !== 0 && sectionLearning.length - 1 === index ?
                     <React.Fragment>
                       <span onClick={() => { this.indexChange(index, "Up") }}>
-                        {/* <img src={upArrow} style={{width:30,height:30}}/>  */}
                         <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
 
                       </span>
                     </React.Fragment>
-                    : sectionLearning.length - 1 != 0 ? <React.Fragment>
+                    : sectionLearning.length - 1 !== 0 ? <React.Fragment>
                       <span style={{ padding: 4 }} onClick={() => { this.indexChange(index, "Up") }}>
-                        {/* <img src={upArrow} style={{width:30,height:30}}/> */}
                         <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                       </span>
                       <span style={{ padding: 4 }} onClick={() => { this.indexChange(index, "Down") }}>
-                        {/* <img src={downArrow} style={{width:30,height:30}}/>  */}
+
                         <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                       </span>
                     </React.Fragment>
@@ -1965,7 +1926,7 @@ export default class ModuleManagerIDE extends React.Component {
             </div>
           </div>
 
-          {sectionLearning[index].themeType && sectionLearning[index].themeType == "Dynamic" && <div className='row pl-4'>
+          {sectionLearning[index].themeType && sectionLearning[index].themeType === "Dynamic" && <div className='row pl-4'>
             <div className="col-sm-4">
               <div className='form-group'>
                 <div> Background Audio</div>
@@ -2021,7 +1982,7 @@ export default class ModuleManagerIDE extends React.Component {
                       }}
                     />
 
-                    {sectionLearning[index].title.length == 0 ?
+                    {sectionLearning[index].title.length === 0 ?
                       <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index].errorTitle}</span>
                       : null}
 
@@ -2039,23 +2000,23 @@ export default class ModuleManagerIDE extends React.Component {
       if (!sectionBuildStory[jindex]) {
         return false
       }
-      if (sectionBuildStory[jindex].theme == "StoryCard" && sectionBuildStory[jindex].theme.length != 0 && Object.keys(sectionBuildStory[jindex].content).length != 0) {
+      if (sectionBuildStory[jindex].theme === "StoryCard" && sectionBuildStory[jindex].theme.length !== 0 && Object.keys(sectionBuildStory[jindex].content).length !== 0) {
         storyCardContent = this.StoryCardReturnData(sectionBuildStory, jindex)
       }
-      else if (sectionBuildStory[jindex].theme == "Ask Age") {
+      else if (sectionBuildStory[jindex].theme === "Ask Age") {
         storyCardContent = this.theme_AgeReturn(sectionBuildStory[jindex].theme, jindex)
       }
-      else if (sectionBuildStory[jindex].theme == "Ask Gender") {
+      else if (sectionBuildStory[jindex].theme === "Ask Gender") {
         storyCardContent = this.theme_GenderReturn(sectionBuildStory[jindex].theme, jindex)
       }
 
-      if (Object.keys(sectionBuildStory[jindex]).length != 0) {
+      if (Object.keys(sectionBuildStory[jindex]).length !== 0) {
         titleContentVew = <>
           <div className="row" style={{ padding: 20, }}>
             <div className="col-sm-1 "> Title  </div>
             <div className="col-sm-4">
 
-              {sectionBuildStory[jindex].theme && sectionBuildStory[jindex].theme != "StoryCard" ?
+              {sectionBuildStory[jindex].theme && sectionBuildStory[jindex].theme !== "StoryCard" ?
                 <>
                   <EditorContent text={sectionBuildStory[jindex].title} themeType={sectionBuildStory[jindex].theme}
                     index={jindex}
@@ -2106,7 +2067,7 @@ export default class ModuleManagerIDE extends React.Component {
             <div className="col-sm-2"></div>
             <div className="col-sm-1"> <p style={{ fontWeight: "bold", color: "#00008b" }}> Theme {jindex + 1}</p> </div>
             <div className="col-sm-1">
-              {jindex == '0' && sectionBuildStory.length - 1 != 0 ?
+              {jindex === '0' && sectionBuildStory.length - 1 !== 0 ?
                 <React.Fragment>
                   <span onClick={() => {
                     this.storySwaping(jindex, "Down")
@@ -2114,7 +2075,7 @@ export default class ModuleManagerIDE extends React.Component {
                     <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                   </span>
                 </React.Fragment>
-                : sectionBuildStory.length - 1 != 0 && sectionBuildStory.length - 1 == jindex ?
+                : sectionBuildStory.length - 1 !== 0 && sectionBuildStory.length - 1 === jindex ?
                   <React.Fragment>
                     <span
                       onClick={() => {
@@ -2125,11 +2086,10 @@ export default class ModuleManagerIDE extends React.Component {
 
                     </span>
                   </React.Fragment>
-                  : sectionBuildStory.length - 1 != 0 ? <React.Fragment>
+                  : sectionBuildStory.length - 1 !== 0 ? <React.Fragment>
                     <span style={{ padding: 4 }} onClick={() => {
                       this.storySwaping(jindex, "Up")
                     }}>
-                      {/* <img src={upArrow} style={{width:30,height:30}}/> */}
                       <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
                     </span>
                     <span style={{ padding: 4 }} onClick={() => {
@@ -2296,6 +2256,7 @@ export default class ModuleManagerIDE extends React.Component {
         case "video":
           builder = <VideoForm layerActive={layerActive} layers={layers} videoOptions={this.getVideoOption()} setValue={this.setValue} />
           break;
+        default:
       }
     }
     return builder;
@@ -2397,7 +2358,7 @@ export default class ModuleManagerIDE extends React.Component {
             height: parseInt((layer.height / 100) * deviceHeight) + "px",
           }} key={index}
         >
-          <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+          <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
         </div>
         break;
       case "video":
@@ -2417,6 +2378,7 @@ export default class ModuleManagerIDE extends React.Component {
           </video>
         </div>
         break;
+      default:
     }
     return builder;
   }
@@ -2473,9 +2435,6 @@ export default class ModuleManagerIDE extends React.Component {
         content = <>
           <div className='zipfile-center'><i class="fa fa-file-zip-o"></i>
           </div>
-          {/* <div style={{ position: "absolute", top: "85%", left: "85%", width: "12%", height: "64px" }}>
-            <img src={outlineRightIcon} style={{ width: "100%", height: "100%" }} />
-          </div> */}
         </>
       }
       else {
@@ -2646,6 +2605,7 @@ export default class ModuleManagerIDE extends React.Component {
 
     sectionLearning.map((theme) => {
       stages.push(theme)
+      return true;
     })
     sectionBuildStory.map((theme) => {
       if (theme.theme === "Dynamic Theme") {
@@ -2656,6 +2616,7 @@ export default class ModuleManagerIDE extends React.Component {
       } else {
         stages.push(theme)
       }
+      return true;
     })
 
     this.setState({
@@ -2686,6 +2647,7 @@ export default class ModuleManagerIDE extends React.Component {
       } else if (key.includes("story-")) {
         sectionBuildStory.push(json);
       }
+      return true;
     })
 
     this.setState({
@@ -2702,6 +2664,7 @@ export default class ModuleManagerIDE extends React.Component {
     Object.keys(this.state.levelsJson).map((ival, index) => {
       let levelData = this.state.levelsJson[ival];
       levelOption.push({ value: levelData.id, label: levelData.name, })
+      return true;
     });
 
 
@@ -2719,19 +2682,7 @@ export default class ModuleManagerIDE extends React.Component {
                     <div className="x_title">
                       <h2>Module Management</h2>
                       <ToastContainer />
-                      {/* <ul className="nav navbar-right panel_toolbox">
-                        <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li className="dropdown">
-                          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
-                          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a className="dropdown-item" href="#">Settings 1</a>
-                            <a className="dropdown-item" href="#">Settings 2</a>
-                          </div>
-                        </li>
-                        <li><a className="close-link"><i className="fa fa-close"></i></a>
-                        </li>
-                      </ul> */}
+
                       <div className="clearfix"></div>
                     </div>
                     <div className="x_content">
@@ -2739,7 +2690,6 @@ export default class ModuleManagerIDE extends React.Component {
 
 
                       <div className="row item form-group" style={{ marginTop: 20 }}>
-
                         <div className="col-sm-1">Module</div>
                         <div className="col-sm-5">
                           <DropDown
@@ -2837,7 +2787,7 @@ export default class ModuleManagerIDE extends React.Component {
                         }}  >&times;</span>
                         {this.state.imageBigView ?
 
-                          <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" />
+                          <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" alt="loading" />
 
                           : null}
 

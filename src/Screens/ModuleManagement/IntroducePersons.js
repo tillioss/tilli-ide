@@ -1,31 +1,22 @@
 import React from 'react';
-import CloseImage from "../../../src/images/close.png";
 import DropDown from "../../Component/DropDown";
 import EditorContent from "../EditorContent"
 import ClassNameSelect from './Component/ClassNameSelect';
 
 
-
 class IntroducePersons extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {}
 
   }
   render() {
-
     const { LevelStage, OptionSelect, sectionLearning, index_1, option, editable } = this.props;
     return (<div>{
       sectionLearning[index_1].content.persons.map((ival, index) => {
-        return <div className="mb-2" style={{backgroundColor:"#eee", padding: 10}}>
+        return <div className="mb-2" style={{ backgroundColor: "#eee", padding: 10 }}>
           <div className="form-group">
             <label for="text">Person name</label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'Person name'} style={{ width: '100%' }} value={ival.name}
-                onChange={(e) => {
-                  sectionLearning[index_1].content.persons[index].name = e.target.value;
-                  this.setState({ LevelStage, sectionLearning })
-                }} /> */}
 
             <EditorContent
               text={sectionLearning[index_1].content.persons[index].name}
@@ -44,27 +35,22 @@ class IntroducePersons extends React.Component {
           </div>
           <div className="form-group">
             <label>Class Name</label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'nameClassName'} style={{ width: '100%' }} value={sectionLearning[index_1].content.persons[index].nameClassName}
-              onChange={(e) => {
-                sectionLearning[index_1].content.persons[index].nameClassName = e.target.value;
+
+            <ClassNameSelect
+              value={sectionLearning[index_1].content.className}
+              onChange={e => {
+                sectionLearning[index_1].content.persons[index].nameClassName = e;
                 this.setState({ LevelStage, sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionLearning[index_1].content.className}
-                  onChange={e => {
-                    sectionLearning[index_1].content.persons[index].nameClassName = e;
-                    this.setState({ LevelStage, sectionLearning })
-                    this.props.setValue(sectionLearning);
-                  }}
-              />
+              }}
+            />
           </div>
 
           <div className="form-group">
             <label for="text">Image Background Color</label>
-            <input type={'color'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'image Bg'} style={{ width: '100%' }} value={ival.imageBg}
+            <input type={'color'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'image Bg'} style={{ width: '100%' }} value={ival.imageBg}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionLearning[index_1].content.persons[index].imageBg = e.target.value;
                   this.setState({ LevelStage, sectionLearning })
                   this.props.setValue(sectionLearning);
@@ -75,9 +61,9 @@ class IntroducePersons extends React.Component {
 
           <div className="form-group">
             <label for="text">Text Background Color</label>
-            <input type={'color'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Background color'} style={{ width: '100%' }} value={ival.bg}
+            <input type={'color'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Background color'} style={{ width: '100%' }} value={ival.bg}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionLearning[index_1].content.persons[index].bg = e.target.value;
                   this.setState({ LevelStage, sectionLearning })
                   this.props.setValue(sectionLearning);
@@ -112,7 +98,7 @@ class IntroducePersons extends React.Component {
                 { label: sectionLearning[index_1].content.persons[index].image.title, value: sectionLearning[index_1].content.persons[index].image.title }
                 : { label: 'Select', value: 'Select' }}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   OptionSelect[index_1] = e
                   sectionLearning[index_1].content.persons[index].image = e.json;
                   this.props.setValue(sectionLearning);
@@ -120,7 +106,7 @@ class IntroducePersons extends React.Component {
                 }
               }}
               options={option}
-              isDisabled={editable == "false" ? true : false}
+              isDisabled={editable === "false" ? true : false}
             />
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{ival.error_image}</span>
           </div>
@@ -137,21 +123,15 @@ class IntroducePersons extends React.Component {
           </div>
           <div className="form-group">
             <label for="text">Image ClassName</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.imageclassname}
               onChange={e => {
-                sectionLearning[index_1].content.imageclassname = e.target.value;
+                sectionLearning[index_1].content.imageclassname = e;
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionLearning[index_1].content.imageclassname}
-                  onChange={e => {
-                    sectionLearning[index_1].content.imageclassname = e;
-                    this.setState({ sectionLearning })
-                    this.props.setValue(sectionLearning);
-                  }}
-                />
+              }}
+            />
           </div>
         </div>
       })
