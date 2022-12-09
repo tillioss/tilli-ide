@@ -44,18 +44,16 @@ export default class Preview extends React.Component {
     }
 
     changeStage = (action, currentStage, Type) => {
-        if (action == 'Next') {
+        if (action === 'Next') {
             let { moduleJson } = this.state;
             let stages = moduleJson.stages;
-            let scoreBordScreen = false
 
-            if (currentStage == stages.length) {
+            if (currentStage === stages.length) {
                 // this.completeFinalStage();
             } else {
                 this.setState({ stage: currentStage + 1, PreviousPages: false });
             }
-        } else if (action == 'Previous') {
-            let { moduleJson } = this.state;
+        } else if (action === 'Previous') {
             let scoreBordScreen = false
             this.setState({ stage: currentStage - 1, PreviousPages: true, scorePointsView: scoreBordScreen });
         }
@@ -70,33 +68,7 @@ export default class Preview extends React.Component {
     }
 
     changeScreen(action, cstage) {
-
-        let { moduleJson } = this.state
-        let stages = moduleJson.stages;
-        let scorePoint = true
-
-
         this.changeStage("Next", cstage)
-
-        // if (stages && stages[cstage] && stages[cstage].theme) {
-        //     let findNextThemeIndex = cstage
-        //     let getUserGender = localStorage.getItem("userGender")
-        //     let getUserAge = localStorage.getItem("userAge")
-        //     if (stages[findNextThemeIndex].theme == "Ask Age" || stages[findNextThemeIndex].theme == "Ask Gender") {
-        //         if (action != "Previous" && getUserAge == "" || getUserGender == "") {
-        //             scorePoint = false
-        //             this.changeStage("Next", cstage, true)
-        //         }
-        //         if (action == "Next") {
-        //             cstage = cstage + 1
-        //         }
-        //         else if (action == "Previous") {
-        //             scorePoint = true
-        //         }
-        //     }
-        // }
-
-        // this.setState({ scoreCurrentStage: action == "Previous" ? cstage - 1 : cstage, scorePointsView: scorePoint })
     }
 
 
@@ -110,7 +82,7 @@ export default class Preview extends React.Component {
         let visible;
         let hidden;
         let currentStage;
-        switch(action) {
+        switch (action) {
             case "Next":
                 this.changeStage("Next", stage);
                 break;
@@ -118,27 +90,32 @@ export default class Preview extends React.Component {
                 this.changeStage("Previous", stage);
                 break;
             case "Change Layout":
-                 visible = layer.layers.visible;
-                 hidden = layer.layers.hidden;
+                visible = layer.layers.visible;
+                hidden = layer.layers.hidden;
                 currentStage = parseInt(stage - 1);
-                visible.map((row)=> {
+                visible.map((row) => {
                     moduleJson.stages[currentStage].layers[row].visibility = "visible";
+                    return true;
                 })
-                hidden.map((row)=> {
+                hidden.map((row) => {
                     moduleJson.stages[currentStage].layers[row].visibility = "hidden";
+                    return true;
                 })
                 break;
             case "Checked Layout":
                 visible = layer.layers.visible;
                 hidden = layer.layers.hidden;
                 currentStage = parseInt(stage - 1);
-                visible.map((row)=> {
+                visible.map((row) => {
                     moduleJson.stages[currentStage].layers[row].visibility = moduleJson.stages[currentStage].layers[row].visibility === "hidden" ? "visible" : "hidden";
+                    return true;
                 })
-                hidden.map((row)=> {
+                hidden.map((row) => {
                     moduleJson.stages[currentStage].layers[row].visibility = moduleJson.stages[currentStage].layers[row].visibility === "hidden" ? "visible" : "hidden";
+                    return true;
                 })
                 break;
+            default:
         }
 
         this.setState({
@@ -176,7 +153,7 @@ export default class Preview extends React.Component {
                 builder = <GroupedInput dynamicThemeAction={this.dynamicThemeAction} deviceHeight={deviceHeight} index={index} layer={layer} />
                 break;
             case "labelAnimation":
-                builder = <LabelAnimation dynamicThemeAction={this.dynamicThemeAction}  deviceHeight={deviceHeight} index={index} layer={layer} />
+                builder = <LabelAnimation dynamicThemeAction={this.dynamicThemeAction} deviceHeight={deviceHeight} index={index} layer={layer} />
                 break;
             case "dragAndDrop":
                 builder = <DragAndDrop dynamicThemeAction={this.dynamicThemeAction} deviceHeight={deviceHeight} index={index} layer={layer} />
@@ -200,7 +177,7 @@ export default class Preview extends React.Component {
                     onClick={() => {
                         this.dynamicThemeAction(layer)
                     }}
-                    >
+                >
                 </div>
                 break;
             case "circle":
@@ -222,7 +199,7 @@ export default class Preview extends React.Component {
                     onClick={() => {
                         this.dynamicThemeAction(layer)
                     }}
-                    >
+                >
                 </div>
                 break;
             case "text":
@@ -239,7 +216,7 @@ export default class Preview extends React.Component {
                     onClick={() => {
                         this.dynamicThemeAction(layer)
                     }}
-                    >
+                >
                 </div>
                 break;
             case "image":
@@ -252,12 +229,12 @@ export default class Preview extends React.Component {
                         left: layer.x + "%",
                         width: layer.width + "%",
                         height: parseInt((layer.height / 100) * deviceHeight) + "px",
-                    }} key={index} 
+                    }} key={index}
                     onClick={() => {
                         this.dynamicThemeAction(layer)
                     }}
-                    >
-                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+                >
+                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
                 </div>
                 break;
             case "video":
@@ -274,12 +251,13 @@ export default class Preview extends React.Component {
                     onClick={() => {
                         this.dynamicThemeAction(layer)
                     }}
-                    >
+                >
                     <video style={{ width: "100%", height: "100%" }} >
                         <source src={layer.video ? layer.video : drag_drop} />
                     </video>
                 </div>
                 break;
+            default:
         }
         return builder;
     }
@@ -291,19 +269,19 @@ export default class Preview extends React.Component {
         let trustPointText = "";
         if (this.state.moduleJson) {
             this.state.moduleJson.stages.map((kval, k) => {
-                if (kval.theme == "StoryCard") {
+                if (kval.theme === "StoryCard") {
                     storyCount = storyCount + 1
                 }
-
                 if (kval.storyPoints) {
                     totalPoint = totalPoint + kval.storyPoints
                 }
+                return true
             })
         }
 
         let displayPage = this.state.moduleJson && this.state.moduleJson.stages.map((stage, index) => {
             let stageIndex = parseInt(index) + 1;
-            if (this.state.stage == stageIndex) {
+            if (this.state.stage === stageIndex) {
                 let themeType = stage.themeType;
                 let layers = stage.layers;
                 if (themeType === "Dynamic" || (layers !== undefined && layers.length > 0)) {
@@ -318,7 +296,7 @@ export default class Preview extends React.Component {
                             })
                         }
                     </div>
-                } 
+                }
                 else if (themeType === "godot") {
                     return <>
                         <div className='zipfile-center'><i class="fa fa-file-zip-o"></i>
@@ -327,7 +305,7 @@ export default class Preview extends React.Component {
                             <div style={{ position: "absolute", top: "85%", left: "85%", width: "12%", height: "64px" }}>
                                 <img src={outlineRightIcon} style={{ width: "100%", height: "100%" }} onClick={() => {
                                     this.changeStage("Next", this.state.stage);
-                                }} />
+                                }} alt="loading" />
                             </div>
                         }
 
@@ -586,9 +564,12 @@ export default class Preview extends React.Component {
                                     />
                                 </div>
                             );
+                        default:
                     }
                 }
             }
+
+            return true
         });
 
         return <div className="smartphone">
