@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from 'html-to-draftjs';
@@ -46,7 +46,7 @@ class EditorContent extends React.Component {
 
     let editorContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
-    if (themeType == "IntroducePersons") {
+    if (themeType === "IntroducePersons") {
       if (says) {
         sectionLearning[index].content.persons[secondindex].says = editorContent
       }
@@ -55,10 +55,10 @@ class EditorContent extends React.Component {
       }
 
     }
-    else if (themeType == "AudioQuizScreen") {
+    else if (themeType === "AudioQuizScreen") {
       sectionLearning[index].content.feelingsDataList[secondindex].questions = editorContent
     }
-    else if (themeType == "ChooseCheckboxQuestions") {
+    else if (themeType === "ChooseCheckboxQuestions") {
       if (content) {
         sectionLearning[index].content.checkBoxesOption[secondindex].content = editorContent
       }
@@ -67,7 +67,7 @@ class EditorContent extends React.Component {
       }
 
     }
-    else if (themeType == "QuestionsList") {
+    else if (themeType === "QuestionsList") {
       if (questionTitle) {
         sectionLearning[index].content.questionTitle = editorContent
       }
@@ -76,13 +76,13 @@ class EditorContent extends React.Component {
       }
 
     }
-    else if (themeType == "CircleWithInfoAnimations") {
+    else if (themeType === "CircleWithInfoAnimations") {
       if (value) {
         sectionLearning[index].content.text[secondindex].value = editorContent
       } else if (name) {
         sectionLearning[index].content.circles[secondindex].name = editorContent
       }
-    } else if (themeType == "DropToSelection") {
+    } else if (themeType === "DropToSelection") {
       if (text1) {
         sectionLearning[index].content.text1 = editorContent
       }
@@ -93,7 +93,7 @@ class EditorContent extends React.Component {
         sectionLearning[index].content.circles[secondindex].name = editorContent
       }
 
-    } else if (themeType == "MeetSinglePerson") {
+    } else if (themeType === "MeetSinglePerson") {
       if (body) {
         sectionLearning[index].content.body = editorContent
       }
@@ -106,7 +106,7 @@ class EditorContent extends React.Component {
       else if (bottomText) {
         sectionLearning[index].content.bottomText = editorContent
       }
-    } else if (themeType == "StoryMeetSinglePerson") {
+    } else if (themeType === "StoryMeetSinglePerson") {
       if (body) {
         sectionBuildStory[index].content[secondindex].content.body = editorContent
       }
@@ -119,9 +119,9 @@ class EditorContent extends React.Component {
       else if (bottomText) {
         sectionBuildStory[index].content[secondindex].content.bottomText = editorContent
       }
-    } else if (themeType == "StoryAudioQuizScreen") {
+    } else if (themeType === "StoryAudioQuizScreen") {
       sectionBuildStory[index].content[secondindex].content.feelingsDataList[thirdindex].questions = editorContent
-    } else if (themeType == "StoryDropToSelection") {
+    } else if (themeType === "StoryDropToSelection") {
       if (text1) {
         sectionBuildStory[index].content[secondindex].content.text1 = editorContent
       }
@@ -131,24 +131,24 @@ class EditorContent extends React.Component {
       else if (name) {
         sectionBuildStory[index].content[secondindex].content.circles[thirdindex].name = editorContent
       }
-    } else if (themeType == "TitleText") {
-      if (typeContent == "StoryThemeTitle") {
+    } else if (themeType === "TitleText") {
+      if (typeContent === "StoryThemeTitle") {
         sectionBuildStory[index].content[secondindex].title = editorContent
       }
       else {
         sectionLearning[index].title = editorContent
       }
     }
-    else if (themeType == "SingleTextImagePage") {
+    else if (themeType === "SingleTextImagePage") {
       sectionLearning[index].content.bottomtext = editorContent
-    } else if (themeType == "Ask Gender" || themeType == "Ask Age") {
+    } else if (themeType === "Ask Gender" || themeType === "Ask Age") {
       this.props.textOnchange(editorContent)
     } else {
       sectionLearning[index].content.text = editorContent
     }
 
-    
-    if(typeof this.props.textOnchange !== "undefined") {
+
+    if (typeof this.props.textOnchange !== "undefined") {
       this.props.textOnchange(editorContent)
     }
 

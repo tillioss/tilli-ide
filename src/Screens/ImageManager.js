@@ -9,8 +9,8 @@ import {
 } from '../config/Common';
 import DataTable from "../Component/DataTable";
 import MyConstant from "../config/MyConstant";
-import TopMenu from '../Screens/Menu/TopMenu';
-import SideMenu from '../Screens/Menu/SideMenu';
+import { Link } from "react-router-dom";
+
 
 
 const fileTypeOption = [{ value: 'image', label: 'Image' }, {
@@ -51,7 +51,7 @@ class ImageManager extends React.Component {
         const { selectedOption, title } = this.state;
         //console.log(selectedOption ,title,this.state.fileObj )
 
-        if (title.trim() == "") {
+        if (title.trim() === "") {
             this.setState({ titleValidatation: 'Please Enter Title ' })
             return false
 
@@ -86,7 +86,7 @@ class ImageManager extends React.Component {
         //  console.log('checking',extension_Type_Image.includes(Extension))
 
 
-        if (this.state.selectedOption.value == "image") {
+        if (this.state.selectedOption.value === "image") {
             if (!extension_Type_Image.includes(Extension)) {
 
                 this.setState({ imageValidatation: 'Please Choose Image Format ' })
@@ -97,7 +97,7 @@ class ImageManager extends React.Component {
 
         let extension_Type_Video = ['mp4'];
 
-        if (this.state.selectedOption.value == 'video') {
+        if (this.state.selectedOption.value === 'video') {
             if (!extension_Type_Video.includes(Extension)) {
 
                 this.setState({ imageValidatation: 'Please Choose Video Format ' })
@@ -108,7 +108,7 @@ class ImageManager extends React.Component {
 
         let extension_Type_Gif = ["gif"];
 
-        if (this.state.selectedOption.value == 'gif') {
+        if (this.state.selectedOption.value === 'gif') {
             if (!extension_Type_Gif.includes(Extension)) {
 
                 this.setState({ imageValidatation: 'Please Choose Gif Format ' })
@@ -119,7 +119,7 @@ class ImageManager extends React.Component {
 
         let extension_Type_Audio = ['mp3'];
 
-        if (this.state.selectedOption.value == 'audio') {
+        if (this.state.selectedOption.value === 'audio') {
             if (!extension_Type_Audio.includes(Extension)) {
 
                 this.setState({ imageValidatation: 'Please Choose audio Format ' })
@@ -139,7 +139,7 @@ class ImageManager extends React.Component {
         let responseData = await doConnect("addGameFile", "POST", postJson);
         var json = responseData;
         var response = json.response;
-        if (response == 'Success') {
+        if (response === 'Success') {
             toast.success('Added data !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -180,7 +180,7 @@ class ImageManager extends React.Component {
         let responseData = await doConnect("updateGameFile", "POST", postJson);
         var json = responseData;
         var response = json.response;
-        if (response == 'Success') {
+        if (response === 'Success') {
             toast.success('Added data !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -203,7 +203,7 @@ class ImageManager extends React.Component {
     async deleteGameFile(fileId) {
         let postJson = { sessionId: '1223', fileId: fileId };
         let responseData = await doConnect("deleteGameFile", "POST", postJson);
-        if (responseData.response == 'Success') {
+        if (responseData.response === 'Success') {
             toast.success(' Data deleted !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -245,7 +245,7 @@ class ImageManager extends React.Component {
 
                     <React.Fragment>
                         <div id={row.id}>
-                            {row.fileType == "image" || row.fileType == "gif" ?
+                            {row.fileType === "image" || row.fileType === "gif" ?
                                 <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + row.fileName + "&id=" + row.fileType} width="75" height="75" alt="loading..."
                                     onClick={async () => {
 
@@ -253,7 +253,7 @@ class ImageManager extends React.Component {
 
                                     }} />
                                 :
-                                row.fileType == "video" ?
+                                row.fileType === "video" ?
                                     <React.Fragment>
                                         <video width="100" height="100" controls>
                                             <source src={MyConstant.keyList.apiURL + "vp?action=module&key=" + row.fileName + "&id=" + row.fileType} type="video/mp4" />
@@ -309,6 +309,7 @@ class ImageManager extends React.Component {
         let data = [];
         Object.keys(this.state.fileData).map((ival, index) => {
             data.push(this.state.fileData[ival])
+            return true
         })
 
         return (
@@ -326,16 +327,16 @@ class ImageManager extends React.Component {
                                         <div className="x_title">
                                             <h2>Plain Page</h2>
                                             <ul className="nav navbar-right panel_toolbox">
-                                                <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                                <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                                 </li>
                                                 <li className="dropdown">
-                                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                    <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a className="dropdown-item" href="#">Settings 1</a>
-                                                        <a className="dropdown-item" href="#">Settings 2</a>
+                                                        <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                        <Link className="dropdown-item" to="#">Settings 2</Link>
                                                     </div>
                                                 </li>
-                                                <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                                <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                                 </li>
                                             </ul>
                                             <div className="clearfix"></div>
@@ -347,7 +348,7 @@ class ImageManager extends React.Component {
                                             <ToastContainer />
 
 
-                                            {this.state.actionType == "add" ?
+                                            {this.state.actionType === "add" ?
                                                 <div>
                                                     <div className="row item form-group" style={{ marginTop: 20 }}>
                                                         <div className="col-sm-1">Title </div>
@@ -383,17 +384,15 @@ class ImageManager extends React.Component {
                                                             <input type="file" onChange={async (event) => {
                                                                 var files = event.target.files;
                                                                 var length = files.length;
-                                                                var urlfile = ''
+
                                                                 if (length > 0) {
                                                                     for (var i = 0; i < length; i++) {
                                                                         var fileUrl = URL.createObjectURL(files[i]);
                                                                         var file = files[i];
                                                                         var filename = file.name;
                                                                         var ext = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
-                                                                        // if(file.type == "image/jpeg"){
-                                                                        //     ext = "jpeg";
-                                                                        // }
-                                                                        urlfile = fileUrl
+
+
                                                                         var uid = uuidv4();
                                                                         var fileObj = {
                                                                             file: file,
@@ -423,7 +422,7 @@ class ImageManager extends React.Component {
                                                     <div className="row item form-group" style={{ marginTop: 20 }}>
                                                         <div className="col-sm-1"> </div>
                                                         <div className="col-sm-3">
-                                                            <button className="buttonload" type="button" className="btn btn-primary" disabled={this.state.enableLoader} onClick={() => this.submitFunction()} >
+                                                            <button className="buttonload btn btn-primary" type="button" disabled={this.state.enableLoader} onClick={() => this.submitFunction()} >
                                                                 {this.state.enableLoader ? <i className="fa fa-spinner fa-spin"></i> : null} Submit</button>
                                                         </div>
                                                         <div className="col-sm-8"> </div>
@@ -459,7 +458,7 @@ class ImageManager extends React.Component {
 
                                             <div className="row">
 
-                                                {data.length != 0 ?
+                                                {data.length !== 0 ?
                                                     <DataTable
                                                         title=""
                                                         columns={columns}
@@ -486,7 +485,7 @@ class ImageManager extends React.Component {
                                                 }}  >&times;</span>
                                                 {this.state.imageView ?
 
-                                                    <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView.fileName + "&id=" + this.state.imageView.fileType} className="modal-content_image" id="img01" />
+                                                    <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView.fileName + "&id=" + this.state.imageView.fileType} className="modal-content_image" id="img01" alt='loading' />
 
                                                     : null}
 

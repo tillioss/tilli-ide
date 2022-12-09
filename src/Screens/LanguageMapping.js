@@ -1,10 +1,8 @@
 import React from "react";
 import DropDown from "../Component/DropDown";
-import MyConstant from "../config/MyConstant";
-import TopMenu from '../Screens/Menu/TopMenu';
-import SideMenu from '../Screens/Menu/SideMenu';
 import { checkNullAndReturnString, doConnect } from "../config/Common";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 export default class LanguageMapping extends React.Component {
@@ -21,7 +19,6 @@ export default class LanguageMapping extends React.Component {
 
 
     componentDidMount() {
-        const { selectedOption } = this.state;
 
         this.getLanguageList()
 
@@ -37,7 +34,7 @@ export default class LanguageMapping extends React.Component {
         let postJson = { sessionId: '1223' };
         let responseData = await doConnect("getLanguages", "POST", postJson);
         this.setState({ "languages": JSON.parse(responseData.response) })
-        
+
     }
     async getLanguageData(e) {
         let postJson = { grouptype: e.value, sessionId: "1223" }
@@ -83,7 +80,7 @@ export default class LanguageMapping extends React.Component {
     }
 
     async addMoreButton(index) {
-        const { addPageArray, errrorField, addPageObject } = this.state;
+        const { addPageObject } = this.state;
         addPageObject[index].fieldData[Object.keys(addPageObject[index].fieldData).length + 1] = { title: "", value: "" }
         this.setState({ addPageObject })
     }
@@ -93,49 +90,41 @@ export default class LanguageMapping extends React.Component {
     render() {
 
         const { selectedOption, options, errorGroup, LanguageSelect, errorLanguage } = this.state;
+        let { addPageObject, languageMappingData } = this.state
 
         let data = [];
         Object.keys(this.state.languages).map((ival, index) => {
             // alert(this.state.data_value[ival])
             //{ label: "Tamil", value: "Tamil" }
             data.push({ value: ival, label: this.state.languages[ival] })
+            return true
         });
 
 
 
         let datavariable = [];
-        Object.keys(this.state.addPageObject).forEach((val) => {
-
-
+        Object.keys(addPageObject).forEach((val) => {
             datavariable.push(<React.Fragment>
                 <div className="card mt-4">
                     <div className="form row mt-4">
                         <div className="col-3"> <label> Page Name  {val}</label> </div>
                         <div className="col-5">
-
-
-                            <p style={{ float: "left", color: "black", }}> {this.state.addPageObject[val].pageName} </p>
+                            <p style={{ float: "left", color: "black", }}> {addPageObject[val].pageName} </p>
 
                             {/* <span style={{color:'red'}} > {errrorField[index_1]} </span> */}
                         </div>
                         <div className="col-5" />
                     </div>
-
-
                     <br /> <br />
-
-
                     <React.Fragment>
-
-                        {Object.keys(this.state.addPageObject[val].fieldData).map((ival, index) => {
-
+                        {Object.keys(addPageObject[val].fieldData).map((ival, index) => {
                             return (<React.Fragment>
 
                                 <div style={{ padding: 10, marginTop: 10 }}>
                                     <div className="form row mt-2">
                                         <div className="col-3"> <label> Item {index + 1} :  </label> </div>
                                         <div className="col-5">
-                                            <p style={{ float: "left", color: "black", }}> {this.state.addPageObject[val].fieldData[ival].title} </p>
+                                            <p style={{ float: "left", color: "black", }}> {addPageObject[val].fieldData[ival].title} </p>
                                         </div>
                                         <div className="col-4" />
                                     </div>
@@ -149,26 +138,26 @@ export default class LanguageMapping extends React.Component {
                                                 placeholder={'Value'}
                                                 onChange={async (e) => {
                                                     this.onChangeFun(e)
-                                                    if (!checkNullAndReturnString(this.state.languageMappingData[val])) {
-                                                        this.state.languageMappingData[val] = this.state.addPageObject[val]
-                                                        this.state.languageMappingData[val].fieldData[ival].value = e.target.value
+                                                    if (!checkNullAndReturnString(languageMappingData[val])) {
+                                                        languageMappingData[val] = addPageObject[val]
+                                                        languageMappingData[val].fieldData[ival].value = e.target.value
 
                                                     }
-                                                    else if (!checkNullAndReturnString(this.state.languageMappingData[val].fieldData[ival])) {
-                                                        this.state.languageMappingData[val].fieldData[ival] = this.state.addPageObject[val].fieldData[ival]
-                                                        this.state.languageMappingData[val].fieldData[ival].value = e.target.value
+                                                    else if (!checkNullAndReturnString(languageMappingData[val].fieldData[ival])) {
+                                                        languageMappingData[val].fieldData[ival] = addPageObject[val].fieldData[ival]
+                                                        languageMappingData[val].fieldData[ival].value = e.target.value
 
                                                     }
                                                     else {
                                                         // alert(JSON.stringify(this.state.languageMappingData[val]))
-                                                        this.state.languageMappingData[val].fieldData[ival].value = e.target.value
+                                                        languageMappingData[val].fieldData[ival].value = e.target.value
 
                                                     }
 
 
 
                                                     //this.setState({addPageArray})
-                                                    this.setState({ languageMappingData: this.state.languageMappingData })
+                                                    this.setState({ languageMappingData })
                                                 }} />
 
 
@@ -219,16 +208,16 @@ export default class LanguageMapping extends React.Component {
                                     <div className="x_title">
                                         <h2>Language Page</h2>
                                         <ul className="nav navbar-right panel_toolbox">
-                                            <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                            <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                             </li>
                                             <li className="dropdown">
-                                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a className="dropdown-item" href="#">Settings 1</a>
-                                                    <a className="dropdown-item" href="#">Settings 2</a>
+                                                    <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                    <Link className="dropdown-item" to="#">Settings 2</Link>
                                                 </div>
                                             </li>
-                                            <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                            <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                             </li>
                                         </ul>
                                         <div className="clearfix"></div>
@@ -271,19 +260,8 @@ export default class LanguageMapping extends React.Component {
                                             <div className="col-4" />
                                         </div>
 
-
-
-
-
                                         <br />
-
-
                                         {LanguageSelect.label && datavariable}
-
-
-
-
-
                                         <br /> <br />
 
                                         {/* <div className="row mt-3">
@@ -328,7 +306,7 @@ export default class LanguageMapping extends React.Component {
                                                         jsonData: JSON.stringify(this.state.languageMappingData), sessionId: "1223"
                                                     }
                                                     console.log("postJson", postJson)
-                                                    let responseData = await doConnect("updateLanguageMappingData", "POST", postJson);
+                                                    await doConnect("updateLanguageMappingData", "POST", postJson);
                                                     toast.success('Added data !', {
                                                         position: "top-center",
                                                         autoClose: 5000,

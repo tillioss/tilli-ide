@@ -13,23 +13,11 @@ import MyConstant from "../config/MyConstant";
 import MeetSinglePerson from "../Component/Themes/MeetSinglePerson";
 import ThemeJson from "../Screens/Json/Theme.json";
 import { doConnect } from '../config/Common';
-
-const options = [
-    { value: 'DoubleBoxOverlapWithImage', label: 'DoubleBoxOverlapWithImage' },
-    { value: 'QuestionsList', label: 'QuestionsList' }, { value: 'ImageWithThinking', label: 'ImageWithThinking' },
-    { value: 'IntroducePersons', label: 'IntroducePersons' }, { value: 'ChooseCheckboxQuestions', label: 'ChooseCheckboxQuestions' },
-    { value: 'CircleWithInfoAnimations', label: 'CircleWithInfoAnimations' }, { value: 'PersonWithTextAnimation', label: 'PersonWithTextAnimation' },
-    { value: 'AudioQuizScreen', label: 'AudioQuizScreen' }, { value: 'DropToSelection', label: 'DropToSelection' }, { value: 'Success', label: 'Success' }
-];
+import { Link } from "react-router-dom";
 
 
 
-const dummyOption = [
-    { value: 'https://picsum.photos/200', label: 'Image_1' },
-    { value: 'https://picsum.photos/id/237/200/300', label: 'Image_2' },
-    { value: 'https://picsum.photos/seed/picsum/200/300', label: 'Image_3' },
-    { value: 'https://picsum.photos/200/300/?blur=2', label: 'Image_4' }
-]
+
 
 class LevelManagerLanguage extends React.Component {
 
@@ -84,7 +72,7 @@ class LevelManagerLanguage extends React.Component {
         let that = this;
         let responseData = await doConnect("getGameLevels", "POST", postJson);
         let json = responseData;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
             let levelsMap = json['levelsMap'];
             let level_Id = this.props.match.params.levelid
             let select_Level = {}
@@ -104,7 +92,7 @@ class LevelManagerLanguage extends React.Component {
         let that = this;
         let responseData = await doConnect("getThemes", "POST", postJson);
         let json = responseData;
-        if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
             let themesMap = json['themesMap'];
             //console.log('themesList ==>',themesMap)
             let options = []
@@ -123,7 +111,6 @@ class LevelManagerLanguage extends React.Component {
         let postJson = { levelId: levelId, sessionId: '1223' };
         let that = this;
         let responseData = await doConnect("getLevelMappingData", "POST", postJson);
-        let json = responseData;
 
         // alert(JSON.stringify(responseData))
         let tamildataClone = []
@@ -138,11 +125,11 @@ class LevelManagerLanguage extends React.Component {
                 let checkindex = ThemeJson.Tamil.findIndex((a) =>
                     a.theme === ival.theme)
 
-                if (checkindex != "-1") {
+                if (checkindex !== "-1") {
                     let removetext = this.dataremoveField(ival.theme, ival)
                     tamildataClone[index] = removetext
                 }
-
+                return true
 
             })
             console.log('Contentdata', JSON.parse(contentdata))
@@ -158,59 +145,63 @@ class LevelManagerLanguage extends React.Component {
     dataremoveField(theme, data) {
 
         //        console.log(theme,data )
-        if (theme == "IntroducePersons") {
+        if (theme === "IntroducePersons") {
             data.title = "";
             data.content.persons.map(ival => {
                 ival.name = "";
                 ival.says = "";
+                return true
             })
 
             return data
         }
 
-        if (theme == "DoubleBoxOverlapWithImage" || theme == "ImageWithThinking") {
+        if (theme === "DoubleBoxOverlapWithImage" || theme === "ImageWithThinking") {
             data.title = "";
             data.content.text = "";
 
             return data
         }
 
-        if (theme == "QuestionsList") {
+        if (theme === "QuestionsList") {
             data.title = "";
             data.content.questionList.map(ival => {
                 ival.question = "";
+                return true
             })
 
             return data
         }
 
-        if (theme == "ChooseCheckboxQuestions") {
+        if (theme === "ChooseCheckboxQuestions") {
             data.title = "";
             data.content.checkBoxesOption.map(ival => {
                 ival.content = "";
+                return true
             })
 
             return data
         }
 
 
-        if (theme == "CircleWithInfoAnimations" || theme == "DropToSelection") {
+        if (theme === "CircleWithInfoAnimations" || theme === "DropToSelection") {
             data.title = "";
             data.content.circles.map(ival => {
                 ival.name = "";
+                return true
             })
 
 
 
-            if (theme == "CircleWithInfoAnimations") {
+            if (theme === "CircleWithInfoAnimations") {
                 data.content.text.map(ival => {
                     ival.value = "";
+                    return true
                 })
             }
 
 
-            if (theme == "DropToSelection") {
-
+            if (theme === "DropToSelection") {
                 data.content.text1 = ""
                 data.content.text2 = ""
                 data.content.message.failure_body_1 = ""; data.content.message.failure_body_2 = "";
@@ -228,7 +219,7 @@ class LevelManagerLanguage extends React.Component {
             return data
         }
 
-        if (theme == "MeetSinglePerson") {
+        if (theme === "MeetSinglePerson") {
             data.title = "";
             data.content.body = "";
             data.content.bottomText = "";
@@ -238,12 +229,13 @@ class LevelManagerLanguage extends React.Component {
             return data
         }
 
-        if (theme == "AudioQuizScreen") {
+        if (theme === "AudioQuizScreen") {
 
 
             data.title = "";
             Object.keys(data.content.feelingsDataList).map(ival => {
                 data.content.feelingsDataList[ival].questions = '';
+                return true
             })
 
 
@@ -251,7 +243,7 @@ class LevelManagerLanguage extends React.Component {
         }
 
 
-        if (theme == "StoryCard") {
+        if (theme === "StoryCard") {
 
 
             // data.content[2]
@@ -266,10 +258,12 @@ class LevelManagerLanguage extends React.Component {
             data.content[1].title = "";
             data.content[1].content.feelingsDataList.map(ival => {
                 ival.questions = '';
+                return true
             })
 
             data.content[2].content.circles.map(ival => {
                 ival.name = "";
+                return true
             })
 
             data.content[2].content.message.failure_body_1 = ""; data.content[2].content.message.failure_body_2 = "";
@@ -296,9 +290,9 @@ class LevelManagerLanguage extends React.Component {
 
     async submit() {
 
-        const { stagesArray, LevelStage, levelContent, levelSelect, SelectedValue, inputValue, Contentdata,
-            dummyOptionSelect, titleValidate, ThemeValidate, ImageValidate, contentText, contentTextValidate,
-            errorLanguage, languageSelect } = this.state;
+        const { levelContent, levelSelect, Contentdata,
+            dummyOptionSelect, titleValidate, ThemeValidate, ImageValidate, contentTextValidate,
+            languageSelect } = this.state;
 
         if (!languageSelect.label) {
             this.setState({ errorLanguage: "Select Field" })
@@ -342,7 +336,7 @@ class LevelManagerLanguage extends React.Component {
             }
 
 
-            if (ival.theme == "DoubleBoxOverlapWithImage" || ival.theme == "ImageWithThinking") {
+            if (ival.theme === "DoubleBoxOverlapWithImage" || ival.theme === "ImageWithThinking") {
 
                 if (ival.content.text.trim() === '') {
                     contentTextValidate[index] = "Please Enter Text";
@@ -354,11 +348,9 @@ class LevelManagerLanguage extends React.Component {
 
             }
 
-            if (ival.theme == "QuestionsList") {
+            if (ival.theme === "QuestionsList") {
 
                 ival.content.questionList.map((value, index_1) => {
-
-
                     if (value.question.trim() === '') {
                         value.qustionlist_error = "Please Enter Text";
                         //return false
@@ -372,14 +364,12 @@ class LevelManagerLanguage extends React.Component {
                     } else {
                         delete value.qustion_color_error
                     }
-
+                    return true
                 })
 
             }
             //console.log(ival.content.questionList)
-
-
-
+            return true
         })
 
 
@@ -405,7 +395,7 @@ class LevelManagerLanguage extends React.Component {
         let responseData = await doConnect("updateModuleLanguageMapping", "POST", postJson);
         var json = responseData;
         var response = json.response;
-        if (response == 'Success') {
+        if (response === 'Success') {
             toast.success('Added data !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -438,7 +428,7 @@ class LevelManagerLanguage extends React.Component {
             LevelStage[found_index].title = inputValue[index]
         }
 
-        if (found_index != '-1') {
+        if (found_index !== '-1') {
 
             Contentdata[index].theme = e.label
             Contentdata[index].content = { ...LevelStage[found_index].content }
@@ -455,7 +445,7 @@ class LevelManagerLanguage extends React.Component {
 
 
     titleOnchange(e, index) {
-        const { inputValue, SelectedValue, Contentdata } = this.state;
+        const { inputValue, Contentdata } = this.state;
         inputValue[index] = e;
         Contentdata[index].title = inputValue[index]
         this.setState({ inputValue, Contentdata });
@@ -465,7 +455,7 @@ class LevelManagerLanguage extends React.Component {
 
     addMoreContent() {
 
-        const { Contentdatacount, Contentdata, selectedOption } = this.state;
+        const { Contentdatacount, Contentdata, } = this.state;
         Contentdata.push({ title: '', theme: '', content: {} })
         this.setState({ Contentdatacount, Contentdata })
 
@@ -473,7 +463,7 @@ class LevelManagerLanguage extends React.Component {
 
 
     removeIndex(index) {
-        const { Contentdata, SelectedValue, inputValue } = this.state;
+        const { SelectedValue, inputValue } = this.state;
 
         SelectedValue[index] = '';
         inputValue[index] = ''
@@ -482,15 +472,15 @@ class LevelManagerLanguage extends React.Component {
         delete Contentdata_array[index];
         Contentdata_array = [...Contentdata_array]
         Contentdata_array = Contentdata_array.filter(function (el) {
-            return el != null;
+            return el !== null;
         });
 
         let Selected_Value = SelectedValue.filter(function (el) {
-            return el != "";
+            return el !== "";
         });
 
         let input_Value = inputValue.filter(function (el) {
-            return el != "";
+            return el !== "";
         });
 
 
@@ -504,6 +494,7 @@ class LevelManagerLanguage extends React.Component {
         Object.keys(this.state.fileData).map((ival, index) => {
             let image = this.state.fileData[ival];
             imageOptions.push({ value: MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType, label: image.title, json: image })
+            return true
         });
         return imageOptions
     }
@@ -514,8 +505,8 @@ class LevelManagerLanguage extends React.Component {
             a.theme === Select
         )
         let imageOptions = this.getImageOption()
-        let checkindex = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content.image.id);
-        if (checkindex != "-1") {
+        let checkindex = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content.image.id);
+        if (checkindex !== "-1") {
             //console.log('checkindex',imageOptions[checkindex])
             dummyOptionSelect[index_1] = imageOptions[checkindex]
             // console.log(dummyOptionSelect)
@@ -540,8 +531,8 @@ class LevelManagerLanguage extends React.Component {
             a.theme === Select
         )
         let imageOptions = this.getImageOption()
-        let checkindex = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content.image.id);
-        if (checkindex != "-1") {
+        let checkindex = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content.image.id);
+        if (checkindex !== "-1") {
             //console.log('checkindex',imageOptions[checkindex])
             dummyOptionSelect[index_1] = imageOptions[checkindex]
             // console.log(dummyOptionSelect)
@@ -561,8 +552,6 @@ class LevelManagerLanguage extends React.Component {
     }
 
     return_qustioncontent(value, index_1) {
-        let arrayvalue = [];
-
         const { LevelStage, Contentdata } = this.state;
         var found_index = LevelStage.findIndex((a) =>
             a.theme === value
@@ -586,18 +575,11 @@ class LevelManagerLanguage extends React.Component {
     }
 
     return_Content_introduce(value, index_1) {
-
-        let arrayvalue = [];
-
-        const { LevelStage, Contentdata, dummyOptionSelect, OptionSelect } = this.state;
+        const { LevelStage, Contentdata, dummyOptionSelect, } = this.state;
         var found_index = LevelStage.findIndex((a) =>
             a.theme === value
         )
-
         let imageOptions = this.getImageOption()
-
-
-
         let remove_undef = Contentdata[index_1].content.persons.filter(function (element) {
             return element !== null;
         });
@@ -648,13 +630,9 @@ class LevelManagerLanguage extends React.Component {
             a.theme === value
         )
 
-
-        let arrayvalue = []
         let imageOptions = this.getImageOption()
-
-
-        let checkindex = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content.image.id);
-        if (checkindex != "-1") {
+        let checkindex = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content.image.id);
+        if (checkindex !== "-1") {
             //console.log('checkindex',imageOptions[checkindex])
             dummyOptionSelect[index_1] = imageOptions[checkindex]
             // console.log(dummyOptionSelect)
@@ -678,16 +656,11 @@ class LevelManagerLanguage extends React.Component {
     }
 
     return_content_person(value, index_1) {
-
         const { LevelStage, dummyOptionSelect, Contentdata } = this.state;
         var found_index = LevelStage.findIndex((a) =>
             a.theme === value
         )
-
         let imageOptions = this.getImageOption();
-
-
-
         return <PersonWithTextAnimation
             LevelStage={LevelStage}
             found_index={found_index}
@@ -752,8 +725,8 @@ class LevelManagerLanguage extends React.Component {
 
         let imageOptions = this.getImageOption()
 
-        let checkindex = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content.image.id);
-        if (checkindex != "-1") {
+        let checkindex = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content.image.id);
+        if (checkindex !== "-1") {
             dummyOptionSelect[index_1] = imageOptions[checkindex]
         }
         var found_index = LevelStage.findIndex((a) =>
@@ -780,7 +753,7 @@ class LevelManagerLanguage extends React.Component {
 
         //alert(type)
 
-        if (type == "Down") {
+        if (type === "Down") {
 
             let value = [...Contentdata]
 
@@ -795,7 +768,7 @@ class LevelManagerLanguage extends React.Component {
 
         }
 
-        if (type == "Up") {
+        if (type === "Up") {
 
             let value = [...Contentdata]
 
@@ -813,7 +786,7 @@ class LevelManagerLanguage extends React.Component {
 
 
     Story_Function(Value, index_1) {
-        const { LevelStage, Contentdata, dummyOptionSelect } = this.state;
+        const { LevelStage, Contentdata, } = this.state;
 
         let imageOptions = this.getImageOption()
 
@@ -830,8 +803,8 @@ class LevelManagerLanguage extends React.Component {
         )
 
         let Select_data = [];
-        let checkindex = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content[0].content.image.id);
-        if (checkindex != "-1") {
+        let checkindex = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content[0].content.image.id);
+        if (checkindex !== "-1") {
             //console.log('checkindex',imageOptions[checkindex])
             Select_data[index_1] = imageOptions[checkindex]
 
@@ -871,8 +844,8 @@ class LevelManagerLanguage extends React.Component {
         </React.Fragment>
         )
         let Select_data_2 = [];
-        let checkindex_2 = imageOptions.findIndex(x => x.json.id == Contentdata[index_1].content[2].content.image.id);
-        if (checkindex_2 != "-1") {
+        let checkindex_2 = imageOptions.findIndex(x => x.json.id === Contentdata[index_1].content[2].content.image.id);
+        if (checkindex_2 !== "-1") {
             //console.log('checkindex',imageOptions[checkindex])
             Select_data_2[index_1] = imageOptions[checkindex_2]
 
@@ -916,7 +889,7 @@ class LevelManagerLanguage extends React.Component {
 
                 if (JSON.parse(response)[val]) {
 
-                    if (olddata[val].theme == JSON.parse(response)[val].theme) {
+                    if (olddata[val].theme === JSON.parse(response)[val].theme) {
                         if (JSON.parse(response)[val]) {
                             //console.log(JSON.parse(response)[val])
                             tamilData[val] = JSON.parse(response)[val];
@@ -946,8 +919,7 @@ class LevelManagerLanguage extends React.Component {
         }
         else {
             console.log('tamilData', tamilData)
-
-            if (Contentdata.length != 0) {
+            if (Contentdata.length !== 0) {
 
                 this.setState({ languageSelect: e, viewState: true, Contentdata: olddata })
 
@@ -960,19 +932,21 @@ class LevelManagerLanguage extends React.Component {
 
     render() {
 
-        const { selectedOption, Contentdata, levelSelect, SelectedValue, inputValue, languageSelect, languageOption,
-            errorLanguage, viewState, languagesData } = this.state;
+        const { Contentdata, levelSelect, SelectedValue, languageSelect,
+            viewState, languagesData } = this.state;
 
         let levelOption = [];
         Object.keys(this.state.levelsJson).map((ival, index) => {
             let levelData = this.state.levelsJson[ival];
             levelOption.push({ value: levelData.id, label: levelData.name, })
+            return true
         });
 
         let languagesOption = []
         if (languagesData) {
             Object.keys(languagesData).map((ival, index) => {
                 languagesOption.push({ value: ival, label: languagesData[ival], })
+                return true
             });
         }
 
@@ -991,16 +965,16 @@ class LevelManagerLanguage extends React.Component {
                                     <div className="x_title">
                                         <h2>Plain Page</h2>
                                         <ul className="nav navbar-right panel_toolbox">
-                                            <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                            <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                             </li>
                                             <li className="dropdown">
-                                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a className="dropdown-item" href="#">Settings 1</a>
-                                                    <a className="dropdown-item" href="#">Settings 2</a>
+                                                    <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                    <Link className="dropdown-item" to="#">Settings 2</Link>
                                                 </div>
                                             </li>
-                                            <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                            <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                             </li>
                                         </ul>
                                         <div className="clearfix"></div>
@@ -1044,17 +1018,17 @@ class LevelManagerLanguage extends React.Component {
                                             <div className="col-sm-6"> </div>
                                         </div>
 
-
-
-
-
                                         <br />
-
                                         {viewState ?
                                             <React.Fragment>
-                                                {console.log(Contentdata)}
-
                                                 {Contentdata && Contentdata.map((val, index) => {
+                                                    let selectImgPath = {};
+
+                                                    if ((!SelectedValue[index])) {
+                                                        selectImgPath = { label: "Select", value: "Select" }
+                                                    } else {
+                                                        selectImgPath = SelectedValue[index]
+                                                    }
 
                                                     return (<React.Fragment>
 
@@ -1068,9 +1042,6 @@ class LevelManagerLanguage extends React.Component {
                                                                         <div className="col-sm-3"> </div>
 
                                                                         <div className="col-sm-2">
-
-
-
                                                                         </div>
                                                                     </div>
 
@@ -1092,8 +1063,7 @@ class LevelManagerLanguage extends React.Component {
                                                                         <div className="col-sm-1 text-ali-left">Theme </div>
                                                                         <div className="col-sm-5">
                                                                             <DropDown
-                                                                                selectedOption=
-                                                                                {Contentdata[index].theme == Contentdata[index].theme ? { label: Contentdata[index].theme, value: Contentdata[index].theme } : !SelectedValue[index] ? { label: "Select", value: "Select" } : SelectedValue[index]}
+                                                                                selectedOption={selectImgPath}
                                                                                 //   onChange={(e) => this.handleChange(e, index)}
                                                                                 options={this.state.options}
                                                                                 isDisabled={true}
@@ -1106,7 +1076,7 @@ class LevelManagerLanguage extends React.Component {
                                                                                 <img style={{ width: '100%', height: 100 }}
                                                                                     src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView[index].json.image.fileName + "&id=" + this.state.imageView[index].json.image.fileType}
 
-                                                                                    alt={'No Image'} className="img-responsive" onClick={() => {
+                                                                                    alt={'loading'} className="img-responsive" onClick={() => {
                                                                                         this.setState({ imageBigView: this.state.imageView[index], displayImage: 'block' })
                                                                                     }} />
                                                                                 : null}
@@ -1130,21 +1100,21 @@ class LevelManagerLanguage extends React.Component {
                                                                         </div>
                                                                         : null}
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "DoubleBoxOverlapWithImage" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "DoubleBoxOverlapWithImage" ?
                                                                         this.return_Content_doublebox(Contentdata[index].theme, index)
                                                                         : null}
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "DoubleBoxUnderWithImage" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "DoubleBoxUnderWithImage" ?
                                                                         this.return_Content_doubleboxUnderImage(Contentdata[index].theme, index)
                                                                         : null}
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "ImageWithThinking" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "ImageWithThinking" ?
                                                                         this.return_Content_doublebox(Contentdata[index].theme, index)
                                                                         :
                                                                         null}
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "QuestionsList" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "QuestionsList" ?
 
                                                                         <div className="row item form-group">
                                                                             <div className="col-sm-10">
@@ -1166,7 +1136,7 @@ class LevelManagerLanguage extends React.Component {
                                                                         : null}
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "IntroducePersons" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "IntroducePersons" ?
                                                                         <div className="row item form-group">
                                                                             <div className="col-sm-10">
                                                                                 <div className="row item form-group">
@@ -1190,7 +1160,7 @@ class LevelManagerLanguage extends React.Component {
                                                                         :
                                                                         null}
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "ChooseCheckboxQuestions" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "ChooseCheckboxQuestions" ?
 
                                                                         <div className="row" style={{ marginTop: 15 }}>
                                                                             <div className="col-sm-1"><h4>Setting</h4></div>
@@ -1204,7 +1174,7 @@ class LevelManagerLanguage extends React.Component {
                                                                     }
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "CircleWithInfoAnimations" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "CircleWithInfoAnimations" ?
                                                                         <div className="row ">
                                                                             {this.return_content_circle(Contentdata[index].theme, index, false)}
                                                                         </div>
@@ -1212,14 +1182,14 @@ class LevelManagerLanguage extends React.Component {
                                                                     }
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "PersonWithTextAnimation" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "PersonWithTextAnimation" ?
                                                                         <div className="row item form-group">
                                                                             {this.return_content_person(Contentdata[index].theme, index)}
                                                                         </div>
                                                                         : null
                                                                     }
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "AudioQuizScreen" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "AudioQuizScreen" ?
                                                                         <div className="row item form-group">
                                                                             {this.return_content_audioscreen(Contentdata[index].theme, index)}
                                                                         </div>
@@ -1227,7 +1197,7 @@ class LevelManagerLanguage extends React.Component {
                                                                     }
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "DropToSelection" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "DropToSelection" ?
                                                                         <div className="row item form-group">
                                                                             {this.return_content_circle(Contentdata[index].theme, index, true)}
                                                                         </div>
@@ -1236,14 +1206,14 @@ class LevelManagerLanguage extends React.Component {
 
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "Success" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "Success" ?
                                                                         <div className="row item form-group">
                                                                             {this.return_content_Success(Contentdata[index].theme, index)}
                                                                         </div>
                                                                         : null
                                                                     }
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "MeetSinglePerson" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "MeetSinglePerson" ?
                                                                         <div className="row item form-group">
                                                                             {this.MeetSinglePersonFunction(Contentdata[index].theme, index)}
                                                                         </div>
@@ -1251,7 +1221,7 @@ class LevelManagerLanguage extends React.Component {
                                                                     }
 
 
-                                                                    {Contentdata[index] && Contentdata[index].theme == "StoryCard" ?
+                                                                    {Contentdata[index] && Contentdata[index].theme === "StoryCard" ?
 
                                                                         <div className="row item form-group">
                                                                             {this.Story_Function(Contentdata[index].theme, index)}
@@ -1260,30 +1230,16 @@ class LevelManagerLanguage extends React.Component {
                                                                         : null
                                                                     }
 
-
-
-
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
                                                         <br />
-
                                                     </React.Fragment>)
                                                 })}
 
-
-
-
                                             </React.Fragment>
                                             : null}
-
-
                                         <br />
-
-
 
                                         <div className="row item form-group">
                                             <div className="col-sm-2">  </div>
@@ -1310,7 +1266,7 @@ class LevelManagerLanguage extends React.Component {
                                             }}  >&times;</span>
                                             {this.state.imageBigView ?
 
-                                                <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" />
+                                                <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" alt='loading' />
 
                                                 : null}
 
@@ -1328,17 +1284,11 @@ class LevelManagerLanguage extends React.Component {
                     </div>
                 </div>
                 {/* <!-- /page content --> */}
-
             </div>
-
-
-
         </React.Fragment>
         )
 
-
     }
-
 
 }
 
