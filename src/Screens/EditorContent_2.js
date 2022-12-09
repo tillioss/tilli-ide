@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from 'html-to-draftjs';
@@ -22,12 +22,12 @@ class EditorContent_2 extends React.Component {
 
   onEditorStateChange = (editorState) => {
     let { sectionLearning, index, themeType, failure_header_1, failure_body_1, failure_button_1, failure_header_2
-      , failure_body_2, failure_button_2, success_header_1, success_body_1, success_button_1, success_header_2m,
+      , failure_body_2, failure_button_2, success_header_1, success_body_1, success_button_1,
       success_body_2, success_header_2, success_button_2, secondindex, sectionBuildStory } = this.props
 
     let editorContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
-    if (themeType == "DropToSelection") {
+    if (themeType === "DropToSelection") {
       if (failure_header_1) {
         sectionLearning[index].content.message.failure_header_1 = draftToHtml(editorContent)
       }
@@ -66,7 +66,7 @@ class EditorContent_2 extends React.Component {
       }
 
     }
-    else if (themeType == "StoryDropToSelection") {
+    else if (themeType === "StoryDropToSelection") {
       if (failure_header_1) {
         sectionBuildStory[index].content[secondindex].content.message.failure_header_1 = draftToHtml(editorContent)
       }

@@ -45,7 +45,9 @@ export default class PaginationDatatable extends React.Component {
                         input = column.cell(keyData)
                     }
                     value[index][columnIndex] = input;
+                    return true
                 })
+                return true
             })
 
             let next = false;
