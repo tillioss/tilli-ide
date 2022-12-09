@@ -62,9 +62,11 @@ export default class ThemeViewer extends React.Component {
                 hidden = layer.layers.hidden;
                 visible.map((row) => {
                     layers[row].visibility = "visible";
+                    return true
                 })
                 hidden.map((row) => {
                     layers[row].visibility = "hidden";
+                    return true
                 })
                 break;
             case "Record":
@@ -73,9 +75,11 @@ export default class ThemeViewer extends React.Component {
                 audioRecognize = layer.layers.recordValue[0];
                 visible.map((row) => {
                     layers[row].visibility = "visible";
+                    return true
                 })
                 hidden.map((row) => {
                     layers[row].visibility = "hidden";
+                    return true
                 })
                 this.setState({
                     audioRecognize
@@ -119,6 +123,7 @@ export default class ThemeViewer extends React.Component {
                     this.setState({ recordText: "", resetTextState: true })
                 }
                 break;
+                default:
         }
 
         this.setState({
@@ -153,7 +158,7 @@ export default class ThemeViewer extends React.Component {
     }
     layerBuildRecord(layer, index, recordText) {
         let builder;
-        let { deviceHeight, deviceWidth } = this.state;
+        let { deviceHeight, } = this.state;
         switch (layer.type) {
             case "rectangle":
                 builder = <div
@@ -180,6 +185,7 @@ export default class ThemeViewer extends React.Component {
                     {recordText}
                 </div>
                 break;
+                default:
         }
 
         return builder;
@@ -303,7 +309,7 @@ export default class ThemeViewer extends React.Component {
                         this.dynamicThemeAction(layer, index)
                     }}
                 >
-                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
                 </div>
                 break;
             case "video":
@@ -327,6 +333,7 @@ export default class ThemeViewer extends React.Component {
                     </video>
                 </div>
                 break;
+                default:
         }
         return builder;
     }

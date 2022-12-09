@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import backImage from '../../../images/fillIconOnly.png';
 import nextImage from '../../../images/outlineRightIcon.png';
-
 import repeatImage from '../../../images/repeat.png';
 import outlineIconOnlyImage from '../../../images/outlineIconOnly.png';
 import outlineIconRedImage from '../../../images/outlineIconRed.png';
-
 import nounVoiceRecordImage from '../../../images/nounVoiceRecord.png';
 import people_set from '../../../images/people_set.png';
 import down_black from '../../../images/down_black.png';
 import MyConstant from '../../../config/MyConstant';
-
+import { Link } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 var SupportedBrowser = !SpeechRecognition.browserSupportsSpeechRecognition()
 
 
-const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType, bg_color, matchString, detectHorizontal, return_content, returnButtonContent, resetInput, onTranscriptChange }) => {
+const AudioRecognize1 = (props) => {
+    let { data, index_value, deviceHeight, imagePath, viewType, bg_color, matchString, detectHorizontal, return_content, returnButtonContent, resetInput, onTranscriptChange } = props
     const { transcript, resetTranscript } = useSpeechRecognition()
-    const [datavalue, setCount] = useState(data.content.feelingsDataList[index_value].results);
     useEffect(() => {
-        if(transcript !== "") {
+        if (transcript !== "") {
             data.content.feelingsDataList[index_value].results = transcript
             onTranscriptChange(data);
         }
-    }, [transcript]);
+    }, [transcript,data,index_value,onTranscriptChange]);
+
 
     useEffect(() => {
         resetTranscript()
-    }, [index_value]);
+    }, [index_value,resetTranscript]);
     return (
         <React.Fragment>
             <div
@@ -37,10 +36,10 @@ const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType,
                     <img
                         className={`${data.content.imageclassname} audio-img`}
                         src={imagePath}
-                        style={{}} />
+                        style={{}} alt="loading" />
                 </div>
 
-                {viewType == "answer" || viewType == "onrecord" ?
+                {viewType === "answer" || viewType === "onrecord" ?
                     <React.Fragment>
                         <div className={"col-7"} style={{ display: "flex", marginTop: "auto" }}>
                             <div className={"record-font pl-1"} dangerouslySetInnerHTML={{ __html: data.content.feelingsDataList[index_value].questions.replace('strong', 'span') }} />
@@ -61,11 +60,11 @@ const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType,
                     borderRadius: 16,
                     alignItems: 'center',
                     justifyContent: 'center', borderStyle: 'solid',
-                    display: bg_color == '#FFBD12' ? 'flex' : "inline-block",
-                    alignItems: 'center'
+                    display: bg_color === '#FFBD12' ? 'flex' : "inline-block",
+
                 }}>
                     {/* FF89BB */}
-                    {viewType == 'question' ?
+                    {viewType === 'question' ?
 
                         <p className={"audio-font " + (matchString ? "lego-font" : "")}  >
                             <div dangerouslySetInnerHTML={{ __html: data.content.feelingsDataList[index_value].questions }} /></p> :
@@ -94,12 +93,11 @@ const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType,
             <div className="row">
                 <div className="col-10"> </div>
                 <div className="col-2">
-                    {/* <img src={heartImage} style={{ width: 32, height: 30 }} /> */}
                 </div>
             </div>
 
 
-            {viewType == 'question' ?
+            {viewType === 'question' ?
                 <React.Fragment>
                     {SupportedBrowser ? <div className="record-text" style={{ color: "red", fontSize: 14 }}>
                         {return_content(1, 4)}
@@ -110,7 +108,7 @@ const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType,
                     <div className="row  mt-2 mb-2" >
                         <div className="col-3" />
                         <div className="col-6" style={{ textAlign: 'center' }}>
-                            <img src={down_black} style={{ width: 30, height: 15 }} />
+                            <img src={down_black} style={{ width: 30, height: 15 }} alt="loading" />
                         </div>
                         <div className="col-3" />
                     </div>
@@ -123,13 +121,13 @@ const AudioRecognize1 = ({ data, index_value, deviceHeight, imagePath, viewType,
                 {returnButtonContent(detectHorizontal)}
 
                 <div className="col-3 pt-2" >
-                    {viewType == 'answer' ?
+                    {viewType === 'answer' ?
                         <div className="col-2" onClick={(e) => {
                             data.content.feelingsDataList[index_value].results = "";
                             resetTranscript();
                             resetInput(data)
                         }}>
-                            <img className="repeat-img" src={repeatImage} style={{ width: 42, height: 40 }} />
+                            <img className="repeat-img" src={repeatImage} style={{ width: 42, height: 40 }} alt="loading" />
                         </div>
 
                         : null}
@@ -199,21 +197,13 @@ class AudioQuizScreen extends React.Component {
     });
 
     return_content(pageIndex, index) {
-
-        const { commonPageData } = this.state;
-
         const { commonGroupLanguageMappingData, commonGroupLanguageBaseData } = this.props
-
         if (commonGroupLanguageMappingData && commonGroupLanguageMappingData[pageIndex] && commonGroupLanguageMappingData[pageIndex].fieldData[index]) {
             return commonGroupLanguageMappingData[pageIndex].fieldData[index].value
-
         }
-
         else if (commonGroupLanguageBaseData && commonGroupLanguageBaseData[pageIndex] && commonGroupLanguageBaseData[pageIndex].fieldData[index]) {
             return commonGroupLanguageBaseData[pageIndex].fieldData[index].value
-
         }
-
         else
             return ""
 
@@ -221,16 +211,15 @@ class AudioQuizScreen extends React.Component {
 
     async changeInnerIndex() {
         let { data, stage } = this.props
-        let { index_value, bg_color, viewType } = this.state
+        let { index_value, } = this.state
 
-
-        if (data.content.feelingsDataList.length != index_value + 1) {
+        if (data.content.feelingsDataList.length !== index_value + 1) {
             this.setState({ index_value: index_value + 1, bg_color: "#FFBD12", viewType: "question" })
         }
-        else if (data.content.feelingsDataList.length == index_value + 1) {
+        else if (data.content.feelingsDataList.length === index_value + 1) {
             await this.setState({ Viewstate: true })
 
-            if (this.props.themeType == "StoryCard") {
+            if (this.props.themeType === "StoryCard") {
                 this.props.changeindex('Next', stage)
             }
             else {
@@ -247,13 +236,13 @@ class AudioQuizScreen extends React.Component {
             let languageChoose = JSON.parse(localStorage.getItem("ChooseLanguage"))
             let changeLang = "en"
             if (languageChoose) {
-                if (languageChoose.label == "Tamil") {
+                if (languageChoose.label === "Tamil") {
                     changeLang = "ta"
                 }
-                else if (languageChoose.label == "English") {
+                else if (languageChoose.label === "English") {
                     changeLang = "en"
                 }
-                else if (languageChoose.label == "Sinhala") {
+                else if (languageChoose.label === "Sinhala") {
                     changeLang = "si"
                 }
 
@@ -277,8 +266,8 @@ class AudioQuizScreen extends React.Component {
     }
 
     bgColorChg() {
-        let { bg_color, viewType } = this.state
-        if (viewType == 'answer') {
+        let { viewType } = this.state
+        if (viewType === 'answer') {
             this.setState({ bg_color: '#FFBD12' })
         }
         else {
@@ -288,30 +277,7 @@ class AudioQuizScreen extends React.Component {
     componentDidUpdate() {
 
         if (!SupportedBrowser) {
-            /*var btn = document.querySelector('#onSpeaking');
 
-            if (btn) {
-
-                var that = this
-                btn.addEventListener('touchstart', function (e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    that.onStartRecord()
-                })
-
-                btn.addEventListener('touchend', function (e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    that.onStopRecord()
-
-                })
-                btn.addEventListener('touchleave', function () {
-                    console.log('btn moving end');
-                })
-                btn.addEventListener('touchcancel', function () {
-                    console.log('btn moving cancel');
-                })
-            }*/
         }
     }
 
@@ -344,11 +310,11 @@ class AudioQuizScreen extends React.Component {
     }
 
     returnButtonContent(detectHorizontal) {
-        let { bg_color, viewType, deviceHeight } = this.state
+        let { viewType, deviceHeight } = this.state
         if (!SupportedBrowser) {
             return (<div className="col-6" style={{ textAlign: 'center' }}
                 onClick={() => {
-                    if (viewType == "question") {
+                    if (viewType === "question") {
                         this.setState({ viewType: "answer" }, () => {
                             this.enableEventListener()
                         })
@@ -357,18 +323,18 @@ class AudioQuizScreen extends React.Component {
                 }}
             >
 
-                {viewType == 'question' ?
+                {viewType === 'question' ?
                     <React.Fragment>
                         <div className="audiospeak-img" >
-                            <a className="col-2" onClick={() => {
+                            <Link className="col-2" onClick={() => {
                                 if (detectHorizontal) {
                                     window.scrollTo(0, 0);
                                 }
                             }}>
-                                <img src={outlineIconOnlyImage} style={{ width: 60, height: 60 }} />
-                                <img src={nounVoiceRecordImage} style={{ width: 47, height: 42, position: "absolute", bottom: 6, left: 22 }} />
+                                <img src={outlineIconOnlyImage} style={{ width: 60, height: 60 }} alt="loading" />
+                                <img src={nounVoiceRecordImage} style={{ width: 47, height: 42, position: "absolute", bottom: 6, left: 22 }} alt="loading" />
 
-                            </a>
+                            </Link>
                         </div>
                     </React.Fragment> :
                     <React.Fragment>
@@ -382,10 +348,10 @@ class AudioQuizScreen extends React.Component {
                             onClick={async () => {
                             }} > <p style={{ fontSize: deviceHeight < 570 ? 10 : 12 }}>{this.return_content(1, 7)}</p>
 
-                            <a className="col-2">
-                                <img src={viewType == 'answer' ? outlineIconOnlyImage : outlineIconRedImage} style={{ width: 60, height: 60, }} />
-                                <img src={nounVoiceRecordImage} style={{ width: 47, height: 42, position: "absolute", bottom: 6, left: 22 }} />
-                            </a>
+                            <Link className="col-2">
+                                <img src={viewType === 'answer' ? outlineIconOnlyImage : outlineIconRedImage} style={{ width: 60, height: 60, }} alt="loading" />
+                                <img src={nounVoiceRecordImage} style={{ width: 47, height: 42, position: "absolute", bottom: 6, left: 22 }} alt="loading" />
+                            </Link>
                         </div>
 
                     </React.Fragment>}
@@ -394,23 +360,23 @@ class AudioQuizScreen extends React.Component {
         else {
             return (<div className="col-6" style={{ textAlign: 'center' }}
                 id="onSpeaking" onClick={() => {
-                    if (viewType == "question") {
+                    if (viewType === "question") {
                         this.setState({ viewType: "answer" })
                         this.bgColorChg()
                     }
                 }} >
 
-                {viewType == 'question' ?
+                {viewType === 'question' ?
                     <React.Fragment>
                         <div  >
-                            <a className="col-2" onClick={() => {
+                            <Link className="col-2" onClick={() => {
                                 if (detectHorizontal) {
                                     window.scrollTo(0, 0);
                                 }
 
                             }}>
                                 <button className="btn btn-warning" style={{ background: "gainsboro", border: "gainsboro", width: "75%", fontWeight: 700, fontFamily: 'montserrat-medium', }}> {this.return_content(1, 5)} </button>
-                            </a>
+                            </Link>
                         </div>
                     </React.Fragment> :
                     <React.Fragment>
@@ -420,9 +386,9 @@ class AudioQuizScreen extends React.Component {
                             this.bgColorChg()
 
                         }} >
-                            <a className="col-2">
+                            <Link className="col-2">
                                 <button className="btn btn-warning" style={{ background: "gainsboro", border: "gainsboro", width: "85%", fontWeight: 700, fontFamily: 'montserrat-medium', }} >{this.return_content(1, 6)}</button>
-                            </a>
+                            </Link>
                         </div>
 
                     </React.Fragment>}
@@ -438,40 +404,23 @@ class AudioQuizScreen extends React.Component {
         this.setState({ data })
     }
     render() {
-        const { stage, stageIndex, data } = this.props
-        const { index_value, bg_color, pitchArray, commonPageData, devicewidth } = this.state;
+        const { stage, data } = this.props
+        const { index_value, bg_color, } = this.state;
         let { deviceHeight, viewType } = this.state
         let { trustPointText, totalPoint, PercentageTotal } = this.props
         // console.log(data)
         let matchString = window.location.href.match(/lego/)
-        let languageChoose = JSON.parse(localStorage.getItem("ChooseLanguage"))
-        let changeLang = "en"
 
-        if (languageChoose) {
-            if (languageChoose.label == "Tamil") {
-                changeLang = "ta"
-            }
-            else if (languageChoose.label == "English") {
-                changeLang = "en"
-            }
-            else if (languageChoose.label == "Sinhala") {
-                changeLang = "si"
-            }
-
-        }
         var detectHorizontal = false
         if (window.innerHeight > window.innerWidth || window.innerHeight > 768) {
 
         }
         else {
-
             deviceHeight = 680
             detectHorizontal = true
         }
-
-
         var imagePath = ""
-        if (this.props.themeType == "StoryCard") {
+        if (this.props.themeType === "StoryCard") {
             if (data.content.image) {
                 imagePath = MyConstant.keyList.apiURL + 'vp?action=module&key=' + data.content.image.json.fileName + '&id=' + data.content.image.json.fileType
             }
@@ -498,6 +447,7 @@ class AudioQuizScreen extends React.Component {
                 if (i.length > 1) {
                     imagestyle[i[0]] = JSON.parse(i[1]);
                 }
+                return imgstyle
             })
         }
 
@@ -511,10 +461,10 @@ class AudioQuizScreen extends React.Component {
                     <img
                         className={`${data.content.imageclassname} audio-img`}
                         src={imagePath}
-                        style={{}} />
+                        style={{}} alt="loading" />
                 </div>
 
-                {viewType == "answer" || viewType == "onrecord" ?
+                {viewType === "answer" || viewType === "onrecord" ?
                     <React.Fragment>
                         <div className={"col-7"} style={{ display: "flex", marginTop: "auto" }}>
                             <div className={"record-font pl-1"} dangerouslySetInnerHTML={{ __html: data.content.feelingsDataList[index_value].questions.replace('strong', 'span') }} />
@@ -535,11 +485,11 @@ class AudioQuizScreen extends React.Component {
                     borderRadius: 16,
                     alignItems: 'center',
                     justifyContent: 'center', borderStyle: 'solid',
-                    display: bg_color == '#FFBD12' ? 'flex' : "inline-block",
-                    alignItems: 'center'
+                    display: bg_color === '#FFBD12' ? 'flex' : "inline-block",
+
                 }}>
                     {/* FF89BB */}
-                    {viewType == 'question' ?
+                    {viewType === 'question' ?
                         <p className={"audio-font " + (matchString ? "lego-font" : "")}  >
                             <div dangerouslySetInnerHTML={{ __html: data.content.feelingsDataList[index_value].questions }} /></p> :
                         <React.Fragment>
@@ -568,12 +518,11 @@ class AudioQuizScreen extends React.Component {
             <div className="row">
                 <div className="col-10"> </div>
                 <div className="col-2">
-                    {/* <img src={heartImage} style={{ width: 32, height: 30 }} /> */}
                 </div>
             </div>
 
 
-            {viewType == 'question' ?
+            {viewType === 'question' ?
                 <React.Fragment>
                     {SupportedBrowser ? <div className="record-text" style={{ color: "red", fontSize: 14 }}>
                         {this.return_content(1, 4)}
@@ -584,7 +533,7 @@ class AudioQuizScreen extends React.Component {
                     <div className="row  mt-2 mb-2" >
                         <div className="col-3" />
                         <div className="col-6" style={{ textAlign: 'center' }}>
-                            <img src={down_black} style={{ width: 30, height: 15 }} />
+                            <img src={down_black} style={{ width: 30, height: 15 }} alt="loading" />
                         </div>
                         <div className="col-3" />
                     </div>
@@ -595,30 +544,41 @@ class AudioQuizScreen extends React.Component {
                 <div className="col-3" />
                 {this.returnButtonContent(detectHorizontal)}
                 <div className="col-3 pt-2" >
-                    {viewType == 'answer' ?
+                    {viewType === 'answer' ?
                         <div className="col-2" onClick={(e) => {
                             data.content.feelingsDataList[index_value].results = "";
                             this.setState({ data, })
                         }}>
-                            <img className="repeat-img" src={repeatImage} style={{ width: 42, height: 40 }} />
+                            <img className="repeat-img" src={repeatImage} style={{ width: 42, height: 40 }} alt="loading" />
                         </div>
 
                         : null}
                 </div>
             </div>
         </>
+
+
+
         return (<div>
             <div className="module-parent-audio-screen">
                 <div className="row ml-0 mt-4" >
                     <div className="col-2">
-                        {this.props.themeType == "StoryCard" ?
-                            <a onClick={() => { { SpeechRecognition.stopListening({ continuous: false }) } this.props.changeindex('Previous', stage) }}>
-                                <img style={{ width: 48, height: 48 }} src={backImage} />
-                            </a>
+
+                        {this.props.themeType === "StoryCard" ?
+                            <Link onClick={() => {
+                                SpeechRecognition.stopListening({ continuous: false });
+                                this.props.changeindex('Previous', stage)
+                            }}>
+                                <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                            </Link>
                             :
-                            <a onClick={() => { { SpeechRecognition.stopListening({ continuous: false }) } this.props.changeStage('Previous', stage) }}>
-                                <img style={{ width: 48, height: 48 }} src={backImage} />
-                            </a>}
+                            <Link onClick={() => {
+                                SpeechRecognition.stopListening({ continuous: false });
+                                this.props.changeStage('Previous', stage)
+                            }}>
+                                <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                            </Link>
+                        }
 
                     </div>
                     <div className="col-8" style={{ alignSelf: 'center' }}> <h4 style={{
@@ -637,49 +597,48 @@ class AudioQuizScreen extends React.Component {
                     </> : <>
                         <AudioRecognize1 datavalue={this.props.data} data={data} index_value={index_value} deviceHeight={deviceHeight} imagePath={imagePath} viewType={viewType} bg_color={bg_color} matchString={matchString} detectHorizontal={detectHorizontal} return_content={this.return_content} returnButtonContent={this.returnButtonContent} resetInput={this.resetInput} onTranscriptChange={this.onTranscriptChange} />
                     </>}
-
                 </div>
-
-
             </div>
 
             <div className="bottom-style ">
-
                 <div style={{ position: "absolute", right: 10, bottom: 60 }}>
-
                     {this.state.Viewstate ?
                         <React.Fragment>
-                            {this.props.themeType == "StoryCard" ?
-                                <a onClick={() => {
-                                    { SpeechRecognition.stopListening({ continuous: false }) }
+                            {this.props.themeType === "StoryCard" ?
+                                <Link onClick={() => {
+                                    SpeechRecognition.stopListening({ continuous: false });
                                     this.props.changeindex('Next', stage)
-
                                 }} >
-                                    <img style={{ width: 44, height: 44 }} src={nextImage} />
-                                </a>
-                                : <a onClick={() => { { SpeechRecognition.stopListening({ continuous: false }) } this.props.changeStage('Next', stage) }} >
-                                    <img style={{ width: 44, height: 44 }} src={nextImage} />
-                                </a>}
+                                    <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                                </Link>
+                                : <Link onClick={() => {
+                                    SpeechRecognition.stopListening({ continuous: false });
+                                    this.props.changeStage('Next', stage)
+                                }} >
+                                    <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                                </Link>}
 
                         </React.Fragment>
                         : null}
 
                     {!this.state.Viewstate ?
                         <React.Fragment>
-                            {this.props.themeType == "StoryCard" ?
-                                <a onClick={() => {
-                                    { SpeechRecognition.stopListening({ continuous: false }) }
-                                    this.changeInnerIndex()
+                            {this.props.themeType === "StoryCard" ?
+                                <Link onClick={() => {
+                                    SpeechRecognition.stopListening({ continuous: false });
+                                    this.changeInnerIndex();
                                     if (detectHorizontal) {
                                         window.scrollTo(0, 0);
                                     }
-
                                 }} >
-                                    <img style={{ width: 44, height: 44 }} src={nextImage} />
-                                </a>
-                                : <a onClick={() => { { SpeechRecognition.stopListening({ continuous: false }) } this.changeInnerIndex() }} >
-                                    <img style={{ width: 44, height: 44 }} src={nextImage} />
-                                </a>
+                                    <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                                </Link>
+                                : <Link onClick={() => {
+                                    SpeechRecognition.stopListening({ continuous: false });
+                                    this.changeInnerIndex()
+                                }} >
+                                    <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                                </Link>
                             }
 
                         </React.Fragment>
@@ -688,14 +647,6 @@ class AudioQuizScreen extends React.Component {
                 </div>
                 <div className="progress-div">
                     <div style={{ flex: 1 }} >
-                        {/*  {totalPoint && totalPoint > 0 ?
-                            <span>
-                                <img className="rocket-image" src={Rocket_Launch} style={{
-                                    width: 80, height: 60,
-                                }} />
-                            </span>
-                            : null}
-                            */}
                         {trustPointText} {totalPoint}
                     </div>
                 </div>
@@ -709,7 +660,6 @@ class AudioQuizScreen extends React.Component {
                     </div>
                 </div>
             </div>
-
 
         </div>)
     }
