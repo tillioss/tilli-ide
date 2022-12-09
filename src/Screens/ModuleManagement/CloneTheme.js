@@ -28,24 +28,22 @@ export default class CloneTheme extends React.Component {
             })
         }
     }
-    async  getLevelMappingData(levelId) {
+    async getLevelMappingData(levelId) {
         let postJson = { levelId: levelId, sessionId: '1223' };
         let responseData = await doConnect("getLevelMappingData", "POST", postJson);
-        
+
         let contentdata = responseData.response;
         if (contentdata) {
             let withOutStory = []
             let withStory = []
-            let changeIndex = 0
             JSON.parse(contentdata).map((ival, index) => {
-                if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
+                if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender") {
                     withStory.push(ival)
-                    changeIndex++;
                 }
                 else {
                     withOutStory.push(ival)
                 }
-                
+                return true
             })
 
             this.setState({
@@ -58,7 +56,7 @@ export default class CloneTheme extends React.Component {
     themeSelect(id, theme) {
         let { themeSelected, themeSelectedJson } = this.state;
 
-        if(themeSelected.includes(id)) {
+        if (themeSelected.includes(id)) {
             let index = themeSelected.indexOf(id);
             themeSelected.splice(index, 1);
 
@@ -79,10 +77,10 @@ export default class CloneTheme extends React.Component {
 
     render() {
         let { sectionBuildStory, sectionLearning, themeSelected } = this.state;
-        
+
         return <div>
-            <div className="row my-2" style={{background: '#3f51b5',color: '#fff', padding: 10}}>
-                <div className="col-6" style={{borderRight: '1px solid'}}>
+            <div className="row my-2" style={{ background: '#3f51b5', color: '#fff', padding: 10 }}>
+                <div className="col-6" style={{ borderRight: '1px solid' }}>
                     <b>LEARNING (Add Learning Card)</b>
                 </div>
                 <div className="col-6">
@@ -94,14 +92,14 @@ export default class CloneTheme extends React.Component {
                     {
                         sectionLearning.map((theme, themeIndex) => {
                             return <div className="row  my-2" key={themeIndex}>
-                                    <div className="col-9">
-                                        {`Theme ${themeIndex+1}`} <br/>
-                                        <b>{theme.theme}</b>
-                                    </div>
-                                    <div className="col-3">
-                                        <input type="checkbox" checked={themeSelected.includes("theme-"+themeIndex)} onChange={(e) => { this.themeSelect("theme-"+themeIndex, theme) }} />
-                                    </div>
+                                <div className="col-9">
+                                    {`Theme ${themeIndex + 1}`} <br />
+                                    <b>{theme.theme}</b>
                                 </div>
+                                <div className="col-3">
+                                    <input type="checkbox" checked={themeSelected.includes("theme-" + themeIndex)} onChange={(e) => { this.themeSelect("theme-" + themeIndex, theme) }} />
+                                </div>
+                            </div>
                         })
                     }
                 </div>
@@ -110,12 +108,12 @@ export default class CloneTheme extends React.Component {
                         sectionBuildStory.map((story, storyIndex) => {
                             return <div className="row my-2" key={storyIndex}>
                                 <div className="col-9">
-                                    {`Story ${storyIndex+1}`} 
-                                    <br/>
+                                    {`Story ${storyIndex + 1}`}
+                                    <br />
                                     <b>{story.theme}</b>
                                 </div>
                                 <div className="col-3">
-                                <input type="checkbox" checked={themeSelected.includes("story-"+storyIndex)} onChange={(e) => { this.themeSelect("story-"+storyIndex, story) }} />
+                                    <input type="checkbox" checked={themeSelected.includes("story-" + storyIndex)} onChange={(e) => { this.themeSelect("story-" + storyIndex, story) }} />
                                 </div>
                             </div>
                         })

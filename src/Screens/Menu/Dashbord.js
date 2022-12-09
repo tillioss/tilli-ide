@@ -1,12 +1,7 @@
 import React from 'react';
-import TopMenu from './TopMenu';
-import SideMenu from './SideMenu';
-
-
 
 
 class Dashbord extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +11,6 @@ class Dashbord extends React.Component {
 
 
   render() {
-
-    const { pageDisplay } = this.state;
-
     return (
       <React.Fragment>
         <div className="main-content">
