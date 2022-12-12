@@ -4,9 +4,7 @@ import nextImage from '../../../images/outlineRightIcon.png';
 import MyConstant from "../../../config/MyConstant";
 import { Style } from "react-style-tag";
 import down_black from '../../../images/down_black.png';
-
-
-
+import { Link } from "react-router-dom";
 
 
 class AskGender extends React.Component {
@@ -32,7 +30,6 @@ class AskGender extends React.Component {
     });
 
     return_content(pageIndex, index) {
-        const { commonPageData } = this.state;
         const { commonGroupLanguageMappingData, commonGroupLanguageBaseData } = this.props
         if (commonGroupLanguageMappingData && commonGroupLanguageMappingData[pageIndex] && commonGroupLanguageMappingData[pageIndex].fieldData[index]) {
             return commonGroupLanguageMappingData[pageIndex].fieldData[index].value
@@ -71,11 +68,8 @@ class AskGender extends React.Component {
         this.setState({ chooseGender: type, errorText: "" })
     }
     render() {
-
         let { stage, data } = this.props;
-        let { trustPointText, totalPoint, PercentageTotal } = this.props
-        let UWPview = window.navigator && window.navigator.appVersion.toLowerCase().includes("webview")
-        const { commonPageData, deviceHeight } = this.state
+        const { deviceHeight } = this.state
         let { chooseGender, errorText } = this.state
         let content = data.content;
         let imagestyle = {};
@@ -87,23 +81,16 @@ class AskGender extends React.Component {
                 if (i.length > 1) {
                     imagestyle[i[0]] = JSON.parse(i[1]);
                 }
+                return true
             })
         }
 
-
-        var horizontalScreen = false
-        if (window.innerHeight > window.innerWidth || window.innerHeight > 768) {
-        }
-        else {
-
-            horizontalScreen = true
-        }
 
         let languageChoose = JSON.parse(localStorage.getItem("ChooseLanguage"))
 
         let changeLang = ""
         if (languageChoose) {
-            if (languageChoose.label == "Tamil") {
+            if (languageChoose.label === "Tamil") {
                 changeLang = "tamilintro"
             }
         }
@@ -126,7 +113,7 @@ class AskGender extends React.Component {
                     <p style={{ marginTop: "20%", fontWeight: "800", fontFamily: "Montserrat", fontSize: 16, color: "#000000" }}>{i}</p>
                 </div>
             </div>)
-            if (testIndex == 4) {
+            if (testIndex === 4) {
                 testIndex = 0
                 row_Array.push(<div className="row  mt-2 mb-2" >
                     <div className="col-sm-2"></div>
@@ -149,7 +136,7 @@ class AskGender extends React.Component {
             <div className="module-parent">
                 <div className={"row ml-0 " + (deviceHeight < 640 ? "pt-2 " : "pt-4")}>
                     <div className="col-2">
-                        <a onClick={() => {
+                        <Link onClick={() => {
                             // this.props.previousScorePage('Previous', stage,)
                             if (chooseGender) {
                             }
@@ -157,8 +144,8 @@ class AskGender extends React.Component {
                                 this.setState({ errorText: "Please Choose Gender" })
                             }
                         }}>
-                            <img style={{ width: 48, height: 48 }} src={backImage} />
-                        </a>
+                            <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                        </Link>
                     </div>
                     <div className="col-10">
                         <p style={{
@@ -173,7 +160,7 @@ class AskGender extends React.Component {
 
                 <div className="row ml-0 askGender-divHeight" style={{ height: 400 }}>
                     <div className="col-sm-2 col-3" style={{ width: 219, height: 142 }} >
-                        <img className="img-size-askGender" style={{ width: 220, height: 420 }} src={imagePath} />
+                        <img className="img-size-askGender" style={{ width: 220, height: 420 }} src={imagePath} alt="loading" />
                     </div>
                     <div className="col-sm-8 col-8" style={{ backgroundColor: "#15CED5", width: "auto", height: 133, position: "inherit", borderRadius: 10, marginTop: "8%", paddingTop: "7%" }}>
                         <div dangerouslySetInnerHTML={{ __html: content.question }}></div>
@@ -187,7 +174,7 @@ class AskGender extends React.Component {
                 <div className="row  mt-2 mb-2" >
                     <div className="col-3" />
                     <div className="col-6" style={{ textAlign: 'center' }}>
-                        <img src={down_black} style={{ width: 30, height: 15 }} />
+                        <img src={down_black} style={{ width: 30, height: 15 }} alt="loading" />
                     </div>
                     <div className="col-3" />
                 </div>
@@ -215,7 +202,7 @@ class AskGender extends React.Component {
 
                 <div className="row  mt-4 ml-0" >
                     <div className="col-sm-4  col-3"></div>
-                    <div className={"col-sm-4  col-6 " + content.chooseType_2_ClassName} style={{ backgroundColor: "#FFBD12", borderRadius: 16, borderWidth: 2, borderColor: chooseGender == "male" ? "#DC143C" : "black", borderStyle: "solid", cursor: "pointer" }} onClick={() => {
+                    <div className={"col-sm-4  col-6 " + content.chooseType_2_ClassName} style={{ backgroundColor: "#FFBD12", borderRadius: 16, borderWidth: 2, borderColor: chooseGender === "male" ? "#DC143C" : "black", borderStyle: "solid", cursor: "pointer" }} onClick={() => {
                         this.choose_Gender("male")
                     }}>
                         <div dangerouslySetInnerHTML={{ __html: content.chooseType_2 }}></div>
@@ -226,7 +213,7 @@ class AskGender extends React.Component {
 
                 <div className="row  mt-4 ml-0" >
                     <div className="col-sm-4 col-3"></div>
-                    <div className={"col-sm-4 col-6 " + content.chooseType_3_ClassName} style={{ backgroundColor: "#FFBD12", borderRadius: 16, borderWidth: 2, borderColor: chooseGender == "tell_me_later" ? "#DC143C" : "black", borderStyle: "solid", cursor: "pointer" }} onClick={() => {
+                    <div className={"col-sm-4 col-6 " + content.chooseType_3_ClassName} style={{ backgroundColor: "#FFBD12", borderRadius: 16, borderWidth: 2, borderColor: chooseGender === "tell_me_later" ? "#DC143C" : "black", borderStyle: "solid", cursor: "pointer" }} onClick={() => {
                         this.choose_Gender("tell_me_later")
                     }}>
                         <div dangerouslySetInnerHTML={{ __html: content.chooseType_3 }}></div>
@@ -237,7 +224,7 @@ class AskGender extends React.Component {
             </div>
             <div className={"bottom-style " + changeLang}>
                 <div style={{ textAlign: "right" }}>
-                    <a onClick={() => {
+                    <Link onClick={() => {
                         if (chooseGender) {
                             this.updateDetails_Info(chooseGender)
                             this.props.changeStage('Next', stage, "scorepoint")
@@ -247,23 +234,10 @@ class AskGender extends React.Component {
                         }
 
                     }}>
-                        <img style={{ width: 44, height: 44 }} src={nextImage} />
-                    </a>
+                        <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                    </Link>
                 </div>
-                {/* <div className="progress-div">
-                    <div style={{ flex: 1 }} >
-                        {trustPointText} {totalPoint}
-                    </div>
-                </div>
-                <div>
-                    <div className="progress  barDesign">
-                        <div className="progress-bar"
-                            role="progressbar" style={{
-                                width: PercentageTotal + "%", backgroundColor: "#FFBD12",
-                                border: totalPoint ? "1px solid #18191F" : ""
-                            }} aria-valuenow={PercentageTotal} aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div> */}
+
             </div>
         </React.Fragment>)
     }

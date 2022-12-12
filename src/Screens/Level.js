@@ -41,13 +41,14 @@ class Level extends React.Component {
         let responseData = await doConnect("getGameLevels", "POST", postJson);
         let json = responseData;
         let that = this;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
             let levelsMap = json['levelsMap'];
             let sortOrderArray = []
             Object.keys(levelsMap).map((sortOrderObjects) => {
                 let sortOrderAllData = levelsMap[sortOrderObjects]
                 let sortOrderUniqData = sortOrderAllData.sortOrder
                 sortOrderArray.push(sortOrderUniqData.toString())
+                return true
             })
             that.setState({ gamingArray: levelsMap, sortOrderArray })
         }
@@ -56,7 +57,7 @@ class Level extends React.Component {
     async deleteLevels(levelId) {
         let postJson = { sessionId: '1223', levelId: levelId };
         let responseData = await doConnect("deleteGameLevels", "POST", postJson);
-        if (responseData.response == 'Success') {
+        if (responseData.response === 'Success') {
             toast.success(' Module is deleted successfully!', {
                 position: "top-center",
                 autoClose: 5000,
@@ -79,20 +80,20 @@ class Level extends React.Component {
         const { levelName, levelColor, selectedOption, sortOrder, sortOrderArray
         } = this.state;
         var validLength = levelColor ? levelColor.search("#") : 0;
-        if (levelName.length == 0) {
+        if (levelName.length === 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
             return false
-        } else if (validLength && (levelColor.length != 7 || levelColor.length != 4)) {
+        } else if (validLength && (levelColor.length !== 7 || levelColor.length !== 4)) {
             this.setState({ levelColorValidate: 'Please Enter six digit color cod with # ' })
             return false
         } else {
             this.setState({ levelNameValidate: '' })
         }
 
-        if (levelColor.length == 0) {
+        if (levelColor.length === 0) {
             this.setState({ levelColorValidate: 'Please Enter value' })
             return false
-        } else if (validLength == 0 && levelColor.length < 4) {
+        } else if (validLength === 0 && levelColor.length < 4) {
             this.setState({ levelColorValidate: 'Please Enter 4 Number' })
             return false
         } else {
@@ -118,12 +119,12 @@ class Level extends React.Component {
             this.setState({ sortOrderValidate: '' })
         }
 
-        if (levelName && levelName.length != 0 && levelColor.length != 0) {
+        if (levelName && levelName.length !== 0 && levelColor.length !== 0) {
             let postJson = { name: levelName, color: levelColor, sessionId: '1223', image: this.state.selectedOption.json, sortOrder: Number(sortOrder) };
             let responseData = await doConnect("addGameLevel", "POST", postJson);
             var json = responseData;
             var response = json.response;
-            if (response == 'Success') {
+            if (response === 'Success') {
                 toast.success('Module is created Successfully !', {
                     position: "top-center",
                     autoClose: 5000,
@@ -144,17 +145,17 @@ class Level extends React.Component {
     async updateLevels() {
         const { levelName, levelColor, sortOrder, sortOrderArray } = this.state;
         let validLength = levelColor ? levelColor.search("#") : 0;
-        if (levelName.length == 0) {
+        if (levelName.length === 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
             return false
         } else {
             this.setState({ levelNameValidate: '' })
         }
-        if (levelColor.length == 0) {
+        if (levelColor.length === 0) {
             this.setState({ levelColorValidate: 'Please Enter value' })
             return false
         }
-        else if (validLength && (levelColor.length != 7 || levelColor.length != 4)) {
+        else if (validLength && (levelColor.length !== 7 || levelColor.length !== 4)) {
             this.setState({ levelColorValidate: 'Please Enter six digit color cod with # ' })
             return false
         } else {
@@ -171,18 +172,16 @@ class Level extends React.Component {
         else {
             this.setState({ sortOrderValidate: '' })
         }
-        let found = this.state.levelArray.findIndex((a) =>
-            a.id === this.state.idvalue
-        )
+
         /* let Anotherarray = [...this.state.levelArray]
          Anotherarray[found].name = this.state.levelName
          Anotherarray[found].color = this.state.levelColor*/
 
-        if (levelName && levelName.length != 0 && levelColor.length != 0) {
+        if (levelName && levelName.length !== 0 && levelColor.length !== 0) {
 
             let postJson = { levelId: this.state.idvalue, name: levelName, color: levelColor, sessionId: '1223', image: this.state.selectedOption.json, sortOrder: Number(sortOrder) };
             let responseData = await doConnect("updateGameLevel", "POST", postJson);
-            if (responseData.response == 'Success') {
+            if (responseData.response === 'Success') {
                 toast.success('Module is updated Successfully !', {
                     position: "top-center",
                     autoClose: 5000,
@@ -205,7 +204,7 @@ class Level extends React.Component {
 
     render() {
 
-        const { buttonName, defineModule, sortOrder } = this.state;
+        const { buttonName, defineModule, } = this.state;
 
         const columns = [
             {
@@ -229,7 +228,7 @@ class Level extends React.Component {
                 sortable: true,
                 cell: (row, index, column, id) => {
                     let image = row.image;
-                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" /></div>
+                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" alt="loading" /></div>
                 },
 
             },
@@ -237,9 +236,7 @@ class Level extends React.Component {
                 name: 'Manage',
                 sortable: true,
                 cell: (row, index, column, id) => {
-                    let image = row.image;
                     return <div style={{ padding: 10 }}>
-
                         <button id={row.id} className="btn btnc" onClick={() => {
                             this.props.history.push('/' + MyConstant.keyList.projectUrl + '/module-manager-ide/' + row.id)
                         }}>Manage</button>
@@ -302,12 +299,14 @@ class Level extends React.Component {
         let data = [];
         Object.keys(this.state.gamingArray).map((ival, index) => {
             data.push(this.state.gamingArray[ival])
+            return true
         });
 
         let options = [];
         Object.keys(this.state.imageList).map((ival, index) => {
             let image = this.state.imageList[ival];
             options.push({ value: image.id, label: image.title, json: image })
+            return true
         });
 
         return (
@@ -392,7 +391,7 @@ class Level extends React.Component {
                                                         <div className="row">
                                                             <div className="col-12">
                                                                 {
-                                                                    buttonName == 'Submit' ? <React.Fragment>
+                                                                    buttonName === 'Submit' ? <React.Fragment>
                                                                         <div className="row">
                                                                             <div className="col-12 text-right">
                                                                                 <button type="button" className="btn btn-primary" onClick={() => {
@@ -450,7 +449,7 @@ class Level extends React.Component {
                                                 <div className="col-sm-12">
                                                     <div className="row">
                                                         <div className="col-sm-12" style={{ verticalAlign: 'center' }}>
-                                                            {data.length != 0 ?
+                                                            {data.length !== 0 ?
                                                                 <DataTable
                                                                     title=""
                                                                     columns={columns}

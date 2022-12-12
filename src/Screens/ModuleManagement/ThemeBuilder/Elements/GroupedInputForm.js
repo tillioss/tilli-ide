@@ -5,23 +5,23 @@ import CheckedLayoutForm from './CheckedLayoutForm';
 
 export default class GroupedInputForm extends React.Component {
     render() {
-        let { layers, layerActive, deviceHeight } = this.props;
+        let { layers, layerActive, } = this.props;
         let activeLayer = layers[layerActive];
         let { inputType, inputs } = activeLayer;
         let formOptions = MyConfig.formInput;
         let onClickOptions = MyConfig.themeEvent;
-        return <div className="m-2"> 
+        return <div className="m-2">
             <div className="row">
                 <div className="col-9">
-                <label>Action</label>
-                <DropDown
-                    selectedOption={formOptions.filter(option => option.value === inputType)}
-                    onChange={(e) => {
-                        layers[layerActive].inputType = e.value
-                        this.props.setValue(layers)
-                    }}
-                    options={formOptions}
-                />
+                    <label>Action</label>
+                    <DropDown
+                        selectedOption={formOptions.filter(option => option.value === inputType)}
+                        onChange={(e) => {
+                            layers[layerActive].inputType = e.value
+                            this.props.setValue(layers)
+                        }}
+                        options={formOptions}
+                    />
                 </div>
                 <div className="col-3">
                     <label>Visibility</label>
@@ -40,7 +40,7 @@ export default class GroupedInputForm extends React.Component {
             <div className="my-2">
                 {
                     inputs.map((row, rowIndex) => {
-                        return <div className="my-2 p-2" key={rowIndex} style={{border: "2px solid #ddd"}}>
+                        return <div className="my-2 p-2" key={rowIndex} style={{ border: "2px solid #ddd" }}>
                             <div className="row">
                                 <div className="col-3">
                                     <label>X</label>
@@ -103,7 +103,7 @@ export default class GroupedInputForm extends React.Component {
                             <div className="row">
                                 <div className="col-3">
                                     <label>Background</label>
-                                    <input type="color" className="form-control" value={""} value={row.backgroundColor}
+                                    <input type="color" className="form-control" value={row.backgroundColor}
                                         onChange={(e) => {
                                             layers[layerActive].inputs[rowIndex].backgroundColor = e.target.value
                                             this.props.setValue(layers)
@@ -112,7 +112,7 @@ export default class GroupedInputForm extends React.Component {
                                 </div>
                                 <div className="col-3">
                                     <label>Border Width</label>
-                                    <input type="number" className="form-control" value={""} value={row.borderWidth}
+                                    <input type="number" className="form-control" value={row.borderWidth}
                                         onChange={(e) => {
                                             layers[layerActive].inputs[rowIndex].borderWidth = e.target.value
                                             this.props.setValue(layers)
@@ -121,7 +121,7 @@ export default class GroupedInputForm extends React.Component {
                                 </div>
                                 <div className="col-3">
                                     <label>Border Color</label>
-                                    <input type="color" className="form-control" value={""} value={row.borderColor}
+                                    <input type="color" className="form-control" value={row.borderColor}
                                         onChange={(e) => {
                                             layers[layerActive].inputs[rowIndex].borderColor = e.target.value
                                             this.props.setValue(layers)
@@ -130,7 +130,7 @@ export default class GroupedInputForm extends React.Component {
                                 </div>
                                 <div className="col-3">
                                     <label>Border Radius</label>
-                                    <input type="number" className="form-control" value={""} value={row.borderRadius}
+                                    <input type="number" className="form-control" value={row.borderRadius}
                                         onChange={(e) => {
                                             layers[layerActive].inputs[rowIndex].borderRadius = e.target.value
                                             this.props.setValue(layers)
@@ -146,7 +146,7 @@ export default class GroupedInputForm extends React.Component {
                                         onChange={(e) => {
                                             layers[layerActive].inputs[rowIndex].action = e.value
 
-                                            if(e.value === "Checked Layout" || e.value === "Change Layout") {
+                                            if (e.value === "Checked Layout" || e.value === "Change Layout") {
                                                 layers[layerActive].inputs[rowIndex].layers = {
                                                     visible: [],
                                                     hidden: []
@@ -159,16 +159,16 @@ export default class GroupedInputForm extends React.Component {
                                 </div>
                                 <div className="col-3">
                                     <div className="mt-3">
-                                    {
-                                        (layers[layerActive].inputs[rowIndex].action === "Checked Layout" || layers[layerActive].inputs[rowIndex].action === "Change Layout") && <CheckedLayoutForm 
-                                            setValue={(value) => {
-                                                layers[layerActive].inputs[rowIndex].layers = value;
-                                                this.props.setValue(layers)
-                                            }}
-                                            changedLayers={layers[layerActive].inputs[rowIndex].layers}
-                                            layers={layers}
-                                        />
-                                    }
+                                        {
+                                            (layers[layerActive].inputs[rowIndex].action === "Checked Layout" || layers[layerActive].inputs[rowIndex].action === "Change Layout") && <CheckedLayoutForm
+                                                setValue={(value) => {
+                                                    layers[layerActive].inputs[rowIndex].layers = value;
+                                                    this.props.setValue(layers)
+                                                }}
+                                                changedLayers={layers[layerActive].inputs[rowIndex].layers}
+                                                layers={layers}
+                                            />
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -74,7 +74,7 @@ export default class LableAnimationForm extends React.Component {
             <div className="row">
                 <div className="col-3">
                     <label>Background</label>
-                    <input type="color" className="form-control" value={""} value={activeLayer.backgroundColor}
+                    <input type="color" className="form-control" value={activeLayer.backgroundColor}
                         onChange={(e) => {
                             layers[layerActive].backgroundColor = e.target.value
                             this.props.setValue(layers)
@@ -83,7 +83,7 @@ export default class LableAnimationForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Width</label>
-                    <input type="number" className="form-control" value={""} value={activeLayer.borderWidth}
+                    <input type="number" className="form-control" value={activeLayer.borderWidth}
                         onChange={(e) => {
                             layers[layerActive].borderWidth = e.target.value
                             this.props.setValue(layers)
@@ -92,7 +92,7 @@ export default class LableAnimationForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Color</label>
-                    <input type="color" className="form-control" value={""} value={activeLayer.borderColor}
+                    <input type="color" className="form-control" value={activeLayer.borderColor}
                         onChange={(e) => {
                             layers[layerActive].borderColor = e.target.value
                             this.props.setValue(layers)
@@ -101,7 +101,7 @@ export default class LableAnimationForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Border Radius</label>
-                    <input type="number" className="form-control" value={""} value={activeLayer.borderRadius}
+                    <input type="number" className="form-control" value={activeLayer.borderRadius}
                         onChange={(e) => {
                             layers[layerActive].borderRadius = e.target.value
                             this.props.setValue(layers)
@@ -116,7 +116,7 @@ export default class LableAnimationForm extends React.Component {
                         selectedOption={onClickOptions.filter(option => option.value === activeLayer.action)}
                         onChange={(e) => {
                             layers[layerActive].action = e.value;
-                            if(e.value === "Checked Layout" || e.value === "Change Layout") {
+                            if (e.value === "Checked Layout" || e.value === "Change Layout") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: []
@@ -129,16 +129,16 @@ export default class LableAnimationForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <div className="mt-3">
-                    {
-                        (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm 
-                        setValue={(value) => {
-                            layers[layerActive].layers = value;
-                            this.props.setValue(layers)
-                        }}
-                        changedLayers={layers[layerActive].layers}
-                        layers={layers}
-                    />
-                    }
+                        {
+                            (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
                     </div>
                 </div>
                 <div className="col-3">
@@ -162,55 +162,55 @@ export default class LableAnimationForm extends React.Component {
                         activeLayer.label.map((row, index) => {
                             return <div className="mb-2" key={index}>
                                 <Card
-                                title={"Label " + (index + 1)}>
-                                <div>
-                                    <EditorContent
-                                        text={row.text}
-                                        textOnchange={(value) => {
-                                            layers[layerActive].label[index].text = value
-                                            this.props.setValue(layers)
-                                        }}
-                                    />
-                                    <div className="row mt-2">
-                                        <div className="col-3">
-                                            <label>Background</label>
-                                            <input type="color" className="form-control" value={""} value={row.backgroundColor}
-                                                onChange={(e) => {
-                                                    layers[layerActive].label[index].backgroundColor = e.target.value
-                                                    this.props.setValue(layers)
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="col-3">
-                                            <label>Border Width</label>
-                                            <input type="number" className="form-control" value={""} value={row.borderWidth}
-                                                onChange={(e) => {
-                                                    layers[layerActive].label[index].borderWidth = e.target.value
-                                                    this.props.setValue(layers)
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="col-3">
-                                            <label>Border Color</label>
-                                            <input type="color" className="form-control" value={""} value={row.borderColor}
-                                                onChange={(e) => {
-                                                    layers[layerActive].label[index].borderColor = e.target.value
-                                                    this.props.setValue(layers)
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="col-3">
-                                            <label>Border Radius</label>
-                                            <input type="number" className="form-control" value={""} value={row.borderRadius}
-                                                onChange={(e) => {
-                                                    layers[layerActive].label[index].borderRadius = e.target.value
-                                                    this.props.setValue(layers)
-                                                }}
-                                            />
+                                    title={"Label " + (index + 1)}>
+                                    <div>
+                                        <EditorContent
+                                            text={row.text}
+                                            textOnchange={(value) => {
+                                                layers[layerActive].label[index].text = value
+                                                this.props.setValue(layers)
+                                            }}
+                                        />
+                                        <div className="row mt-2">
+                                            <div className="col-3">
+                                                <label>Background</label>
+                                                <input type="color" className="form-control" value={row.backgroundColor}
+                                                    onChange={(e) => {
+                                                        layers[layerActive].label[index].backgroundColor = e.target.value
+                                                        this.props.setValue(layers)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="col-3">
+                                                <label>Border Width</label>
+                                                <input type="number" className="form-control" value={row.borderWidth}
+                                                    onChange={(e) => {
+                                                        layers[layerActive].label[index].borderWidth = e.target.value
+                                                        this.props.setValue(layers)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="col-3">
+                                                <label>Border Color</label>
+                                                <input type="color" className="form-control" value={row.borderColor}
+                                                    onChange={(e) => {
+                                                        layers[layerActive].label[index].borderColor = e.target.value
+                                                        this.props.setValue(layers)
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="col-3">
+                                                <label>Border Radius</label>
+                                                <input type="number" className="form-control" value={row.borderRadius}
+                                                    onChange={(e) => {
+                                                        layers[layerActive].label[index].borderRadius = e.target.value
+                                                        this.props.setValue(layers)
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Card>
+                                </Card>
                             </div>
                         })
                     }

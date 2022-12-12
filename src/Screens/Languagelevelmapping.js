@@ -2,6 +2,7 @@ import React from "react";
 import DropDown from "../Component/DropDown";
 import { toast, ToastContainer } from "react-toastify";
 import { doConnect } from "../config/Common";
+import { Link } from "react-router-dom";
 
 
 export default class Languagelevelmapping extends React.Component {
@@ -26,7 +27,7 @@ export default class Languagelevelmapping extends React.Component {
         let postJson = { sessionId: '1223' };
         let responseData = await doConnect("getLanguages", "POST", postJson);
         this.setState({ "languages": JSON.parse(responseData.response) })
-        
+
     }
 
     async getLevels() {
@@ -34,28 +35,18 @@ export default class Languagelevelmapping extends React.Component {
         let responseData = await doConnect("getGameLevels", "POST", postJson);
         let json = responseData;
         let that = this;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
             let levelsMap = json['levelsMap'];
             that.setState({ gamingArray: levelsMap })
         }
     }
     async submitFun() {
-        const { languageMappingData, languageSelect } = this.state;
+        const { languageSelect } = this.state;
         //languageId:String, jsonData:String, sessionId: String
-        const { LanguageSelect } = this.state;
-
-
         if (!languageSelect.value) {
             this.setState({ errorLanguage: "Please Select" })
             return false
         }
-
-
-        let postJson = {
-            languageId: languageSelect.value,
-            jsonData: JSON.stringify(this.state.languageMappingData), sessionId: "1223"
-        }
-        let responseData = await doConnect("updateLevelsNameLanguageMapping", "POST", postJson);
         toast.success('Added data !', {
             position: "top-center",
             autoClose: 5000,
@@ -71,7 +62,7 @@ export default class Languagelevelmapping extends React.Component {
 
         let postJson = { languageId: e.value, sessionId: "1223" }
         let responseData = await doConnect("getLevelsNameLanguageMapping", "POST", postJson);
-        if (responseData.response != null) {
+        if (responseData.response !== null) {
             this.setState({ languageMappingData: JSON.parse(responseData.response) })
         } else {
             this.setState({ languageMappingData: {} })
@@ -88,6 +79,7 @@ export default class Languagelevelmapping extends React.Component {
             // alert(this.state.data_value[ival])
             //{ label: "Tamil", value: "Tamil" }
             data.push({ value: ival, label: this.state.languages[ival] })
+            return true
         });
 
 
@@ -96,8 +88,6 @@ export default class Languagelevelmapping extends React.Component {
         if (gamingArray) {
 
             Object.keys(gamingArray).map((ival, index) => {
-
-                //gamingArray[ival].name
                 rowcontent.push(
                     <div className="row mt-3 ">
                         <div className="col-1" />
@@ -115,12 +105,8 @@ export default class Languagelevelmapping extends React.Component {
 
                         <div className="col-4" />
                     </div>)
-
+                return true
             })
-
-
-
-
         }
 
         return (
@@ -136,16 +122,16 @@ export default class Languagelevelmapping extends React.Component {
                                         <div className="x_title">
                                             <h2>Language Level Mapping</h2>
                                             <ul className="nav navbar-right panel_toolbox">
-                                                <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                                <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                                 </li>
                                                 <li className="dropdown">
-                                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                    <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a className="dropdown-item" href="#">Settings 1</a>
-                                                        <a className="dropdown-item" href="#">Settings 2</a>
+                                                        <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                        <Link className="dropdown-item" to="#">Settings 2</Link>
                                                     </div>
                                                 </li>
-                                                <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                                <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                                 </li>
                                             </ul>
                                             <div className="clearfix"></div>

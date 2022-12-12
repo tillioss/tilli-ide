@@ -18,7 +18,7 @@ class SideMenu extends React.Component {
 
   componentDidMount() {
 
-    if (localStorage.getItem("userType") != "developer" && localStorage.getItem("userType") != "admin") {
+    if (localStorage.getItem("userType") !== "developer" && localStorage.getItem("userType") !== "admin") {
       window.location = "/" + MyConstant.keyList.projectUrl
     }
 
@@ -77,10 +77,10 @@ class SideMenu extends React.Component {
       <div className="col-md-3 left_col" >
         <div className="left_col scroll-view sidebar-bg">
           <div className="navbar nav_title" >
-            <a className="site_title">
+            <Link className="site_title">
               {/* <i className="fa fa-paw"></i> */}
               <img src={TilliLogo} alt="..." style={{ width: "25%" }} />
-            </a>
+            </Link>
           </div>
 
           <div className="clearfix"></div>
@@ -161,13 +161,13 @@ class SideMenu extends React.Component {
                 <li><Link to={"/" + MyConstant.keyList.projectUrl + "/analytics"} ><i className="fa fa-line-chart icon-color"></i> Analytics <span className=""></span></Link></li>
               </ul> */}
               <ul className="nav side-menu">
-                <li><a><i className="fa fa-language icon-color"></i> Language  <span className="fa fa-chevron-down icon-color"></span></a>
+                <li><Link><i className="fa fa-language icon-color"></i> Language  <span className="fa fa-chevron-down icon-color"></span></Link>
                   <ul className="nav child_menu">
                     <li>
                       <Link to={"/" + MyConstant.keyList.projectUrl + "/languagemaster"}>Language Master <span
                         className=""></span></Link>
                     </li>
-                    {localStorage.getItem("userType") == "developer" ? <li key={"jsoncreate"}>
+                    {localStorage.getItem("userType") === "developer" ? <li key={"jsoncreate"}>
                       <Link to={"/" + MyConstant.keyList.projectUrl + "/jsoncreate"} > Page Json create <span className=""></span></Link>
                     </li> : null}
                     <li>

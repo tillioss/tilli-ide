@@ -1,7 +1,5 @@
 import React from 'react';
 import MyConstant from "../../config/MyConstant";
-import TopMenu from '../Menu/TopMenu';
-import SideMenu from '../Menu/SideMenu';
 import DropDown from "../../Component/DropDown";
 import ModuleMeetSinglePerson from "./ModuleMeetSinglePerson";
 import ModuleAudioQuizScreen from "./ModuleAudioQuizScreen";
@@ -10,9 +8,6 @@ import DoubleBoxOverlapWithImage from "./DoubleBoxOverlapWithImage";
 import QuestionsList from "./QuestionsList";
 import IntroducePersons from "./IntroducePersons";
 import ChooseCheckboxQuestions from "./ChooseCheckboxQuestions";
-import downArrow from "../../../src/images/downArrow.png";
-import upArrow from "../../../src/images/upArrow.png";
-import DoubleBoxUnderWithImage from "./DoubleBoxUnderWithImage";
 import SingleTextImagePage from "./SingleTextImagePage";
 import { toast, ToastContainer } from "react-toastify";
 import EditorContent from "../EditorContent";
@@ -21,6 +16,7 @@ import ThemeJson from "../Json/Theme.json";
 import AskAge from "./AskAge";
 import AskGender from "./AskGender";
 import { doConnect } from '../../config/Common';
+import { Link } from "react-router-dom";
 
 
 export default class LanguageJsonMapping extends React.Component {
@@ -61,88 +57,88 @@ export default class LanguageJsonMapping extends React.Component {
     let { moduleJson, levelSelect, removeThemeText } = this.state;
     let postJson = { levelId: levelSelect.value, languageId: e.value, sessionId: '1223' };
     let responseData = await doConnect("getModuleLanguageMapping", "POST", postJson);
-    
-        var json = responseData;
-        var response = json.response;
-        // console.log('responseData', JSON.parse(response))
-        // console.log('moduleJson', moduleJson)
-        // console.log('removeThemeText', removeThemeText)
-        if (response) {
-          let storydata = [];
-          let otherdata = [];
-          Object.keys(moduleJson).forEach(val => {
+
+    var json = responseData;
+    var response = json.response;
+    // console.log('responseData', JSON.parse(response))
+    // console.log('moduleJson', moduleJson)
+    // console.log('removeThemeText', removeThemeText)
+    if (response) {
+      let storydata = [];
+      let otherdata = [];
+      Object.keys(moduleJson).forEach(val => {
+        if (JSON.parse(response)[val]) {
+          if (moduleJson[val].theme === JSON.parse(response)[val].theme) {
             if (JSON.parse(response)[val]) {
-              if (moduleJson[val].theme == JSON.parse(response)[val].theme) {
-                if (JSON.parse(response)[val]) {
-                  // console.log(JSON.parse(response)[val])
-                  removeThemeText[val] = JSON.parse(response)[val];
-                }
-              }
-              else {
-                console.log("sss-->" + JSON.parse(response)[val])
-                //console.log('un')
-                console.log("deleted")
-              }
+              // console.log(JSON.parse(response)[val])
+              removeThemeText[val] = JSON.parse(response)[val];
             }
-          })
-
-          removeThemeText.map((val, i) => {
-            if (removeThemeText[i].theme == "StoryCard" || removeThemeText[i].theme == "Ask Age" || removeThemeText[i].theme == "Ask Gender") {
-              storydata[i] = removeThemeText[i]
-            }
-            else {
-              otherdata[i] = removeThemeText[i]
-            }
-
-          })
-          var filtered = removeThemeText.filter(function (el) {
-            return el != null;
-          });
-          storydata = storydata.filter(function (el) {
-            return el != null;
-          });
-
-          //console.log('tamilData',tamilData)
-          // console.log('storydata', storydata)
-          // console.log('otherdata', otherdata)
-          // console.log('removeThemeText->', filtered)
-          this.setState({
-            moduleJson: filtered, languageSelect: e, viewState: true,
-            sectionLearning: otherdata, sectionBuildStory: storydata
-            // Contentdata: this.state.tamilData
-          })
-        }
-        else {
-          if (moduleJson.length != 0) {
-            //console.log('removeThemeText', removeThemeText)
-            let storydata = [];
-            let otherdata = [];
-
-
-
-            moduleJson.map((val, i) => {
-              if (moduleJson[i].theme == "StoryCard" || moduleJson[i].theme == "Ask Age" || moduleJson[i].theme == "Ask Gender") {
-                storydata[i] = moduleJson[i]
-              }
-              else {
-                otherdata[i] = moduleJson[i]
-              }
-
-            })
-
-            storydata = storydata.filter(function (el) {
-              return el != null;
-            });
-
-            // console.log('storydata', storydata)
-            // console.log('otherdata', otherdata)
-
-            this.setState({
-              languageSelect: e, viewState: true, moduleJson
-              , sectionLearning: otherdata, sectionBuildStory: storydata
-            })
+          }
+          else {
+            console.log("sss-->" + JSON.parse(response)[val])
+            //console.log('un')
+            console.log("deleted")
           }
         }
+      })
+
+      removeThemeText.map((val, i) => {
+        if (removeThemeText[i].theme === "StoryCard" || removeThemeText[i].theme === "Ask Age" || removeThemeText[i].theme === "Ask Gender") {
+          storydata[i] = removeThemeText[i]
+        }
+        else {
+          otherdata[i] = removeThemeText[i]
+        }
+        return true
+      })
+      var filtered = removeThemeText.filter(function (el) {
+        return el !== null;
+      });
+      storydata = storydata.filter(function (el) {
+        return el !== null;
+      });
+
+      //console.log('tamilData',tamilData)
+      // console.log('storydata', storydata)
+      // console.log('otherdata', otherdata)
+      // console.log('removeThemeText->', filtered)
+      this.setState({
+        moduleJson: filtered, languageSelect: e, viewState: true,
+        sectionLearning: otherdata, sectionBuildStory: storydata
+        // Contentdata: this.state.tamilData
+      })
+    }
+    else {
+      if (moduleJson.length !== 0) {
+        //console.log('removeThemeText', removeThemeText)
+        let storydata = [];
+        let otherdata = [];
+
+
+
+        moduleJson.map((val, i) => {
+          if (moduleJson[i].theme === "StoryCard" || moduleJson[i].theme === "Ask Age" || moduleJson[i].theme === "Ask Gender") {
+            storydata[i] = moduleJson[i]
+          }
+          else {
+            otherdata[i] = moduleJson[i]
+          }
+          return true
+        })
+
+        storydata = storydata.filter(function (el) {
+          return el !== null;
+        });
+
+        // console.log('storydata', storydata)
+        // console.log('otherdata', otherdata)
+
+        this.setState({
+          languageSelect: e, viewState: true, moduleJson
+          , sectionLearning: otherdata, sectionBuildStory: storydata
+        })
+      }
+    }
 
   }
 
@@ -154,49 +150,49 @@ export default class LanguageJsonMapping extends React.Component {
     let postJson = { levelId: levelId, sessionId: '1223' };
     let that = this;
     let responseData = await doConnect("getLevelMappingData", "POST", postJson);
-    
-        let removeThemeText = []
-        let responceJsonData = responseData.response;
-        if (responceJsonData) {
-          let changeIndex = 0
-          let withOutStory = []
-          let withStory = []
-          JSON.parse(responceJsonData).map((ival, index) => {
-            //console.log("s",ival)
-            var found_index = this.state.themeOptions.findIndex((a) =>
-              a.label === ival.theme)
-            imageView[index] = this.state.themeOptions[found_index]
 
-            let checkindex = ThemeJson.Tamil.findIndex((a) =>
-              a.theme === ival.theme)
+    let removeThemeText = []
+    let responceJsonData = responseData.response;
+    if (responceJsonData) {
+      let changeIndex = 0
+      let withOutStory = []
+      let withStory = []
+      JSON.parse(responceJsonData).map((ival, index) => {
+        //console.log("s",ival)
+        var found_index = this.state.themeOptions.findIndex((a) =>
+          a.label === ival.theme)
+        imageView[index] = this.state.themeOptions[found_index]
 
-            if (checkindex != "-1") {
-              let removetext = this.dataremoveField(ival.theme, ival)
-              removeThemeText[index] = removetext
-            }
+        let checkindex = ThemeJson.Tamil.findIndex((a) =>
+          a.theme === ival.theme)
 
-
-            if (ival.theme == "StoryCard" || ival.theme == "Ask Age" || ival.theme == "Ask Gender") {
-              withStory.push(ival)
-              storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
-              changeIndex++;
-            }
-            else {
-              withOutStory.push(ival)
-            }
-
-
-          })
-          // console.log("with",withStory)
-          // console.log("withour",withOutStory)
-          // console.log('responceJsonData', JSON.parse(responceJsonData))
-          // console.log('removeThemeText', removeThemeText)
-          //console.log('ThemeJson',ThemeJson.Tamil)
-          //tamilData: ThemeJson.Tamil
-          let moduleJson = [...JSON.parse(responceJsonData)]
-          that.setState({ moduleJson, imageView, removeThemeText, storyThemeSelect })
-
+        if (checkindex !== "-1") {
+          let removetext = this.dataremoveField(ival.theme, ival)
+          removeThemeText[index] = removetext
         }
+
+
+        if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender") {
+          withStory.push(ival)
+          storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
+          changeIndex++;
+        }
+        else {
+          withOutStory.push(ival)
+        }
+        return true
+
+      })
+      // console.log("with",withStory)
+      // console.log("withour",withOutStory)
+      // console.log('responceJsonData', JSON.parse(responceJsonData))
+      // console.log('removeThemeText', removeThemeText)
+      //console.log('ThemeJson',ThemeJson.Tamil)
+      //tamilData: ThemeJson.Tamil
+      let moduleJson = [...JSON.parse(responceJsonData)]
+      that.setState({ moduleJson, imageView, removeThemeText, storyThemeSelect })
+
+    }
 
   }
 
@@ -205,58 +201,62 @@ export default class LanguageJsonMapping extends React.Component {
   dataremoveField(theme, data) {
 
     //        console.log(theme,data )
-    if (theme == "IntroducePersons") {
+    if (theme === "IntroducePersons") {
       data.title = "";
       data.content.persons.map(ival => {
         ival.name = "";
         ival.says = "";
+        return true
       })
 
       return data
     }
 
-    if (theme == "DoubleBoxOverlapWithImage" || theme == "ImageWithThinking") {
+    if (theme === "DoubleBoxOverlapWithImage" || theme === "ImageWithThinking") {
       data.title = "";
       data.content.text = "";
-
       return data
     }
 
-    if (theme == "QuestionsList") {
+    if (theme === "QuestionsList") {
       data.title = "";
       data.content.questionList.map(ival => {
         ival.question = "";
+        return true
       })
 
       return data
     }
 
-    if (theme == "ChooseCheckboxQuestions") {
+    if (theme === "ChooseCheckboxQuestions") {
       data.title = "";
       data.content.checkBoxesOption.map(ival => {
         ival.content = "";
+        return true
       })
 
       return data
     }
 
 
-    if (theme == "CircleWithInfoAnimations" || theme == "DropToSelection") {
+    if (theme === "CircleWithInfoAnimations" || theme === "DropToSelection") {
       data.title = "";
       data.content.circles.map(ival => {
         ival.name = "";
+        return true
       })
 
 
 
-      if (theme == "CircleWithInfoAnimations") {
+      if (theme === "CircleWithInfoAnimations") {
         data.content.text.map(ival => {
           ival.value = "";
+          return true
         })
       }
 
 
-      if (theme == "DropToSelection") {
+      if (theme === "DropToSelection") {
 
         data.content.text1 = ""
         data.content.text2 = ""
@@ -275,7 +275,7 @@ export default class LanguageJsonMapping extends React.Component {
       return data
     }
 
-    if (theme == "MeetSinglePerson") {
+    if (theme === "MeetSinglePerson") {
       data.title = "";
       data.content.body = "";
       data.content.bottomText = "";
@@ -285,26 +285,27 @@ export default class LanguageJsonMapping extends React.Component {
       return data
     }
 
-    if (theme == "AudioQuizScreen") {
+    if (theme === "AudioQuizScreen") {
 
 
       data.title = "";
       Object.keys(data.content.feelingsDataList).map(ival => {
         data.content.feelingsDataList[ival].questions = '';
+        return true
       })
 
 
       return data
     }
 
-    if (theme == "SingleTextImage") {
+    if (theme === "SingleTextImage") {
       data.title = "";
       data.content.text = "";
       data.content.bottomtext = "";
       return data
     }
 
-    if (theme == "StoryCard") {
+    if (theme === "StoryCard") {
       // data.content[2]
       data.content[0].title = "";
       data.content[0].content.body = "";
@@ -315,10 +316,12 @@ export default class LanguageJsonMapping extends React.Component {
       data.content[1].title = "";
       data.content[1].content.feelingsDataList.map(ival => {
         ival.questions = '';
+        return true
       })
 
       data.content[2].content.circles.map(ival => {
         ival.name = "";
+        return true
       })
 
       data.content[2].content.message.failure_body_1 = ""; data.content[2].content.message.failure_body_2 = "";
@@ -334,14 +337,14 @@ export default class LanguageJsonMapping extends React.Component {
       return data
 
     }
-    if (theme == "Ask Age") {
+    if (theme === "Ask Age") {
       data.title = "";
       data.content.question = "";
       data.content.question_2 = "";
       data.content.chooseType_1 = "";
       return data
     }
-    if (theme == "Ask Gender") {
+    if (theme === "Ask Gender") {
       data.title = "";
       data.content.question = "";
       data.content.question_2 = "";
@@ -360,28 +363,28 @@ export default class LanguageJsonMapping extends React.Component {
     let postJson = { sessionId: '1223', themeId: '' };
     let responseData = await doConnect("getThemes", "POST", postJson);
     let that = this;
-    
-        let json = responseData;
-        if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
-          let themesMap = json['themesMap'];
-          //console.log('themesList ==>',themesMap)
-          let options = []
-          let storyOption = []
-          Object.keys(themesMap).forEach(value => {
-            // console.log('themesList ==>', themesMap[value].name)
-            if (themesMap[value].name != "StoryCard" && themesMap[value].name != "Ask Age" && themesMap[value].name != "Ask Gender") {
-              options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
-            else {
-              storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
-            }
 
-          })
-          //console.log('options',options)
-          // console.log('storyOption', storyOption)
-          //storyThemeSelect
-          that.setState({ themeOptions: options, storyOption })
+    let json = responseData;
+    if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
+      let themesMap = json['themesMap'];
+      //console.log('themesList ==>',themesMap)
+      let options = []
+      let storyOption = []
+      Object.keys(themesMap).forEach(value => {
+        // console.log('themesList ==>', themesMap[value].name)
+        if (themesMap[value].name !== "StoryCard" && themesMap[value].name !== "Ask Age" && themesMap[value].name !== "Ask Gender") {
+          options.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
         }
+        else {
+          storyOption.push({ label: themesMap[value].name, value: themesMap[value].name, json: themesMap[value] })
+        }
+
+      })
+      //console.log('options',options)
+      // console.log('storyOption', storyOption)
+      //storyThemeSelect
+      that.setState({ themeOptions: options, storyOption })
+    }
   }
 
 
@@ -398,7 +401,7 @@ export default class LanguageJsonMapping extends React.Component {
     delete sectionLearning[value]
 
     let RemoveData = sectionLearning.filter(function (el) {
-      return el != null;
+      return el !== null;
     });
 
 
@@ -412,6 +415,7 @@ export default class LanguageJsonMapping extends React.Component {
     Object.keys(this.state.fileData).map((ival, index) => {
       let image = this.state.fileData[ival];
       imageOptions.push({ value: MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType, label: image.title, json: image })
+      return true
     });
     return imageOptions
   }
@@ -436,17 +440,9 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   async submitFuntion() {
-    const { sectionLearning, sectionBuildStory, levelSelect, languageSelect } = this.state
-
-
-    // if (!checkReturn) {
-    //   this.setState({ sectionBuildStory, sectionLearning })
-    //   return false
-    // }
-
+    const { sectionLearning, levelSelect, languageSelect } = this.state
     let addData = ""
     addData = [...sectionLearning, ...this.state.sectionBuildStory]
-
 
     let postJson = {
       levelId: levelSelect.value,
@@ -456,24 +452,24 @@ export default class LanguageJsonMapping extends React.Component {
 
     console.log('postJson==>', postJson)
     let responseData = await doConnect("updateModuleLanguageMapping", "POST", postJson);
-    
-        var json = responseData;
-        var response = json.response;
-        if (response == 'Success') {
-          toast.success('Added data !', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          //this.setState({enableLoader:false})
 
-        } else {
-          alert(response);
-        }
+    var json = responseData;
+    var response = json.response;
+    if (response === 'Success') {
+      toast.success('Added data !', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      //this.setState({enableLoader:false})
+
+    } else {
+      alert(response);
+    }
 
   }
 
@@ -481,56 +477,40 @@ export default class LanguageJsonMapping extends React.Component {
     let postJson = { sessionId: '1223', levelId: '' };
     let that = this;
     let responseData = await doConnect("getGameLevels", "POST", postJson);
-        let json = responseData;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
-          let levelsMap = json['levelsMap'];
-          let level_Id = this.props.match.params.levelid
-          let select_Level = {}
-          if (level_Id) {
-            select_Level.value = level_Id;
-            select_Level.label = levelsMap[level_Id].name;
-          }
+    let json = responseData;
+    if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
+      let levelsMap = json['levelsMap'];
+      let level_Id = this.props.match.params.levelid
+      let select_Level = {}
+      if (level_Id) {
+        select_Level.value = level_Id;
+        select_Level.label = levelsMap[level_Id].name;
+      }
+      that.setState({ levelsJson: levelsMap, levelSelect: select_Level })
+      this.getLevelMappingData(level_Id)
 
-
-          that.setState({ levelsJson: levelsMap, levelSelect: select_Level })
-
-          this.getLevelMappingData(level_Id)
-
-        }
+    }
   }
 
 
 
   addTheme() {
-
     const { sectionLearning } = this.state
     sectionLearning.push({ title: "", theme: "", content: {} })
-
     this.setState({ sectionLearning })
   }
-
   changeTheme(index, e) {
-
-    const { sectionLearning, imageView } = this.state;
 
   }
 
-
-
-
   return_Content_doublebox(Select, index_1) {
-    const { Contentdata, LevelStage_1, dummyOptionSelect, ImageValidate, contentText, contentTextValidate, sectionLearning } = this.state;
+    const { LevelStage_1, dummyOptionSelect, ImageValidate, contentText, contentTextValidate, sectionLearning } = this.state;
     var found_index = LevelStage_1.findIndex((a) =>
       a.theme === Select
     )
-
-
     let imageOptions = this.getImageOption()
-
-
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-    if (checkindex != "-1") {
-      //console.log('checkindex',imageOptions[checkindex])
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+    if (checkindex !== "-1") {
       dummyOptionSelect[index_1] = imageOptions[checkindex]
 
     }
@@ -553,8 +533,6 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   return_qustioncontent(value, index_1) {
-    let arrayvalue = [];
-
     const { LevelStage_1, sectionLearning, contentTextValidate } = this.state;
     let remove_undef = sectionLearning[index_1].content.questionList.filter(function (element) {
       return element !== null;
@@ -573,16 +551,8 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   return_Content_introduce(value, index_1) {
-
-    let arrayvalue = [];
-
-    const { LevelStage_1, Contentdata, dummyOptionSelect, OptionSelect, sectionLearning } = this.state;
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === value
-    )
-
+    const { LevelStage_1, dummyOptionSelect, sectionLearning } = this.state;
     let imageOptions = this.getImageOption()
-
     //bg,imageBg,name,says
     return <IntroducePersons
       LevelStage={LevelStage_1}
@@ -597,10 +567,7 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   return_Content_choose_checkbox(value, index_1) {
-
-
-    const { LevelStage_1, sectionLearning } = this.state;
-
+    const { sectionLearning } = this.state;
     let remove_undef = sectionLearning[index_1].content.checkBoxesOption.filter(function (element) {
       return element !== null;
     });
@@ -614,13 +581,11 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   return_content_circle(value, index_1, type) {
-
-    const { LevelStage_1, dummyOptionSelect, sectionLearning } = this.state;
-    let arrayvalue = []
+    const { dummyOptionSelect, sectionLearning } = this.state;
     let imageOptions = this.getImageOption()
-    if (Object.keys(sectionLearning[index_1].content).length != 0) {
-      let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-      if (checkindex != "-1") {
+    if (Object.keys(sectionLearning[index_1].content).length !== 0) {
+      let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+      if (checkindex !== "-1") {
         dummyOptionSelect[index_1] = imageOptions[checkindex]
       }
     }
@@ -639,17 +604,14 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   MeetSinglePersonFunction(Value, index_1) {
-
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, dummyOptionSelect } = this.state;
     let imageOptions = this.getImageOption()
 
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-    if (checkindex != "-1") {
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+    if (checkindex !== "-1") {
       dummyOptionSelect[index_1] = imageOptions[checkindex]
     }
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === Value
-    )
+
 
     return <ModuleMeetSinglePerson
       optionSelect={dummyOptionSelect}
@@ -663,20 +625,17 @@ export default class LanguageJsonMapping extends React.Component {
 
 
   return_content_audioscreen(Value, index_1) {
-
     const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
-
     let remove_undef = sectionLearning[index_1].content.feelingsDataList.filter(function (element) {
       return element !== null;
     });
     sectionLearning[index_1].content.feelingsDataList = remove_undef
 
 
-
     let imageOptions = this.getImageOption()
     if (sectionLearning[index_1].content.id) {
-      let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index_1].content.image.id);
-      if (checkindex != "-1") {
+      let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index_1].content.image.id);
+      if (checkindex !== "-1") {
         //console.log('checkindex',imageOptions[checkindex])
         dummyOptionSelect[index_1] = imageOptions[checkindex]
       }
@@ -700,7 +659,7 @@ export default class LanguageJsonMapping extends React.Component {
 
     //alert(type)
 
-    if (type == "Down") {
+    if (type === "Down") {
 
       let value = [...sectionLearning]
 
@@ -715,7 +674,7 @@ export default class LanguageJsonMapping extends React.Component {
 
     }
 
-    if (type == "Up") {
+    if (type === "Up") {
 
       let value = [...sectionLearning]
 
@@ -822,7 +781,7 @@ export default class LanguageJsonMapping extends React.Component {
     delete sectionBuildStory[value]
 
     let RemoveData = sectionBuildStory.filter(function (el) {
-      return el != null;
+      return el !== null;
     });
 
 
@@ -835,7 +794,7 @@ export default class LanguageJsonMapping extends React.Component {
 
     //alert(type)
 
-    if (type == "Down") {
+    if (type === "Down") {
 
       let value = [...sectionBuildStory]
 
@@ -852,7 +811,7 @@ export default class LanguageJsonMapping extends React.Component {
 
 
 
-    if (type == "Up") {
+    if (type === "Up") {
 
       let value = [...sectionBuildStory]
 
@@ -869,21 +828,19 @@ export default class LanguageJsonMapping extends React.Component {
   }
 
   contentRefilData(e, index) {
-    const { sectionBuildStory, storyThemeSelect } = this.state;
+
   }
 
 
 
   SingleTextImageReturn(Value, index) {
-    const { LevelStage_1, sectionLearning, dummyOptionSelect } = this.state;
+    const { sectionLearning, dummyOptionSelect } = this.state;
     let imageOptions = this.getImageOption()
-    let checkindex = imageOptions.findIndex(x => x.json.id == sectionLearning[index].content.image.id);
-    if (checkindex != "-1") {
+    let checkindex = imageOptions.findIndex(x => x.json.id === sectionLearning[index].content.image.id);
+    if (checkindex !== "-1") {
       dummyOptionSelect[index] = imageOptions[checkindex]
     }
-    var found_index = LevelStage_1.findIndex((a) =>
-      a.theme === Value
-    )
+
     return <SingleTextImagePage
       optionSelect={dummyOptionSelect}
       option={imageOptions}
@@ -927,6 +884,7 @@ export default class LanguageJsonMapping extends React.Component {
     if (languagesData) {
       Object.keys(languagesData).map((ival, index) => {
         languagesOption.push({ value: ival, label: languagesData[ival], })
+        return true
       });
     }
 
@@ -939,8 +897,8 @@ export default class LanguageJsonMapping extends React.Component {
         let chooseDataview = ""
         let selectBoxConditon = ""
 
-        if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage" || sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
-          if (sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label == "Image") {
+        if (sectionLearning[index].theme === "DoubleBoxOverlapWithImage" || sectionLearning[index].theme === "DoubleBoxUnderWithImage") {
+          if (sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label === "Image") {
             let imageOptions = this.getImageOption()
             chooseDataview = <>
               <div className="row" style={{ width: "100%" }}>
@@ -986,17 +944,8 @@ export default class LanguageJsonMapping extends React.Component {
             </>
 
             selectBoxConditon = <>
-
               <div className="col-sm-3 topalign">
                 <label for="Text">Text</label>
-
-                {/* <input type="text" className="form-control" id="Text" placeholder="Text"
-                value={sectionLearning[index].content.text}
-                onChange={e => {
-                  sectionLearning[index].content.text = e.target.value;
-                  this.setState({ sectionLearning })
-                }} /> */}
-                {/* {JSON.stringify(sectionLearning[index].content.text)} */}
                 <EditorContent text={sectionLearning[index].content.text}
                   index={index} sectionLearning={sectionLearning} />
 
@@ -1016,7 +965,7 @@ export default class LanguageJsonMapping extends React.Component {
             </>
 
           }
-          else if (Object.keys(sectionLearning[index]).length != 0 && sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label == "Video") {
+          else if (Object.keys(sectionLearning[index]).length !== 0 && sectionLearning[index].content.chooseType && sectionLearning[index].content.chooseType.label === "Video") {
             chooseDataview = <>
               <div className="col-sm-3 topalign">
                 <label for="Video">Video</label>
@@ -1032,7 +981,7 @@ export default class LanguageJsonMapping extends React.Component {
           }
         }
         let ThemeChooseData = "";
-        if (sectionLearning[index].theme == "DoubleBoxOverlapWithImage") {
+        if (sectionLearning[index].theme === "DoubleBoxOverlapWithImage") {
           ThemeChooseData = <>
             {selectBoxConditon}
             <div className="col-sm-3 topalign">
@@ -1061,7 +1010,7 @@ export default class LanguageJsonMapping extends React.Component {
           </>
 
         }
-        else if (sectionLearning[index].theme == "DoubleBoxUnderWithImage") {
+        else if (sectionLearning[index].theme === "DoubleBoxUnderWithImage") {
           ThemeChooseData = <>
             {selectBoxConditon}
             <div className="col-sm-3 topalign">
@@ -1101,35 +1050,35 @@ export default class LanguageJsonMapping extends React.Component {
           </>
 
         }
-        else if (sectionLearning[index].theme == "ImageWithThinking") {
+        else if (sectionLearning[index].theme === "ImageWithThinking") {
 
           ThemeChooseData = <> {this.return_Content_doublebox(sectionLearning[index].theme, index)} </>
         }
-        else if (sectionLearning[index].theme == "QuestionsList") {
+        else if (sectionLearning[index].theme === "QuestionsList") {
 
           ThemeChooseData = <> {this.return_qustioncontent(sectionLearning[index].theme, index)}  </>
 
         }
-        else if (sectionLearning[index].theme == "IntroducePersons") {
+        else if (sectionLearning[index].theme === "IntroducePersons") {
           ThemeChooseData = <> {this.return_Content_introduce(sectionLearning[index].theme, index)}  </>
 
         }
-        else if (sectionLearning[index].theme == "ChooseCheckboxQuestions") {
+        else if (sectionLearning[index].theme === "ChooseCheckboxQuestions") {
           ThemeChooseData = <> {this.return_Content_choose_checkbox(sectionLearning[index].theme, index)}  </>
         }
-        else if (sectionLearning[index].theme == "CircleWithInfoAnimations") {
+        else if (sectionLearning[index].theme === "CircleWithInfoAnimations") {
           ThemeChooseData = <> {this.return_content_circle(sectionLearning[index].theme, index, false)}  </>
         }
-        else if (sectionLearning[index].theme == "MeetSinglePerson") {
+        else if (sectionLearning[index].theme === "MeetSinglePerson") {
           ThemeChooseData = <> {this.MeetSinglePersonFunction(sectionLearning[index].theme, index)}  </>
         }
-        else if (sectionLearning[index].theme == "AudioQuizScreen") {
+        else if (sectionLearning[index].theme === "AudioQuizScreen") {
           ThemeChooseData = <> {this.return_content_audioscreen(sectionLearning[index].theme, index)}  </>
         }
-        else if (sectionLearning[index].theme == "DropToSelection") {
+        else if (sectionLearning[index].theme === "DropToSelection") {
           ThemeChooseData = <> {this.return_content_circle(sectionLearning[index].theme, index, true)}  </>
         }
-        else if (sectionLearning[index].theme == "SingleTextImage") {
+        else if (sectionLearning[index].theme === "SingleTextImage") {
           ThemeChooseData = <> {this.SingleTextImageReturn(sectionLearning[index].theme, index)}  </>
         }
 
@@ -1137,25 +1086,16 @@ export default class LanguageJsonMapping extends React.Component {
 
         sectionOneData.push(
           <>
-
             <div className="panel panel-info">
               <div className="panel-heading">
 
                 <div className="row" style={{ padding: 20, }}>
                   <div className="col-sm-1 "> Title </div>
                   <div className="col-sm-4">
-
-                    {/* <input type={'text'} className={'form-control'} value={sectionLearning[index].title} placeholder={'Enter Title'} style={{ width: '100%' }}
-                      onChange={(e) => {
-                        sectionLearning[index].title = e.target.value
-                        this.setState({ sectionLearning })
-                      }} /> */}
-
-
                     <EditorContent text={sectionLearning[index].title} themeType={"TitleText"}
                       index={index} sectionLearning={sectionLearning} />
 
-                    {sectionLearning[index].title.length == 0 ?
+                    {sectionLearning[index].title.length === 0 ?
                       <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index].errorTitle}</span>
                       : null}
 
@@ -1167,42 +1107,15 @@ export default class LanguageJsonMapping extends React.Component {
                   <div className="col-sm-1"> <p style={{ fontWeight: "bold", color: "#00008b" }}> Theme {index + 1}</p> </div>
                   <div className="col-sm-1">
 
-                    {/* {index == '0' && sectionLearning.length - 1 != 0 ?
-                      <React.Fragment>
-                        <span onClick={() => { this.indexChange(index, "Down") }} >
-                          <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                        </span>
-                      </React.Fragment>
-                      : sectionLearning.length - 1 != 0 && sectionLearning.length - 1 == index ?
-                        <React.Fragment>
-                          <span onClick={() => { this.indexChange(index, "Up") }}>
-                            <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-
-                          </span>
-                        </React.Fragment>
-                        : sectionLearning.length - 1 != 0 ? <React.Fragment>
-                          <span style={{ padding: 4 }} onClick={() => { this.indexChange(index, "Up") }}>
-                            <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                          </span>
-                          <span style={{ padding: 4 }} onClick={() => { this.indexChange(index, "Down") }}>
-                            <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                          </span>
-                        </React.Fragment>
-                          : null
-
-                    } */}
-
                   </div>
                   <div className="col-sm-1" style={{ cursor: "pointer" }} onClick={(e) => {
                     //this.removeFunction(index)
                   }}>
-                    {/* <i className="fa fa-close" style={{ fontSize: 20, color: "#FFF", backgroundColor: "#f95a2b", padding: 5, cursor: "pointer" }}></i> */}
                   </div>
                 </div>
 
                 <div className="row" style={{ padding: 20, }}>
                   <div className="col-sm-1"> Theme </div>
-                  {/* {JSON.stringify(sectionLearning[index].theme)} */}
                   <div className="col-sm-4">
                     <DropDown
                       selectedOption={sectionLearning[index].theme ? { label: sectionLearning[index].theme, value: sectionLearning[index].theme }
@@ -1220,8 +1133,7 @@ export default class LanguageJsonMapping extends React.Component {
                     {this.state.imageView[index] && this.state.imageView[index] ?
                       <img style={{ width: '100%', height: 100 }}
                         src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageView[index].json.image.fileName + "&id=" + this.state.imageView[index].json.image.fileType}
-
-                        alt={'No Image'} className="img-responsive" onClick={() => {
+                        alt={'loading'} className="img-responsive" onClick={() => {
                           this.setState({ imageBigView: this.state.imageView[index], displayImage: 'block' })
                         }} />
                       : null}
@@ -1240,45 +1152,31 @@ export default class LanguageJsonMapping extends React.Component {
                 </div>
               </div>
             </div>
-
-
-
           </>
         )
-
+        return true
       })
     }
 
 
     sectionBuildStory.map((jval, jindex) => {
-
       let titleContentVew = "";
-
       let storyCardContent = "";
-
-
-      if (sectionBuildStory[jindex].theme == "StoryCard" && sectionBuildStory[jindex].theme.length != 0 && Object.keys(sectionBuildStory[jindex].content).length != 0) {
-
+      if (sectionBuildStory[jindex].theme === "StoryCard" && sectionBuildStory[jindex].theme.length !== 0 && Object.keys(sectionBuildStory[jindex].content).length !== 0) {
         storyCardContent = this.StoryCardReturnData(sectionBuildStory, jindex)
       }
-      else if (sectionBuildStory[jindex].theme == "Ask Age") {
+      else if (sectionBuildStory[jindex].theme === "Ask Age") {
         storyCardContent = this.theme_AgeReturn(sectionBuildStory[jindex].theme, jindex)
       }
-      else if (sectionBuildStory[jindex].theme == "Ask Gender") {
+      else if (sectionBuildStory[jindex].theme === "Ask Gender") {
         storyCardContent = this.theme_GenderReturn(sectionBuildStory[jindex].theme, jindex)
       }
-      if (Object.keys(sectionBuildStory[jindex]).length != 0) {
-
-
-
+      if (Object.keys(sectionBuildStory[jindex]).length !== 0) {
         titleContentVew = <>
           <div className="row" style={{ padding: 20, }}>
             <div className="col-sm-1 "> Title  </div>
-
-
             <div className="col-sm-4">
-
-              {sectionBuildStory[jindex].theme && sectionBuildStory[jindex].theme != "StoryCard" ?
+              {sectionBuildStory[jindex].theme && sectionBuildStory[jindex].theme !== "StoryCard" ?
                 <EditorContent text={sectionBuildStory[jindex].title} themeType={sectionBuildStory[jindex].theme}
                   index={jindex}
                   textOnchange={(value) => {
@@ -1317,47 +1215,11 @@ export default class LanguageJsonMapping extends React.Component {
             <div className="col-sm-2"></div>
             <div className="col-sm-1"> <p style={{ fontWeight: "bold", color: "#00008b" }}> Theme {jindex + 1}</p> </div>
             <div className="col-sm-1">
-              {/* {jindex == '0' && sectionBuildStory.length - 1 != 0 ?
-                <React.Fragment>
-                  <span onClick={() => {
-                    this.storySwaping(jindex, "Down")
-                  }} >
-                    <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                  </span>
-                </React.Fragment>
-                : sectionBuildStory.length - 1 != 0 && sectionBuildStory.length - 1 == jindex ?
-                  <React.Fragment>
-                    <span
-                      onClick={() => {
-
-                        this.storySwaping(jindex, "Up")
-                      }}>
-                      <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-
-                    </span>
-                  </React.Fragment>
-                  : sectionBuildStory.length - 1 != 0 ? <React.Fragment>
-                    <span style={{ padding: 4 }} onClick={() => {
-                      this.storySwaping(jindex, "Up")
-                    }}>
-                      <i className="fa fa-arrow-up" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                    </span>
-                    <span style={{ padding: 4 }} onClick={() => {
-                      this.storySwaping(jindex, "Down")
-                    }}>
-                      <i className="fa fa-arrow-down" aria-hidden="true" style={{ fontSize: 25, color: "black", cursor: "pointer", }}></i>
-                    </span>
-                  </React.Fragment>
-                    : null
-
-              } */}
-
             </div>
 
             <div className="col-sm-1" style={{ cursor: "pointer" }} onClick={() => {
               // this.storyCardRemove(jindex)
             }} >
-              {/* <i className="fa fa-close" style={{ fontSize: 20, color: "#FFF", backgroundColor: "#f95a2b", padding: 5, cursor: "pointer" }}></i>  */}
             </div>
 
           </div>
@@ -1403,7 +1265,7 @@ export default class LanguageJsonMapping extends React.Component {
           </div>
         </>
       )
-
+      return true
     })
 
 
@@ -1413,156 +1275,133 @@ export default class LanguageJsonMapping extends React.Component {
     Object.keys(this.state.levelsJson).map((ival, index) => {
       let levelData = this.state.levelsJson[ival];
       levelOption.push({ value: levelData.id, label: levelData.name, })
+      return true
     });
 
 
     return (
       <React.Fragment>
         <div className="main-content">
-            <div className="right_col" role="main">
-              <div className="">
+          <div className="right_col" role="main">
+            <div className="">
 
-                <div className="clearfix"></div>
+              <div className="clearfix"></div>
 
-                <div className="row">
-                  <div className="col-md-12 col-sm-12  ">
-                    <div className="x_panel">
-                      <div className="x_title">
-                        <h2>Module Management</h2>
-                        <ToastContainer />
-                        <ul className="nav navbar-right panel_toolbox">
-                          <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
-                          </li>
-                          <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a className="dropdown-item" href="#">Settings 1</a>
-                              <a className="dropdown-item" href="#">Settings 2</a>
-                            </div>
-                          </li>
-                          <li><a className="close-link"><i className="fa fa-close"></i></a>
-                          </li>
-                        </ul>
-                        <div className="clearfix"></div>
+              <div className="row">
+                <div className="col-md-12 col-sm-12  ">
+                  <div className="x_panel">
+                    <div className="x_title">
+                      <h2>Module Management</h2>
+                      <ToastContainer />
+                      <ul className="nav navbar-right panel_toolbox">
+                        <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
+                        </li>
+                        <li className="dropdown">
+                          <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
+                          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <Link className="dropdown-item" to="#">Settings 1</Link>
+                            <Link className="dropdown-item" to="#">Settings 2</Link>
+                          </div>
+                        </li>
+                        <li><Link className="close-link"><i className="fa fa-close"></i></Link>
+                        </li>
+                      </ul>
+                      <div className="clearfix"></div>
+                    </div>
+                    <div className="x_content">
+                      {/*Content*/}
+
+
+                      <div className="row item form-group" style={{ marginTop: 20 }}>
+
+                        <div className="col-sm-1">Module</div>
+                        <div className="col-sm-5">
+                          <DropDown
+                            selectedOption={this.state.levelSelect}
+                            onChange={(e) => {
+                              this.setState({ levelSelect: e })
+
+                            }}
+                            options={levelOption}
+                            isDisabled={true}
+                          />
+
+                          <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{this.state.errorlevelSelect}</span>
+                        </div>
+                        <div className="col-sm-6"> </div>
                       </div>
-                      <div className="x_content">
-                        {/*Content*/}
 
 
-                        <div className="row item form-group" style={{ marginTop: 20 }}>
+                      <div className="row item form-group" style={{ marginTop: 20 }}>
+                        <div className="col-sm-1">Language Select</div>
+                        <div className="col-sm-5">
+                          <DropDown
+                            selectedOption={languageSelect}
+                            onChange={(e) => {
 
-                          <div className="col-sm-1">Module</div>
-                          <div className="col-sm-5">
-                            <DropDown
-                              selectedOption={this.state.levelSelect}
-                              onChange={(e) => {
-                                this.setState({ levelSelect: e })
+                              this.LanguageChange(e)
+                            }}
+                            options={languagesOption}
+                          />
 
-                              }}
-                              options={levelOption}
-                              isDisabled={true}
-                            />
-
-                            <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{this.state.errorlevelSelect}</span>
-                          </div>
-                          <div className="col-sm-6"> </div>
+                          <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}> {this.state.errorLanguage}</span>
                         </div>
-
-
-                        <div className="row item form-group" style={{ marginTop: 20 }}>
-                          <div className="col-sm-1">Language Select</div>
-                          <div className="col-sm-5">
-                            <DropDown
-                              selectedOption={languageSelect}
-                              onChange={(e) => {
-
-                                this.LanguageChange(e)
-                              }}
-                              options={languagesOption}
-                            />
-
-                            <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}> {this.state.errorLanguage}</span>
-                          </div>
-                          <div className="col-sm-6"> </div>
-                        </div>
-                        {this.state.viewState ? <>
-
-
-
-                          <div className="panel panel-default">
-                            <h2 style={{ color: "black" }}> Section 1: LEARNING </h2>
-                            <div className="panel-body">Add Learning Card </div>
-                            {/* {JSON.stringify(sectionLearning)} */}
-                            {sectionOneData}
-                            <div className="row mt-3 mb-3">
-                              <div className="col-sm-4"> </div>
-                              <div className="col-sm-4">
-                                {/* <button type="button" className="btn btn-success" onClick={() => {
-
-                                this.addTheme()
-                              }}>Add Theme</button> */}
-                              </div>
-                              <div className="col-sm-4"> </div>
-                            </div>
-                          </div>
-
-                          <div className="panel panel-default">
-                            <h2 style={{ color: "black" }}> Section 2:  Apply (Building a story flow)  </h2>
-                            <div className="panel-body">
-                              {sectionDataTwo}
-                            </div>
-                            {/* {JSON.stringify([...sectionLearning, ...this.state.sectionBuildStory])} */}
-                            <br /><br />
-                            {/* <div className="row mt-3 mb-3">
-                              <div className="col-sm-4"> </div>
-                              <div className="col-sm-4">
-                                <button type="button" className="btn btn-success" onClick={() => {
-                                  this.addStoyTheme()
-                                }}>Add Story Theme</button>
-                              </div>
-                              <div className="col-sm-4"> </div>
-                            </div> */}
-                          </div>
-                          <div className="row">
+                        <div className="col-sm-6"> </div>
+                      </div>
+                      {this.state.viewState ? <>
+                        <div className="panel panel-default">
+                          <h2 style={{ color: "black" }}> Section 1: LEARNING </h2>
+                          <div className="panel-body">Add Learning Card </div>
+                          {/* {JSON.stringify(sectionLearning)} */}
+                          {sectionOneData}
+                          <div className="row mt-3 mb-3">
                             <div className="col-sm-4"> </div>
                             <div className="col-sm-4">
-                              <button type="button" className="btn btn-primary" onClick={() => { this.submitFuntion() }}>Submit</button>
                             </div>
                             <div className="col-sm-4"> </div>
                           </div>
-
-                        </> : null}
-
-
-
-
-                        {/*Image View*/}
-                        <div id="myModal" className="modal_image" style={{ display: this.state.displayImage }} >
-                          <span className="close" onClick={() => {
-                            this.setState({ displayImage: "none" })
-                          }}  >&times;</span>
-                          {this.state.imageBigView ?
-
-                            <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" />
-
-                            : null}
-
-                          <div id="caption"></div>
                         </div>
-                        {/*Image View*/}
 
-                        {/*Content*/}
+                        <div className="panel panel-default">
+                          <h2 style={{ color: "black" }}> Section 2:  Apply (Building a story flow)  </h2>
+                          <div className="panel-body">
+                            {sectionDataTwo}
+                          </div>
+                          {/* {JSON.stringify([...sectionLearning, ...this.state.sectionBuildStory])} */}
+                          <br /><br />
+                        </div>
+                        <div className="row">
+                          <div className="col-sm-4"> </div>
+                          <div className="col-sm-4">
+                            <button type="button" className="btn btn-primary" onClick={() => { this.submitFuntion() }}>Submit</button>
+                          </div>
+                          <div className="col-sm-4"> </div>
+                        </div>
+
+                      </> : null}
+
+                      {/*Image View*/}
+                      <div id="myModal" className="modal_image" style={{ display: this.state.displayImage }} >
+                        <span className="close" onClick={() => {
+                          this.setState({ displayImage: "none" })
+                        }}  >&times;</span>
+                        {this.state.imageBigView ?
+
+                          <img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + this.state.imageBigView.json.image.fileName + "&id=" + this.state.imageBigView.json.image.fileType} className="modal-content_image" id="img01" alt="loading" />
+                          : null}
+                        <div id="caption"></div>
                       </div>
+                      {/*Image View*/}
+
+                      {/*Content*/}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <!-- /page content --> */}
-
+          </div>
+          {/* <!-- /page content --> */}
         </div>
-
-
       </React.Fragment>
     )
 

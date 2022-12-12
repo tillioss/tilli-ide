@@ -2,7 +2,6 @@ import React from "react";
 import TopMenu from './Menu/TopMenu';
 import SideMenu from './Menu/SideMenu';
 import DataTable from "../Component/DataTable";
-import MyConstant from "../config/MyConstant";
 import { doConnect } from "../config/Common";
 
 export default class AdminList extends React.Component {
@@ -49,7 +48,7 @@ export default class AdminList extends React.Component {
 
     async getAdminList() {
         let postJson = { sessionId: '123' };
-        let responseData = await doConnect("adminList", "POST", postJson);
+         await doConnect("adminList", "POST", postJson);
     }
     render() {
         let { columns, dataContent} = this.state;

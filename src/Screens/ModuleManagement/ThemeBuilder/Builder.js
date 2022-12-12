@@ -83,6 +83,7 @@ export default class Builder extends React.Component {
         Object.keys(this.state.fileData).map((ival, index) => {
             let image = this.state.fileData[ival];
             imageOptions.push({ value: MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType, label: image.title, json: image })
+            return true
         });
         return imageOptions
     }
@@ -131,7 +132,7 @@ export default class Builder extends React.Component {
             let findChangeLayOutIndex = layers.findIndex((e) => { return e.action === "Change Layout" });
             let findResetLayOutIndex = layers.findIndex((e) => { return e.action === "Reset Text" });
 
-            if (findRecordIndex != "-1" && layers[findRecordIndex] && layers[findRecordIndex].action === "Record") {
+            if (findRecordIndex !== "-1" && layers[findRecordIndex] && layers[findRecordIndex].action === "Record") {
                 console.log("layers-->", layers[findRecordIndex], layerActive)
                 let { hidden, questionMark, recordHold, recordValue, visible } = layers[findRecordIndex].layers;
                 if (Array.isArray(recordHold) && recordHold.includes(layerActive)) {
@@ -157,7 +158,7 @@ export default class Builder extends React.Component {
                 console.log("recordIndex-->", layers[findRecordIndex], layerActive)
             }
 
-            if (findCheckLayOutIndex != "-1" && layers[findCheckLayOutIndex] && layers[findCheckLayOutIndex].action === "Checked Layout") {
+            if (findCheckLayOutIndex !== "-1" && layers[findCheckLayOutIndex] && layers[findCheckLayOutIndex].action === "Checked Layout") {
                 let { hidden, visible } = layers[findCheckLayOutIndex].layers;
                 console.log("layers-->", layers[findCheckLayOutIndex], layerActive)
                 if (visible.includes(layerActive)) {
@@ -171,7 +172,7 @@ export default class Builder extends React.Component {
                 console.log("checkLayout-->", layers[findCheckLayOutIndex], layerActive)
             }
 
-            if (findChangeLayOutIndex != "-1" && layers[findChangeLayOutIndex] && layers[findChangeLayOutIndex].action === "Change Layout") {
+            if (findChangeLayOutIndex !== "-1" && layers[findChangeLayOutIndex] && layers[findChangeLayOutIndex].action === "Change Layout") {
                 let { hidden, visible } = layers[findChangeLayOutIndex].layers;
                 console.log("layers-->", layers[findChangeLayOutIndex], layerActive)
                 if (Array.isArray(visible) && visible.includes(layerActive)) {
@@ -184,7 +185,7 @@ export default class Builder extends React.Component {
                 }
                 console.log("changeLayout-->", layers[findChangeLayOutIndex], layerActive)
             }
-            if (findResetLayOutIndex != "-1" && layers[findResetLayOutIndex] && layers[findResetLayOutIndex].action === "Reset Text") {
+            if (findResetLayOutIndex !== "-1" && layers[findResetLayOutIndex] && layers[findResetLayOutIndex].action === "Reset Text") {
                 let { resetText } = layers[findResetLayOutIndex].layers;
                 if (Array.isArray(resetText) && resetText.includes(layerActive)) {
                     resetText = resetText.filter((e) => { return e !== layerActive })
@@ -201,7 +202,7 @@ export default class Builder extends React.Component {
     }
     drop(ev) {
         ev.preventDefault();
-        let { layers, deviceHeight } = this.state
+        let { layers, } = this.state
         var data = ev.dataTransfer.getData("text");
 
         console.log(data);
@@ -227,9 +228,9 @@ export default class Builder extends React.Component {
             case "groupedInput":
                 layers.push({
                     type: data,
-                    inputType : "checkbox",
+                    inputType: "checkbox",
                     visibility: "visible",
-                    inputs : [
+                    inputs: [
                         {
                             x: x,
                             y: y,
@@ -363,6 +364,7 @@ export default class Builder extends React.Component {
                     }]
                 })
                 break;
+            default:
         }
 
         this.setState({
@@ -479,7 +481,7 @@ export default class Builder extends React.Component {
                         width: layer.width + "%",
                         height: parseInt((layer.height / 100) * deviceHeight) + "px",
                     }} key={index}>
-                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
                 </div>
                 break;
             case "video":
@@ -501,6 +503,7 @@ export default class Builder extends React.Component {
                     </video>
                 </div>
                 break;
+            default:
         }
         return builder;
     }
@@ -548,6 +551,7 @@ export default class Builder extends React.Component {
                 case "video":
                     builder = <VideoForm layerActive={layerActive} layers={layers} videoOptions={this.getVideoOption()} setValue={this.setValue} />
                     break;
+                default:
             }
         }
         return builder;
@@ -650,22 +654,22 @@ export default class Builder extends React.Component {
                             <div className="col-2" id="rectangle" draggable="true" onDragStart={(e) => this.drag(e)}>
                                 <div className="element">
                                     Rectangle
-                            </div>
+                                </div>
                             </div>
                             <div className="col-2" draggable="true">
                                 <div className="element" id="ellipse" draggable="true" onDragStart={(e) => this.drag(e)}>
                                     Ellipse
-                            </div>
+                                </div>
                             </div>
                             <div className="col-2" id="text" draggable="true" onDragStart={(e) => this.drag(e)}>
                                 <div className="element">
                                     Text
-                            </div>
+                                </div>
                             </div>
                             <div className="col-2" id="image" draggable="true" onDragStart={(e) => this.drag(e)}>
                                 <div className="element">
                                     Image
-                            </div>
+                                </div>
                             </div>
                             <div className="col-2" id="circle" draggable="true" onDragStart={(e) => this.drag(e)}>
                                 <div className="element">
@@ -697,13 +701,13 @@ export default class Builder extends React.Component {
                         </div>
                         {
                             layerActive !== "" && <React.Fragment>
-                                <div style={{ 
+                                <div style={{
                                     background: '#3b79f6',
                                     padding: 10,
                                     color: '#fff',
                                     fontWeight: 'bold'
                                 }}>
-                                    Layer { layerActive + 1}
+                                    Layer {layerActive + 1}
                                 </div>
                                 {this.buildDesign()}
                                 <hr />
@@ -724,41 +728,41 @@ export default class Builder extends React.Component {
                     heading={`Preview`}
                     size="modal-xl"
                     body={
-                    <div className="d-flex">
-                        <div className="smartphone" style={{height: deviceHeight+120}}>
-                            <div className="smartphone-content tilli-web" style={{height: deviceHeight}}>
-                                <div style={{ position: "relative", height: "100%" }}>
-                                    {
-                                        layers.map((layer, index) => {
-                                            return this.layerBuild(layer, index)
-                                        })
-                                    }
+                        <div className="d-flex">
+                            <div className="smartphone" style={{ height: deviceHeight + 120 }}>
+                                <div className="smartphone-content tilli-web" style={{ height: deviceHeight }}>
+                                    <div style={{ position: "relative", height: "100%" }}>
+                                        {
+                                            layers.map((layer, index) => {
+                                                return this.layerBuild(layer, index)
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="px-3" style={{flex: 1}}>
-                            <div style={{ 
+                            <div className="px-3" style={{ flex: 1 }}>
+                                <div style={{
                                     background: '#3b79f6',
                                     padding: 10,
                                     color: '#fff',
                                     fontWeight: 'bold'
                                 }}>
-                                Layout
-                            </div>
-                            <div className="pt-2">
-                                <Card 
-                                title="Layers">
-                                {
-                                    layers.map((row, rowIndex) => {
-                                        return <div className="pt-2 px-2" key={rowIndex}>
-                                            <input type="checkbox" name="layers" onChange={() => this.layerAdd(rowIndex) } checked={row.visibility === "visible"} /> Layer {rowIndex + 1}
-                                        </div>
-                                    })
-                                }
-                                </Card>
+                                    Layout
+                                </div>
+                                <div className="pt-2">
+                                    <Card
+                                        title="Layers">
+                                        {
+                                            layers.map((row, rowIndex) => {
+                                                return <div className="pt-2 px-2" key={rowIndex}>
+                                                    <input type="checkbox" name="layers" onChange={() => this.layerAdd(rowIndex)} checked={row.visibility === "visible"} /> Layer {rowIndex + 1}
+                                                </div>
+                                            })
+                                        }
+                                    </Card>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
                 />
             }

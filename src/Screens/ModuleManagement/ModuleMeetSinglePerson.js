@@ -1,11 +1,8 @@
 import React from 'react';
 import DropDown from "../../Component/DropDown";
-import CloseImage from "../../../src/images/close.png";
 import EditorContent from "../EditorContent"
 import ModelView from '../ModelView';
 import ClassNameSelect from './Component/ClassNameSelect';
-
-
 
 
 
@@ -20,18 +17,9 @@ class ModuleMeetSinglePerson extends React.Component {
 
   render() {
 
-    const { LevelStage, found_index, index_1, sectionLearning, optionSelect, option, editable, themeType, loopIndex
-      , sectionBuildStory, staticIndex } = this.props
-
+    const { index_1, sectionLearning, option, editable, themeType, loopIndex, sectionBuildStory, staticIndex } = this.props
     let arrayvalue = []
-
-    if (themeType == "StoryCard") {
-
-      // console.log('optionSelect section',optionSelect)
-      // console.log("start Compo", sectionBuildStory[loopIndex].content[staticIndex].title)
-
-
-
+    if (themeType === "StoryCard") {
       arrayvalue.push(
         <React.Fragment>
           <div className="form-group">
@@ -60,7 +48,7 @@ class ModuleMeetSinglePerson extends React.Component {
 
       let appendData = ""
 
-      if (sectionBuildStory[loopIndex].content[staticIndex].content.chooseType && sectionBuildStory[loopIndex].content[staticIndex].content.chooseType.label != "Video") {
+      if (sectionBuildStory[loopIndex].content[staticIndex].content.chooseType && sectionBuildStory[loopIndex].content[staticIndex].content.chooseType.label !== "Video") {
 
         appendData = <>
           <div className="form-group">
@@ -76,7 +64,7 @@ class ModuleMeetSinglePerson extends React.Component {
                 this.props.setValue(sectionBuildStory);
               }}
               options={option}
-              isDisabled={editable == "false" ? true : false}
+              isDisabled={editable === "false" ? true : false}
             />
 
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionBuildStory[loopIndex].content[staticIndex].content.image_error}</span>
@@ -97,21 +85,15 @@ class ModuleMeetSinglePerson extends React.Component {
           </div>
           <div className="form-group">
             <label for="text">Image Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname}
               onChange={e => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e.target.value;
+                sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e;
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-                />
+              }}
+            />
           </div>
 
           <div className="form-group">
@@ -135,21 +117,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="form-group">
             <label for="text">Bottom Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="bottomclassName"
+
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.bottomclassName}
               onChange={e => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.bottomclassName = e.target.value;
+                sectionBuildStory[loopIndex].content[staticIndex].content.bottomclassName = e;
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.bottomclassName}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.bottomclassName = e;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-                />
+              }}
+            />
           </div>
 
 
@@ -165,12 +141,7 @@ class ModuleMeetSinglePerson extends React.Component {
                 }}
               />
             </span>
-            {/* <input type={'text'} className={'form-control'} placeholder={'Body'} style={{ width: '100%' }}
-              value={sectionBuildStory[loopIndex].content[staticIndex].content.body}
-              onChange={(e) => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.body = e.target.value
-                this.setState({ sectionBuildStory })
-              }} /> */}
+
 
             <EditorContent
               text={sectionBuildStory[loopIndex].content[staticIndex].content.body}
@@ -191,21 +162,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="form-group">
             <label for="text">Body Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="bodyclassname"
+
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.bodyclassname}
               onChange={e => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.bodyclassname = e.target.value;
+                sectionBuildStory[loopIndex].content[staticIndex].content.bodyclassname = e;
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.bodyclassname}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.bodyclassname = e;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-                />
+              }}
+            />
           </div>
 
 
@@ -245,21 +210,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="form-group">
             <label for="text">Question Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="bodyclassname"
+
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.questionclassname}
               onChange={e => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.questionclassname = e.target.value;
+                sectionBuildStory[loopIndex].content[staticIndex].content.questionclassname = e;
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.questionclassname}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.questionclassname = e;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-                />
+              }}
+            />
           </div>
 
         </>
@@ -297,10 +256,10 @@ class ModuleMeetSinglePerson extends React.Component {
 
         <div className="form-group" >
           <label> Background color</label>
-          <input type={'color'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Bgcolor1'} style={{ width: '100%' }}
+          <input type={'color'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Bgcolor1'} style={{ width: '100%' }}
             value={sectionBuildStory[loopIndex].content[staticIndex].content.color_1}
             onChange={(e) => {
-              if (editable != "false") {
+              if (editable !== "false") {
                 sectionBuildStory[loopIndex].content[staticIndex].content.color_1 = e.target.value
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
@@ -310,10 +269,10 @@ class ModuleMeetSinglePerson extends React.Component {
         </div>
         <div className="form-group">
           <label> Background color 2</label>
-          <input type={'color'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Bgcolor2'} style={{ width: '100%' }}
+          <input type={'color'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Bgcolor2'} style={{ width: '100%' }}
             value={sectionBuildStory[loopIndex].content[staticIndex].content.color_2}
             onChange={(e) => {
-              if (editable != "false") {
+              if (editable !== "false") {
                 sectionBuildStory[loopIndex].content[staticIndex].content.color_2 = e.target.value
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionBuildStory);
@@ -343,20 +302,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
         <div className="form-group">
           <label for="text">Person Class Name</label>
-          {/* <input type="text" className="form-control" placeholder="bodyclassname"
+
+          <ClassNameSelect
             value={sectionBuildStory[loopIndex].content[staticIndex].content.personclassname}
             onChange={e => {
-              sectionBuildStory[loopIndex].content[staticIndex].content.personclassname = e.target.value;
+              sectionBuildStory[loopIndex].content[staticIndex].content.personclassname = e;
               this.setState({ sectionBuildStory })
-            }} /> */}
-            <ClassNameSelect
-                value={sectionBuildStory[loopIndex].content[staticIndex].content.personclassname}
-                onChange={e => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.personclassname = e;
-                  this.setState({ sectionBuildStory })
-                  this.props.setValue(sectionBuildStory);
-                }}
-              />
+              this.props.setValue(sectionBuildStory);
+            }}
+          />
         </div>
 
         <div className="form-group">
@@ -372,7 +326,7 @@ class ModuleMeetSinglePerson extends React.Component {
               this.props.setValue(sectionBuildStory);
             }}
             options={[{ label: 'Image', value: 'Image' }, { label: 'Video', value: 'Video' }]}
-            isDisabled={editable == "false" ? true : false}
+            isDisabled={editable === "false" ? true : false}
           />
 
           <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionBuildStory[loopIndex].content[staticIndex].content.question_error}</span>
@@ -386,7 +340,7 @@ class ModuleMeetSinglePerson extends React.Component {
 
       let appendData = ""
 
-      if (sectionLearning[index_1].content.chooseType && sectionLearning[index_1].content.chooseType.label != "Video") {
+      if (sectionLearning[index_1].content.chooseType && sectionLearning[index_1].content.chooseType.label !== "Video") {
 
         appendData = <>
           <div className="col-sm-4">
@@ -402,7 +356,7 @@ class ModuleMeetSinglePerson extends React.Component {
                 this.props.setValue(sectionLearning);
               }}
               options={option}
-              isDisabled={editable == "false" ? true : false}
+              isDisabled={editable === "false" ? true : false}
             />
 
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.image_error}</span>
@@ -421,21 +375,15 @@ class ModuleMeetSinglePerson extends React.Component {
           </div>
           <div className="col-sm-3 topalign">
             <label for="text">Image Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.imageclassname}
               onChange={e => {
-                sectionLearning[index_1].content.imageclassname = e.target.value;
+                sectionLearning[index_1].content.imageclassname = e;
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                value={sectionLearning[index_1].content.imageclassname}
-                onChange={e => {
-                  sectionLearning[index_1].content.imageclassname = e;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
+              }}
+            />
           </div>
 
 
@@ -443,12 +391,7 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-4">
             <label> Bottom Text </label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'bottomText'} style={{ width: '100%' }}
-              value={sectionLearning[index_1].content.bottomText}
-              onChange={(e) => {
-                sectionLearning[index_1].content.bottomText = e.target.value
-                this.setState({ sectionLearning })
-              }} /> */}
+
 
             <EditorContent
               text={sectionLearning[index_1].content.bottomText}
@@ -468,21 +411,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-3 topalign">
             <label for="text">Bottom Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.bottomclassName}
               onChange={e => {
-                sectionLearning[index_1].content.bottomclassName = e.target.value;
+                sectionLearning[index_1].content.bottomclassName = e;
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                value={sectionLearning[index_1].content.bottomclassName}
-                onChange={e => {
-                  sectionLearning[index_1].content.bottomclassName = e;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
+              }}
+            />
           </div>
 
 
@@ -490,12 +427,7 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-4 ">
             <label> Content Body  </label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'Body'} style={{ width: '100%' }}
-              value={sectionLearning[index_1].content.body}
-              onChange={(e) => {
-                sectionLearning[index_1].content.body = e.target.value
-                this.setState({ sectionLearning })
-              }} /> */}
+
 
             <EditorContent text={sectionLearning[index_1].content.body}
               themeType={"MeetSinglePerson"} body={true}
@@ -508,30 +440,20 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-3 topalign">
             <label for="text">Body Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.bodyclassname}
               onChange={e => {
-                sectionLearning[index_1].content.bodyclassname = e.target.value;
+                sectionLearning[index_1].content.bodyclassname = e;
                 this.setState({ sectionLearning })
-              }} /> */}
-              <ClassNameSelect
-                value={sectionLearning[index_1].content.bodyclassname}
-                onChange={e => {
-                  sectionLearning[index_1].content.bodyclassname = e;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
+                this.props.setValue(sectionLearning);
+              }}
+            />
           </div>
 
           <div className="col-sm-4 ">
             <label> Content question</label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'question'} style={{ width: '100%' }}
-              value={sectionLearning[index_1].content.question}
-              onChange={(e) => {
-                sectionLearning[index_1].content.question = e.target.value
-                this.setState({ sectionLearning })
-              }} /> */}
+
 
             <EditorContent
               text={sectionLearning[index_1].content.question}
@@ -550,21 +472,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-3 topalign">
             <label for="text">Question Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.questionclassname}
               onChange={e => {
-                sectionLearning[index_1].content.questionclassname = e.target.value;
+                sectionLearning[index_1].content.questionclassname = e;
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                value={sectionLearning[index_1].content.questionclassname}
-                onChange={e => {
-                  sectionLearning[index_1].content.questionclassname = e;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
+              }}
+            />
           </div>
 
 
@@ -572,11 +488,7 @@ class ModuleMeetSinglePerson extends React.Component {
       }
 
       else {
-
         appendData = <>
-
-
-
           <div className="col-sm-4">
             <label> Video </label>
             <DropDown
@@ -608,10 +520,10 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-4">
             <label> Background color</label>
-            <input type={'text'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Bgcolor1'} style={{ width: '100%' }}
+            <input type={'text'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Bgcolor1'} style={{ width: '100%' }}
               value={sectionLearning[index_1].content.color_1}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionLearning[index_1].content.color_1 = e.target.value
                   this.setState({ sectionLearning })
                   this.props.setValue(sectionLearning);
@@ -622,10 +534,10 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-4">
             <label> Background color 2</label>
-            <input type={'text'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Bgcolor2'} style={{ width: '100%' }}
+            <input type={'text'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Bgcolor2'} style={{ width: '100%' }}
               value={sectionLearning[index_1].content.color_2}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionLearning[index_1].content.color_2 = e.target.value
                   this.setState({ sectionLearning })
                   this.props.setValue(sectionLearning);
@@ -634,17 +546,8 @@ class ModuleMeetSinglePerson extends React.Component {
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.color_2_error}</span>
           </div>
 
-
-
-
           <div className="col-sm-4">
             <label> Person Name</label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'Person Name'} style={{ width: '100%' }} value={sectionLearning[index_1].content.personName}
-              onChange={(e) => {
-                sectionLearning[index_1].content.personName = e.target.value
-                this.setState({ sectionLearning })
-              }} /> */}
-
             <EditorContent
               text={sectionLearning[index_1].content.personName}
               themeType={"MeetSinglePerson"}
@@ -663,21 +566,15 @@ class ModuleMeetSinglePerson extends React.Component {
 
           <div className="col-sm-3 topalign">
             <label for="text">Person Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionLearning[index_1].content.personclassname}
               onChange={e => {
-                sectionLearning[index_1].content.personclassname = e.target.value;
+                sectionLearning[index_1].content.personclassname = e;
                 this.setState({ sectionLearning })
                 this.props.setValue(sectionLearning);
-              }} /> */}
-              <ClassNameSelect
-                value={sectionLearning[index_1].content.personclassname}
-                onChange={e => {
-                  sectionLearning[index_1].content.personclassname = e;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
+              }}
+            />
           </div>
 
           <div className="col-sm-4 ">
@@ -693,7 +590,7 @@ class ModuleMeetSinglePerson extends React.Component {
                 this.props.setValue(sectionLearning);
               }}
               options={[{ label: 'Image', value: 'Image' }, { label: 'Video', value: 'Video' }]}
-              isDisabled={editable == "false" ? true : false}
+              isDisabled={editable === "false" ? true : false}
             />
 
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.question_error}</span>

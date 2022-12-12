@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, withRouter } from "react-router-dom";
+import React from 'react';
+import { Route, Switch, withRouter } from "react-router-dom";
 import Login from './Screens/Login';
 import Dashbord from './Screens/Menu/Dashbord';
 import Level from './Screens/Level';
@@ -21,11 +21,7 @@ import Languagelevelmapping from './Screens/Languagelevelmapping';
 import ModuleManager from './Screens/ModuleManagement/ModuleManager';
 import ModuleManagerIDE from './Screens/ModuleManagement/ModuleManagerIDE';
 import LanguageJsonMapping from './Screens/ModuleManagement/LanguageJsonMapping';
-import AnalyticsPage from './Screens/AnalyticsPage';
-import { getToken, onMessageListener } from './firebase';
 
-
-//
 import './App.css';
 import './TilliWeb.css';
 import MyConstant from './config/MyConstant';

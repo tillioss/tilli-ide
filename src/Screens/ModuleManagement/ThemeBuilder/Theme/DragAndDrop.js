@@ -3,7 +3,7 @@ import drag_drop from '../../../../images/drag_drop.png';
 
 export default class DragAndDrop extends React.Component {
     render() {
-        let { layer, index, layerHover, layerActive, deviceHeight } = this.props;
+        let { layer, index, deviceHeight } = this.props;
         let { drag, drop } = layer;
         return <React.Fragment>
             <div
@@ -20,7 +20,7 @@ export default class DragAndDrop extends React.Component {
                     borderStyle: drag.borderStyle,
                     borderRadius: drag.borderRadius + "px",
                 }} key={index}>
-                    <img style={{ width: "100%", height: "100%" }} src={drag.image ? drag.image : drag_drop} />
+                <img style={{ width: "100%", height: "100%" }} src={drag.image ? drag.image : drag_drop} alt="loading" />
             </div>
             {
                 drop.map((row, rowIndex) => {
@@ -41,6 +41,6 @@ export default class DragAndDrop extends React.Component {
                     </div>
                 })
             }
-            </React.Fragment>
+        </React.Fragment>
     }
 }

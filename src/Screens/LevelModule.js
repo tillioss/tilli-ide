@@ -1,10 +1,10 @@
 import React from 'react';
 import DataTable from "../Component/DataTable";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import MyConstant from "../config/MyConstant";
 import { doConnect } from '../config/Common';
-
+import { Link } from "react-router-dom";
 
 class LevelModule extends React.Component {
 
@@ -38,7 +38,7 @@ class LevelModule extends React.Component {
         let responseData = await doConnect("getGameLevels", "POST", postJson);
         let that = this;
         let json = responseData;
-        if (Object.keys(json).length > 0 && json['levelsMap'] != null && json['levelsMap'] != undefined) {
+        if (Object.keys(json).length > 0 && json['levelsMap'] !== null && json['levelsMap'] !== undefined) {
             let levelsMap = json['levelsMap'];
             that.setState({ gamingArray: levelsMap })
         }
@@ -47,7 +47,7 @@ class LevelModule extends React.Component {
     async deleteLevels(levelId) {
         let postJson = { sessionId: '1223', levelId: levelId };
         let responseData = await doConnect("deleteGameLevels", "POST", postJson);
-        if (responseData.response == 'Success') {
+        if (responseData.response === 'Success') {
             toast.success(' Data deleted !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -69,20 +69,20 @@ class LevelModule extends React.Component {
     async createLevel() {
         const { levelName, levelColor, selectedOption, sortOrder } = this.state;
         var validLength = levelColor ? levelColor.search("#") : 0;
-        if (levelName.length == 0) {
+        if (levelName.length === 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
             return false
-        } else if (validLength && (levelColor.length != 7 || levelColor.length != 4)) {
+        } else if (validLength && (levelColor.length !== 7 || levelColor.length !== 4)) {
             this.setState({ levelColorValidate: 'Please Enter six digit color cod with # ' })
             return false
         } else {
             this.setState({ levelNameValidate: '' })
         }
 
-        if (levelColor.length == 0) {
+        if (levelColor.length === 0) {
             this.setState({ levelColorValidate: 'Please Enter value' })
             return false
-        } else if (validLength == 0 && levelColor.length < 4) {
+        } else if (validLength === 0 && levelColor.length < 4) {
             this.setState({ levelColorValidate: 'Please Enter 4 Number' })
             return false
         } else {
@@ -104,12 +104,12 @@ class LevelModule extends React.Component {
             this.setState({ sortOrderValidate: '' })
         }
 
-        if (levelName && levelName.length != 0 && levelColor.length != 0) {
+        if (levelName && levelName.length !== 0 && levelColor.length !== 0) {
             let postJson = { name: levelName, color: levelColor, sessionId: '1223', image: this.state.selectedOption.json, sortOrder: Number(sortOrder) };
             let responseData = await doConnect("addGameLevel", "POST", postJson);
             var json = responseData;
             var response = json.response;
-            if (response == 'Success') {
+            if (response === 'Success') {
                 toast.success('Added data !', {
                     position: "top-center",
                     autoClose: 5000,
@@ -127,38 +127,36 @@ class LevelModule extends React.Component {
         }
     }
 
-    async  updateLevels() {
+    async updateLevels() {
         const { levelName, levelColor, sortOrder } = this.state;
         let validLength = levelColor ? levelColor.search("#") : 0;
-        if (levelName.length == 0) {
+        if (levelName.length === 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
             return false
         } else {
             this.setState({ levelNameValidate: '' })
         }
-        if (levelColor.length == 0) {
+        if (levelColor.length === 0) {
             this.setState({ levelColorValidate: 'Please Enter value' })
             return false
         }
-        else if (validLength && (levelColor.length != 7 || levelColor.length != 4)) {
+        else if (validLength && (levelColor.length !== 7 || levelColor.length !== 4)) {
             this.setState({ levelColorValidate: 'Please Enter six digit color cod with # ' })
             return false
         } else {
             this.setState({ levelColorValidate: '' })
         }
-        let found = this.state.levelArray.findIndex((a) =>
-            a.id === this.state.idvalue
-        )
+
         /* let Anotherarray = [...this.state.levelArray]
          Anotherarray[found].name = this.state.levelName
          Anotherarray[found].color = this.state.levelColor*/
 
-        if (levelName && levelName.length != 0 && levelColor.length != 0) {
+        if (levelName && levelName.length !== 0 && levelColor.length !== 0) {
 
             let postJson = { levelId: this.state.idvalue, name: levelName, color: levelColor, sessionId: '1223', image: this.state.selectedOption.json, sortOrder: Number(sortOrder) };
             let responseData = await doConnect("updateGameLevel", "POST", postJson);
 
-            if (responseData.response == 'Success') {
+            if (responseData.response === 'Success') {
                 toast.success('Updated data !', {
                     position: "top-center",
                     autoClose: 5000,
@@ -180,9 +178,6 @@ class LevelModule extends React.Component {
     }
 
     render() {
-
-        const { buttonName } = this.state;
-
         const columns = [
             {
                 name: 'Order',
@@ -205,7 +200,7 @@ class LevelModule extends React.Component {
                 sortable: true,
                 cell: (row, index, column, id) => {
                     let image = row.image;
-                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" /></div>
+                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" alt="loading" /></div>
                 },
 
             },
@@ -213,9 +208,7 @@ class LevelModule extends React.Component {
                 name: 'Manage',
                 sortable: true,
                 cell: (row, index, column, id) => {
-                    let image = row.image;
                     return <div style={{ padding: 10 }}>
-
                         <button id={row.id} className="btn btn-primary" onClick={() => {
                             // this.props.history.push('/'+MyConstant.keyList.projectUrl+'/ModuleLanguageMapping/'+row.id )
                             this.props.history.push('/' + MyConstant.keyList.projectUrl + '/ModuleLanguageJson/' + row.id)
@@ -230,12 +223,14 @@ class LevelModule extends React.Component {
         let data = [];
         Object.keys(this.state.gamingArray).map((ival, index) => {
             data.push(this.state.gamingArray[ival])
+            return true
         });
 
         let options = [];
         Object.keys(this.state.imageList).map((ival, index) => {
             let image = this.state.imageList[ival];
             options.push({ value: image.id, label: image.title, json: image })
+            return true
         });
 
         return (
@@ -254,16 +249,16 @@ class LevelModule extends React.Component {
                                         <div className="x_title">
                                             <h2>Plain Page</h2>
                                             <ul className="nav navbar-right panel_toolbox">
-                                                <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                                <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                                 </li>
                                                 <li className="dropdown">
-                                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                    <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a className="dropdown-item" href="#">Settings 1</a>
-                                                        <a className="dropdown-item" href="#">Settings 2</a>
+                                                        <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                        <Link className="dropdown-item" to="#">Settings 2</Link>
                                                     </div>
                                                 </li>
-                                                <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                                <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                                 </li>
                                             </ul>
                                             <div className="clearfix"></div>
@@ -278,7 +273,7 @@ class LevelModule extends React.Component {
                                             </div>
                                             <div className="row">
                                                 <div className="col-sm-12" style={{ verticalAlign: 'center' }}>
-                                                    {data.length != 0 ?
+                                                    {data.length !== 0 ?
                                                         <DataTable
                                                             title=""
                                                             columns={columns}

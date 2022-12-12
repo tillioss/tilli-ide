@@ -18,10 +18,10 @@ function GodotPreview(props) {
             }
         }
         async function getThemeDetails(themeId) {
-            let postJson = { sessionId: '1223', themeId: themeId };         
-            let responseData  = await doConnect("getThemes", "POST", postJson);
+            let postJson = { sessionId: '1223', themeId: themeId };
+            let responseData = await doConnect("getThemes", "POST", postJson);
             let json = responseData;
-            if (Object.keys(json).length > 0 && json['themesMap'] != null && json['themesMap'] != undefined) {
+            if (Object.keys(json).length > 0 && json['themesMap'] !== null && json['themesMap'] !== undefined) {
                 let themesMap = json['themesMap'];
                 if (themesMap && themesMap[themeId]) {
                     let acessObj = themesMap[themeId]
@@ -37,6 +37,8 @@ function GodotPreview(props) {
                 }
             }
         }
+
+
         async function setScript(docsId) {
             script = document.createElement("script")
             script.src = `${MyConstant.keyList.apiURL}vp-game-file/module/zip/${docsId}/index.js`
@@ -44,14 +46,22 @@ function GodotPreview(props) {
             script.onload = onLoad
             document.body.appendChild(script)
             console.log(`${MyConstant.keyList.apiURL}vp-game-file/module/zip/${docsId}/index.js`)
-            
+
             //"http://192.168.43.110:8091/tilli-api/vp-game-file/module/zip/7e0fb773-75ac-4f8f-becb-02710bcb7904/index.js"
+        }
+
+        function onLoad() {
+            if (godDotDocsId && godDotDocsId !== "") {
+                const GODOT_CONFIG = { "args": [], "canvasResizePolicy": 2, "executable": `${MyConstant.keyList.apiURL}vp-game-file/module/zip/${godDotDocsId}/index`, "experimentalVK": false, "fileSizes": { pck: 1703792, wasm: 17503191 }, "focusCanvas": true, "gdnativeLibs": [] };
+                var engine = window.Engine(GODOT_CONFIG);
+                setEngine(engine)
+            }
         }
 
         return () => {
             document.body.removeChild(script)
         }
-    }, [godDotDocsId])
+    }, [godDotDocsId, props])
 
     useEffect(() => {
         if (engine) {
@@ -79,7 +89,7 @@ function GodotPreview(props) {
                     elem.style.display = 'none';
                 });
                 animationCallbacks = animationCallbacks.filter(function (value) {
-                    return (value != animateStatusIndeterminate);
+                    return (value !== animateStatusIndeterminate);
                 });
                 switch (mode) {
                     case 'progress':
@@ -102,7 +112,7 @@ function GodotPreview(props) {
 
             function animateStatusIndeterminate(ms) {
                 var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
-                if (statusIndeterminate.children[i].style.borderTopColor == '') {
+                if (statusIndeterminate.children[i].style.borderTopColor === '') {
                     Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
                         child.style.borderTopColor = '';
                     });
@@ -156,13 +166,7 @@ function GodotPreview(props) {
         }
     }, [engine])
 
-    function onLoad() {
-        if (godDotDocsId && godDotDocsId != "") {
-            const GODOT_CONFIG = { "args": [], "canvasResizePolicy": 2, "executable": `${MyConstant.keyList.apiURL}vp-game-file/module/zip/${godDotDocsId}/index`, "experimentalVK": false, "fileSizes": { pck: 1703792, wasm: 17503191 }, "focusCanvas": true, "gdnativeLibs": [] };
-            var engine = window.Engine(GODOT_CONFIG);
-            setEngine(engine)
-        }
-    }
+
 
     return <div className="game-play">
         <canvas id='canvas'>

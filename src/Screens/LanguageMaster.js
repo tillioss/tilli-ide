@@ -2,6 +2,7 @@ import React from "react";
 import DataTable from 'react-data-table-component';
 import { toast, ToastContainer } from "react-toastify";
 import { doConnect } from "../config/Common";
+import { Link } from "react-router-dom";
 
 
 export default class LanguageMaster extends React.Component {
@@ -9,7 +10,7 @@ export default class LanguageMaster extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            columns: [], data_value: {}, enterLanguage: "", editable: false, editId: "",errors:{}
+            columns: [], data_value: {}, enterLanguage: "", editable: false, editId: "", errors: {}
         }
     }
 
@@ -29,20 +30,45 @@ export default class LanguageMaster extends React.Component {
 
     async submitFunction() {
         let { enterLanguage } = this.state
-        let errors={}
-        if(enterLanguage.trim() == ""){
+        let errors = {}
+        if (enterLanguage.trim() === "") {
             errors["enterLanguage"] = "Please enter the language name";
         }
-        this.setState({errors})
-        if(Object.keys(errors).length == 0){
+        this.setState({ errors })
+        if (Object.keys(errors).length === 0) {
 
-        let postJson = { sessionId: '1223', languageName: enterLanguage };
-        let responseData = await doConnect("addLanguage", "POST", postJson);
-        console.log('postJson', postJson)
-        let json = responseData;
+            let postJson = { sessionId: '1223', languageName: enterLanguage };
+            await doConnect("addLanguage", "POST", postJson);
+            console.log('postJson', postJson)
+            this.getLanguageData()
+
+            toast.success('Added data !', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            this.setState({ enterLanguage: "" })
+        }
+    }
+
+    editFunction(index) {
+        const { data_value } = this.state
+        this.setState({ enterLanguage: data_value[index], editable: true, editId: index })
+
+    }
+
+    async UpdateFunction() {
+        const { editId, enterLanguage, data_value } = this.state;
+
+        // languageId:String,languageName:String, sessionId: String
+        let postJson = { languageId: editId, languageName: enterLanguage, sessionId: '1223' };
+        await doConnect("updateLanguage", "POST", postJson);
         this.getLanguageData()
-
-        toast.success('Added data !', {
+        toast.success('Language is updated successfully !', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -51,48 +77,17 @@ export default class LanguageMaster extends React.Component {
             draggable: true,
             progress: undefined,
         });
-        this.setState({ enterLanguage: "" })
-    }
-    }
-
-    editFunction(index) {
-
-        const { enterLanguage, data_value } = this.state
-
-
-        this.setState({ enterLanguage: data_value[index], editable: true, editId: index })
-
-    }
-
-    async UpdateFunction() {
-        const { editId, enterLanguage, data_value } = this.state;
-
-
-        // languageId:String,languageName:String, sessionId: String
-        let postJson = { languageId: editId, languageName: enterLanguage, sessionId: '1223' };
-        let responseData = await doConnect("updateLanguage", "POST", postJson);
-        
-                this.getLanguageData()
-
-                toast.success('Language is updated successfully !', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
 
         this.setState({ enterLanguage: "", data_value, editable: false, editId: "" })
     }
 
     render() {
-        const { data_value, enterLanguage, editable,errors } = this.state;
+        const { data_value, enterLanguage, editable, errors } = this.state;
         let data = [];
         Object.keys(data_value).map((ival, index) => {
             // alert(this.state.data_value[ival])
-            data.push({ id: ival, name:data_value[ival] })
+            data.push({ id: ival, name: data_value[ival] })
+            return true
         });
         let columns = [
             {
@@ -127,16 +122,16 @@ export default class LanguageMaster extends React.Component {
                                     <div className="x_title">
                                         <h2>Language Master</h2>
                                         <ul className="nav navbar-right panel_toolbox">
-                                            <li><a className="collapse-link"><i className="fa fa-chevron-up"></i></a>
+                                            <li><Link className="collapse-link"><i className="fa fa-chevron-up"></i></Link>
                                             </li>
                                             <li className="dropdown">
-                                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></a>
+                                                <Link to="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i className="fa fa-wrench"></i></Link>
                                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a className="dropdown-item" href="#">Settings 1</a>
-                                                    <a className="dropdown-item" href="#">Settings 2</a>
+                                                    <Link className="dropdown-item" to="#">Settings 1</Link>
+                                                    <Link className="dropdown-item" to="#">Settings 2</Link>
                                                 </div>
                                             </li>
-                                            <li><a className="close-link"><i className="fa fa-close"></i></a>
+                                            <li><Link className="close-link"><i className="fa fa-close"></i></Link>
                                             </li>
                                         </ul>
                                         <div className="clearfix"></div>
@@ -146,15 +141,15 @@ export default class LanguageMaster extends React.Component {
                                         <ToastContainer />
                                         <div className="row form-group" >
                                             <div className="col-1" />
-                                            <div className="col-3"> <label style={{float:"right"}}> Language</label> </div>
+                                            <div className="col-3"> <label style={{ float: "right" }}> Language</label> </div>
                                             <div className="col-4">
                                                 <input type={'text'} value={enterLanguage} style={{ width: "100%", paddingTop: 5, paddingBottom: 5, paddingLeft: 10 }} placeholder={'Enter Language'}
                                                     onChange={(e) => {
                                                         this.setState({ enterLanguage: e.target.value })
                                                     }} />
-                                                     {
-                                        errors['enterLanguage'] && <div  style={{color:"red"}}>{errors['enterLanguage']}</div>
-                                    }
+                                                {
+                                                    errors['enterLanguage'] && <div style={{ color: "red" }}>{errors['enterLanguage']}</div>
+                                                }
                                             </div>
                                             <div className="col-4" />
                                         </div>

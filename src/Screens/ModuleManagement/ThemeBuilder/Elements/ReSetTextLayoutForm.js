@@ -133,7 +133,7 @@ export default class ReSetTextLayoutForm extends React.Component {
                         width: layer.width + "%",
                         height: parseInt((layer.height / 100) * deviceHeight) + "px",
                     }} key={index}>
-                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} />
+                    <img style={{ width: "100%", height: "100%" }} src={layer.image ? layer.image : drag_drop} alt="loading" />
                 </div>
                 break;
             case "video":
@@ -152,6 +152,7 @@ export default class ReSetTextLayoutForm extends React.Component {
                     </video>
                 </div>
                 break;
+                default:
         }
         return builder;
     }

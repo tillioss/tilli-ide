@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Style } from "react-style-tag";
 import backImage from '../../../images/outlineBackIcon.png';
 import nextImage from '../../../images/outlineRightIcon.png';
 import MyConstant from '../../../config/MyConstant';
 import heart from '../../../images/heart.png';
+import { Link } from "react-router-dom";
 
 
 class MeetSinglePerson extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -30,11 +29,7 @@ class MeetSinglePerson extends React.Component {
 
 
     return_content(pageIndex, index) {
-
-        const { commonPageData } = this.state;
-
         const { commonGroupLanguageMappingData, commonGroupLanguageBaseData } = this.props
-
         if (commonGroupLanguageMappingData && commonGroupLanguageMappingData[pageIndex] && commonGroupLanguageMappingData[pageIndex].fieldData[index]) {
             return commonGroupLanguageMappingData[pageIndex].fieldData[index].value
 
@@ -48,17 +43,12 @@ class MeetSinglePerson extends React.Component {
         else
             return ""
 
-
-
     }
 
 
-
     render() {
-
-
         let { stage, data, themeType } = this.props;
-        let { commonPageData, deviceHeight } = this.state;
+        let { deviceHeight } = this.state;
         let content = data.content;
         // console.log('content', content)
         // console.log(this.props)
@@ -66,7 +56,7 @@ class MeetSinglePerson extends React.Component {
 
         var imagePath = "";
         var getType = ""
-        if (this.props.themeType == "StoryCard") {
+        if (this.props.themeType === "StoryCard") {
             imagePath = MyConstant.keyList.apiURL + 'vp?action=module&key=' + data.content.image.json.fileName + '&id=' + data.content.image.json.fileType
             getType = data.content.image.json.fileType
         }
@@ -83,6 +73,7 @@ class MeetSinglePerson extends React.Component {
                 if (i.length > 1) {
                     imagestyle[i[0]] = JSON.parse(i[1]);
                 }
+                return imgstyle
             })
         }
 
@@ -112,20 +103,17 @@ class MeetSinglePerson extends React.Component {
                     style={{ backgroundColor: content.color_1, height: deviceHeight > 750 ? "" : deviceHeight * 0.9 / (2.7) }}>
                     <div className="col-12" style={{ margin: 0, padding: 0 }}>
                         <div className={"row ml-0  " + (deviceHeight < 640 ? "pt-2 " : "pt-4")}>
-
                             <div className="col-2">
-                                <a onClick={() => {
-
+                                <Link onClick={() => {
                                     let preStageData = this.props.moduleJson.stages[this.props.parentindex - 1]
                                     let preStageData_2 = this.props.moduleJson.stages[this.props.parentindex - 2]
-
                                     //score point view condition 
-                                    if (themeType == "StoryCard") {
+                                    if (themeType === "StoryCard") {
                                         //this.props.changeStage('Previous', this.props.parentindex)
-                                        if (preStageData.theme == preStageData_2.theme) {
+                                        if (preStageData.theme === preStageData_2.theme) {
                                             this.props.changeScreen('Previous', this.props.parentindex)
                                         }
-                                        else if (preStageData_2.theme == "Ask Age" || preStageData_2.theme == "Ask Gender") {
+                                        else if (preStageData_2.theme === "Ask Age" || preStageData_2.theme === "Ask Gender") {
                                             this.props.changeScreen('Previous', this.props.parentindex)
                                         }
                                         else {
@@ -134,7 +122,7 @@ class MeetSinglePerson extends React.Component {
                                     }
                                     else {
                                         // this.props.changeStage('Previous', stage)
-                                        if (preStageData.theme == preStageData_2.theme) {
+                                        if (preStageData.theme === preStageData_2.theme) {
                                             this.props.changeScreen('Previous', stage)
                                         }
                                         else {
@@ -142,8 +130,8 @@ class MeetSinglePerson extends React.Component {
                                         }
                                     }
                                 }}>
-                                    <img style={{ width: 48, height: 48 }} src={backImage} />
-                                </a>
+                                    <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                                </Link>
                             </div>
                             <div className="col-8" style={{ alignSelf: 'center' }}>
                                 <div dangerouslySetInnerHTML={{ __html: data.title }} />
@@ -166,9 +154,9 @@ class MeetSinglePerson extends React.Component {
                                 <img
                                     className={`${content.imageclassname}`}
                                     src={imagePath}
-                                    style={getType == "gif" ? { width: "100%", height: "auto", ...imagestyle } :
+                                    style={getType === "gif" ? { width: "100%", height: "auto", ...imagestyle } :
                                         deviceHeight < 750 ? { height: deviceHeight * 0.9 / (4.1) } :
-                                            { width: "auto", height: 250, ...imagestyle }} />
+                                            { width: "auto", height: 250, ...imagestyle }} alt="loading" />
                             </div>
                         </div>
                         <div className="col-1" />
@@ -210,40 +198,28 @@ class MeetSinglePerson extends React.Component {
                             <div className="col-10" style={{ border: '2px solid #18191F', borderRadius: 16 }} >
 
                                 <p className="row" style={{ fontSize: 20, fontWeight: "500", fontFamily: "montserrat-medium", paddingTop: 10 }}>
-
-                                    <span className="col-2">  <img style={{ width: 22, height: 20 }} src={heart} /> </span>
+                                    <span className="col-2">  <img style={{ width: 22, height: 20 }} src={heart} alt="loading" /> </span>
                                     <div className="col-8 msp-btmtxt" style={{ padding: 0, marginBottom: '-1rem' }} dangerouslySetInnerHTML={{ __html: content.bottomText }} onClick={() => {
-
-
-                                        if (themeType == "StoryCard") {
-
+                                        if (themeType === "StoryCard") {
                                             this.props.changeindex('Next', stage)
                                         }
                                         else {
                                             this.props.changeStage('Next', stage)
                                         }
-
                                     }} />
-
-                                    <span className="col-2" style={{}} onClick={() => {
-
-
-                                        if (themeType == "StoryCard") {
-
+                                    <span className="col-2" onClick={() => {
+                                        if (themeType === "StoryCard") {
                                             this.props.changeindex('Next', stage)
                                         }
                                         else {
                                             this.props.changeStage('Next', stage)
                                         }
-
-                                    }}>  <img style={{ width: 31, height: 31 }} src={nextImage} /> </span>
+                                    }}>  <img style={{ width: 31, height: 31 }} src={nextImage} alt="loading" /> </span>
                                 </p>
                             </div>
                             <div className="col-1" />
                         </div>
-
                     </div>
-
                     <div className="col-2" />
                 </div>
             </div>
@@ -272,8 +248,6 @@ class MeetSinglePerson extends React.Component {
                     </div>
                 </div>
             </div>
-
-
 
         </React.Fragment>)
     }

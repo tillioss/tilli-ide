@@ -1,13 +1,12 @@
-import React, { Component, useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { Style } from "react-style-tag";
 import backImage from '../../../images/outlineBackIcon.png';
 import nextImage from '../../../images/outlineRightIcon.png';
 import MyConstant from '../../../config/MyConstant';
-import Draggable from 'react-draggable'; // The default
-import people_set from '../../../images/people_set.png';
 import drag_drop from '../../../images/drag_drop.png';
 import Awesome_JobImg from '../../../images/Awesome_Job.gif';
 import Rocket_Launch from '../../../images/Rocket_Launch.gif';
+import { Link } from "react-router-dom";
 
 
 
@@ -27,19 +26,13 @@ class CircleWithInfoAnimations extends React.Component {
             imageBgColor: this.props.data.content.imageBgColor ? this.props.data.content.imageBgColor : "#61E4C5",
             deviceHeight: window.innerHeight,
             bgclass: "bg1", succesMsgCount: 0,
-
-
         };
     }
 
 
     async componentDidMount() {
         window.addEventListener('resize', this.handleResize)
-        const { data, match } = this.props;
-        const { selectColor_1, selectColor_2, selectColor_3 } = this.state;
         var btn = document.querySelector('#drag1');
-
-        var dropZone = ('drop_zone');
         var activeEvent = '';
         var originalX = '';
         var originalY = '';
@@ -59,8 +52,6 @@ class CircleWithInfoAnimations extends React.Component {
             e.preventDefault();
             e.stopPropagation();
             if (activeEvent === 'move') {
-                var pageX = (parseInt(e.target.style.left) - 50);
-                var pageY = (parseInt(e.target.style.top) - 50);
                 e.target.style.position = "initial";
                 var changedTouch = e.changedTouches[0];
                 var element = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
@@ -98,7 +89,6 @@ class CircleWithInfoAnimations extends React.Component {
                 window.scrollTo(window.innerHeight / 2, window.innerHeight / 2);
             }
             let height = btn.offsetHeight;
-            let width = btn.offsetWidth;
             var touchLocation = e.targetTouches[0];
             let x = window.innerWidth > 768 ? 0 : 60;
             let y = window.innerWidth > 768 ? 0 : 70;
@@ -184,30 +174,20 @@ class CircleWithInfoAnimations extends React.Component {
 
     drag(ev) {
 
-
-
     }
 
 
     drop(ev) {
-        const { data } = this.props;
-        let content = data.content;
-
         if (ev && ev.target && ev.target.id) {
             console.log('div', JSON.stringify(ev.target.id).length, JSON.stringify(ev.target.id))
             ev.preventDefault();
             this.setState({ check: ev.target.id })
-
-            if (ev.target.id == "Yellow" || ev.target.id == "Blue" || ev.target.id == "Red") {
-
+            if (ev.target.id === "Yellow" || ev.target.id === "Blue" || ev.target.id === "Red") {
                 var datas = ev.dataTransfer.getData("text");
                 ev.target.appendChild(document.getElementById(datas))
                 this.checkAnswer(ev.target.id)
             }
-
-
         }
-
     }
     checkAnswer(choose) {
         const { data } = this.props;
@@ -216,23 +196,24 @@ class CircleWithInfoAnimations extends React.Component {
         let check_value = false
         let trustvalue = "";
 
-        if (choose == "Yellow") {
+        if (choose === "Yellow") {
             //trustvalue = "NO TRUST"
             trustvalue = content.circles[2].name
         }
-        else if (choose == "Blue") {
+        else if (choose === "Blue") {
             //trustvalue = "LOW TRUST"
             trustvalue = content.circles[1].name
         }
-        else if (choose == "Red") {
+        else if (choose === "Red") {
             //trustvalue = "HIGH TRUST"
             trustvalue = content.circles[0].name
         }
 
         content.circles.map((iva, index) => {
-            if (content.circles[index].isCorrectanswer == true && content.circles[index].name == trustvalue) {
+            if (content.circles[index].isCorrectanswer === true && content.circles[index].name === trustvalue) {
                 check_value = true
             }
+            return iva
         })
 
         if (check_value) {
@@ -248,7 +229,7 @@ class CircleWithInfoAnimations extends React.Component {
 
 
 
-        if (anotherChoice == 1) {
+        if (anotherChoice === 1) {
             if (check_value) {
                 this.props.storyPoints(this.props.parentindex, 200)
             }
@@ -262,7 +243,7 @@ class CircleWithInfoAnimations extends React.Component {
                 false_button: <div style={{ marginBottom: '-1rem' }} dangerouslySetInnerHTML={{ __html: data.content.message.failure_button_1 }} />
             })
         }
-        else if (anotherChoice == 2) {
+        else if (anotherChoice === 2) {
 
             if (check_value) {
                 // localStorage.setItem("totalPoints", (totalPoints + 100).toString())
@@ -284,7 +265,6 @@ class CircleWithInfoAnimations extends React.Component {
     }
 
     IncreaseUserPoint() {
-        var existPoint = localStorage.getItem("userPoints")
         var levelPoints = localStorage.getItem("levelPoints")
         var newPoint = parseInt(levelPoints) + 1
         localStorage.setItem("userPoints", newPoint);
@@ -300,16 +280,13 @@ class CircleWithInfoAnimations extends React.Component {
     return_content(index) {
         var pageIndex = 1
         const { commonGroupLanguageMappingData, commonGroupLanguageBaseData } = this.props
-
         if (commonGroupLanguageMappingData && commonGroupLanguageMappingData[pageIndex] && commonGroupLanguageMappingData[pageIndex].fieldData[index]) {
             return commonGroupLanguageMappingData[pageIndex].fieldData[index].value
 
         }
-
         else if (commonGroupLanguageBaseData && commonGroupLanguageBaseData[pageIndex] && commonGroupLanguageBaseData[pageIndex].fieldData[index]) {
             return commonGroupLanguageBaseData[pageIndex].fieldData[index].value
         }
-
         else
             return ""
 
@@ -318,19 +295,14 @@ class CircleWithInfoAnimations extends React.Component {
 
     render() {
 
-        const { stage, data, parentindex } = this.props;
+        const { stage, data, } = this.props;
         const { true_body, true_header, true_button, change_Content, false_body, false_header, false_button,
-            bgclass, modelContent } = this.state;
-        let { deviceHeight, imageDraged, modelView } = this.state
+            modelContent } = this.state;
+        let { deviceHeight, imageDraged, } = this.state
         let content = data.content;
-        let message = data.content.message;
         let innerWidth = window.innerWidth > 768 ? 768 : window.innerWidth;
         let UWPview = window.navigator && window.navigator.appVersion.toLowerCase().includes("webview")
-
-
-
         // console.log(this.state.succesMsgCount)
-
         let imagestyle = {};
         if (content.imagestyle)
             var imgstyle = content.imagestyle.split(',')
@@ -340,6 +312,7 @@ class CircleWithInfoAnimations extends React.Component {
                 if (i.length > 1) {
                     imagestyle[i[0]] = JSON.parse(i[1]);
                 }
+                return imagestyle
             })
         }
 
@@ -389,8 +362,8 @@ class CircleWithInfoAnimations extends React.Component {
                 <div className="col-12" style={{ margin: 0, padding: 0 }}>
                     <div className={"row mt-4 ml-0"} >
                         <div className="col-2">
-                            <a onClick={() => {
-                                if (this.props.themeType == "StoryCard") {
+                            <Link onClick={() => {
+                                if (this.props.themeType === "StoryCard") {
                                     this.props.changeindex('Previous', stage)
                                 }
                                 else {
@@ -398,8 +371,8 @@ class CircleWithInfoAnimations extends React.Component {
                                 }
 
                             }}>
-                                <img style={{ width: 48, height: 48 }} src={backImage} />
-                            </a>
+                                <img style={{ width: 48, height: 48 }} src={backImage} alt="loading" />
+                            </Link>
                         </div>
                         <div className="col-8">
                             <p style={{
@@ -424,20 +397,18 @@ class CircleWithInfoAnimations extends React.Component {
                         alignItems: 'center',
                         justifyContent: 'center',
                         zIndex: 2,
-                        marginLeft: 50, position: 'absolute', zIndex: 1,
+                        marginLeft: 50, position: 'absolute',
                         ...imagestyle
                     }}
                     >
-
                         <img id="drag1" draggable="true"
                             onDragStart={(e) => {
-
                                 this.drag(e)
                             }} onDragEnd={(e) => {
                                 this.setState({ imageBackground_color: this.state.imageBgColor, appendData: e.target, })
 
                             }} src={MyConstant.keyList.apiURL + 'vp?action=module&key=' + data.content.image.fileName + '&id=' + data.content.image.fileType}
-                            style={{ zIndex: 1, width: 90, backgroundColor: this.state.imageBackground_color, borderRadius: 90, }} />
+                            style={{ zIndex: 1, width: 90, backgroundColor: this.state.imageBackground_color, borderRadius: 90, }} alt="loading" />
                         {/* </Draggable> */}
 
                     </div>
@@ -464,7 +435,7 @@ class CircleWithInfoAnimations extends React.Component {
                         boxSizing: "border-box", boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10,
                     }}>
                         <div className="col-2 p-0 py-3">
-                            <img src={drag_drop} style={{ width: 34, height: 30 }} />
+                            <img src={drag_drop} style={{ width: 34, height: 30 }} alt="loading" />
                         </div>
                         {/* {data.content.text2} */}
                         <div className={deviceHeight < 750 ? "col-10 p-0 pt-2 drag-text_2" : "col-10 p-0 pt-1"} dangerouslySetInnerHTML={{ __html: data.content.text2 }} />
@@ -474,14 +445,13 @@ class CircleWithInfoAnimations extends React.Component {
 
                 <div className={"modal fade bd-example-modal-lg " + this.state.show_con} style={{ display: this.state.display_view, top: deviceHeight < 700 ? "10%" : modelContent ? "30%" : "30%" }} tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-lg">
-
                         {modelContent ? <img src={Awesome_JobImg} style={{
                             width: 250, height: 100, left: 0, top: 35, zIndex: 1000,
                             position: "inherit"
-                        }} /> : null}
+                        }} alt="loading" /> : null}
 
                         <div className={"modal-content box-bgcolor "} style={Orientation ? { top: 0 } : {}} >
-                            {this.state.modelContent == true ?
+                            {this.state.modelContent === true ?
                                 <React.Fragment>
 
                                     <div className="row col-12" style={{ marginTop: 30 }}>
@@ -498,7 +468,7 @@ class CircleWithInfoAnimations extends React.Component {
                                         <div className="col-sm-2" > </div>
                                         <div className="col-sm-8" onClick={() => {
                                             if (change_Content) {
-                                                if (this.props.themeType == "StoryCard") {
+                                                if (this.props.themeType === "StoryCard") {
                                                     this.props.changeScreen('Next', this.props.parentindex)
                                                 }
                                                 else {
@@ -516,19 +486,15 @@ class CircleWithInfoAnimations extends React.Component {
                                             })
 
                                         }} >
-                                            <button style={{ color: "inherit" }} className={"lego-box-btnbg"}
-                                                type="button" data-dismiss="modal" aria-label="Close" className="btn btn-warning">{true_button}</button>
+                                            <button style={{ color: "inherit" }} className={"lego-box-btnbg btn btn-warning"}
+                                                type="button" data-dismiss="modal" aria-label="Close" >{true_button}</button>
                                         </div>
                                         <div className="col-sm-2"> </div>
                                     </div>
 
                                 </React.Fragment>
-
                                 :
-
-
                                 <React.Fragment>
-
                                     <div className="row col-12" style={{ marginTop: 40 }}>
                                         <div className="col-2"> </div>
                                         <div className="col-8">
@@ -539,12 +505,10 @@ class CircleWithInfoAnimations extends React.Component {
                                         <div className="col-2"> </div>
                                     </div>
 
-
-
                                     <div className="row col-12">
                                         <div className="col-2" > </div>
                                         <div className="col-8" onClick={(ev) => {
-                                            const { anotherChoice, originalX, originalY, appendData } = this.state;
+                                            const { anotherChoice, appendData } = this.state;
 
                                             this.setState({ show_con: "", display_view: "none", anotherChoice: anotherChoice + 1, imageBackground_color: "" })
                                             document.getElementById("drag2").appendChild(appendData);
@@ -554,15 +518,14 @@ class CircleWithInfoAnimations extends React.Component {
                                                 document.getElementById("drag2").appendChild(appendData);
                                                 // let geturlData = this.props.match.params
                                                 this.props.changeindex('Next', stage);
-
                                             }
                                             this.setState({ anotherChoice: anotherChoice + 1, imageDraged: false })
                                             window.scroll(10, 10)
                                         }} >
 
-                                            <button className={"lego-box-btnbg "}
-                                                type="button" data-dismiss="modal" aria-label="Close" className="btn btn-warning">{false_button} </button>
-
+                                            <button className={"lego-box-btnbg btn btn-warning "}
+                                                type="button" data-dismiss="modal" aria-label="Close" >{false_button}
+                                            </button>
                                         </div>
                                         <div className="col-2" > </div>
                                     </div>
@@ -638,7 +601,7 @@ class CircleWithInfoAnimations extends React.Component {
 
 
                                         {/*div1 yellow*/}
-                                        <div id={window.navigator.userAgentData && window.navigator.userAgentData.mobile || window.navigator.userAgent.toLowerCase().includes("mobile") ? "Yellow" : ""} style={{
+                                        <div id={(window.navigator.userAgentData && window.navigator.userAgentData.mobile) || window.navigator.userAgent.toLowerCase().includes("mobile") ? "Yellow" : ""} style={{
                                             marginTop: UWPview ? "95px" : '21%', backgroundColor: content.circles[0].color,
                                             height: UWPview ? innerWidth * 0.9 / (1.9 * 1.9) : innerWidth * 0.9 / (1.6 * 1.6), width: UWPview ? innerWidth * 0.9 / (1.9 * 1.9) : innerWidth * 0.9 / (1.6 * 1.6), borderRadius: 100000, paddingTop: UWPview ? "5px" : ""
                                         }}>
@@ -674,28 +637,25 @@ class CircleWithInfoAnimations extends React.Component {
                         </div>
                         {/*div3 Red*/}
                     </div>
-
-
                 </div>
-
             </div>
 
 
 
             <div className="bottom-style" style={{ background: "inherit", position: deviceHeight < 720 ? "unset" : "" }}>
                 <div style={{ textAlign: "right" }}>
-                    {imageDraged ? <a data-toggle="modal" data-target="#DragErrorImage" onClick={() => {
+                    {imageDraged ? <Link data-toggle="modal" data-target="#DragErrorImage" onClick={() => {
                         this.setState({ modelView: true, show_con: "show", display_view: "block", })
                         this.props.changeindex();
                         console.log("img was not drageed ")
                     }} >
-                        <img style={{ width: 44, height: 44 }} src={nextImage} />
-                    </a> :
-                        <a data-toggle="modal" data-target="#DragErrorImage" onClick={() => {
+                        <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                    </Link> :
+                        <Link data-toggle="modal" data-target="#DragErrorImage" onClick={() => {
                             console.log("img was not drageed ")
                         }} >
-                            <img style={{ width: 44, height: 44 }} src={nextImage} />
-                        </a>}
+                            <img style={{ width: 44, height: 44 }} src={nextImage} alt="loading" />
+                        </Link>}
                 </div>
                 <div className="progress-div">
                     <div style={{ flex: 1 }} >
@@ -703,7 +663,7 @@ class CircleWithInfoAnimations extends React.Component {
                             <span>
                                 <img className="rocket-image" src={Rocket_Launch} style={{
                                     width: 80, height: 60,
-                                }} />
+                                }} alt="loading" />
                             </span>
                             : null}
                         {trustPointText} {totalPoint}
@@ -720,9 +680,6 @@ class CircleWithInfoAnimations extends React.Component {
                     </div>
                 </div>
             </div>
-
-
-
 
         </React.Fragment >)
     }

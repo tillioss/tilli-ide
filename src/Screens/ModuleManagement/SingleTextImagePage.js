@@ -1,6 +1,5 @@
 import React from 'react';
 import DropDown from "../../Component/DropDown";
-import CloseImage from "../../../src/images/close.png";
 import EditorContent from "../EditorContent"
 import ClassNameSelect from './Component/ClassNameSelect';
 
@@ -16,7 +15,7 @@ class SingleTextImagePage extends React.Component {
 
   render() {
 
-    const { index, sectionLearning, optionSelect, option } = this.props
+    const { index, sectionLearning, option } = this.props
 
     let arrayvalue = []
     let appendData = ""
@@ -35,7 +34,6 @@ class SingleTextImagePage extends React.Component {
           }}
           options={option}
         />
-        {/* <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index].content.image_error}</span> */}
       </div>
 
 
@@ -53,21 +51,15 @@ class SingleTextImagePage extends React.Component {
       </div>
       <div className="form-group">
         <label for="text">Image Class Name</label>
-        {/* <input type="text" className="form-control" placeholder="classname"
+
+        <ClassNameSelect
           value={sectionLearning[index].content.imageclassname}
           onChange={e => {
-            sectionLearning[index].content.imageclassname = e.target.value;
+            sectionLearning[index].content.imageclassname = e;
             this.setState({ sectionLearning })
             this.props.setValue(sectionLearning);
-          }} /> */}
-          <ClassNameSelect
-            value={sectionLearning[index].content.imageclassname}
-            onChange={e => {
-              sectionLearning[index].content.imageclassname = e;
-              this.setState({ sectionLearning })
-              this.props.setValue(sectionLearning);
-            }}
-          />
+          }}
+        />
       </div>
 
 
@@ -83,27 +75,20 @@ class SingleTextImagePage extends React.Component {
           }}
         />
 
-        {/* <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index].content.body_error}</span> */}
       </div>
 
 
       <div className="form-group">
         <label for="text">Text Class Name</label>
-        {/* <input type="text" className="form-control" placeholder="classname"
+
+        <ClassNameSelect
           value={sectionLearning[index].content.textClassName}
           onChange={e => {
-            sectionLearning[index].content.textClassName = e.target.value;
+            sectionLearning[index].content.textClassName = e;
             this.setState({ sectionLearning })
             this.props.setValue(sectionLearning);
-          }} /> */}
-          <ClassNameSelect
-            value={sectionLearning[index].content.textClassName}
-            onChange={e => {
-              sectionLearning[index].content.textClassName = e;
-              this.setState({ sectionLearning })
-              this.props.setValue(sectionLearning);
-            }}
-          />
+          }}
+        />
       </div>
 
       <div className="form-group">
@@ -123,21 +108,14 @@ class SingleTextImagePage extends React.Component {
 
       <div className="form-group">
         <label for="text">Bottom Class Name</label>
-        {/* <input type="text" className="form-control" placeholder="classname"
+        <ClassNameSelect
           value={sectionLearning[index].content.bottomClassName}
           onChange={e => {
-            sectionLearning[index].content.bottomClassName = e.target.value;
+            sectionLearning[index].content.bottomClassName = e;
             this.setState({ sectionLearning })
             this.props.setValue(sectionLearning);
-          }} /> */}
-          <ClassNameSelect
-            value={sectionLearning[index].content.bottomClassName}
-            onChange={e => {
-              sectionLearning[index].content.bottomClassName = e;
-              this.setState({ sectionLearning })
-              this.props.setValue(sectionLearning);
-            }}
-          />
+          }}
+        />
       </div>
 
 

@@ -19,7 +19,7 @@ export default class CircleForm extends React.Component {
                             type="number"
                             className="form-control"
                             placeholder=""
-                            value={activeLayer.x} 
+                            value={activeLayer.x}
                             onChange={(e) => {
                                 layers[layerActive].x = e.target.value
                                 this.props.setValue(layers)
@@ -32,11 +32,11 @@ export default class CircleForm extends React.Component {
                 <div className="col-3">
                     <label>Y</label>
                     <div className="input-group mb-3">
-                        <input type="number" className="form-control" placeholder="" value={activeLayer.y} 
-                        onChange={(e) => {
-                            layers[layerActive].y = e.target.value
-                            this.props.setValue(layers)
-                        }}
+                        <input type="number" className="form-control" placeholder="" value={activeLayer.y}
+                            onChange={(e) => {
+                                layers[layerActive].y = e.target.value
+                                this.props.setValue(layers)
+                            }}
                         />
                         <div className="input-group-append">
                             <span className="input-group-text">%</span>
@@ -47,10 +47,10 @@ export default class CircleForm extends React.Component {
                     <label>Radius</label>
                     <div className="input-group mb-3">
                         <input type="number" className="form-control" placeholder="" value={activeLayer.radius}
-                        onChange={(e) => {
-                            layers[layerActive].radius = e.target.value
-                            this.props.setValue(layers)
-                        }} />
+                            onChange={(e) => {
+                                layers[layerActive].radius = e.target.value
+                                this.props.setValue(layers)
+                            }} />
                         <div className="input-group-append">
                             <span className="input-group-text">%</span>
                         </div>
@@ -60,45 +60,45 @@ export default class CircleForm extends React.Component {
             <div className="row">
                 <div className="col-3">
                     <label>Background</label>
-                    <input type="color" className="form-control" value={""} value={activeLayer.backgroundColor} 
-                    onChange={(e) => {
-                        layers[layerActive].backgroundColor = e.target.value
-                        this.props.setValue(layers)
-                    }}
+                    <input type="color" className="form-control" value={activeLayer.backgroundColor}
+                        onChange={(e) => {
+                            layers[layerActive].backgroundColor = e.target.value
+                            this.props.setValue(layers)
+                        }}
                     />
                 </div>
                 <div className="col-3">
                     <label>Border Width</label>
-                    <input type="number" className="form-control" value={""} value={activeLayer.borderWidth} 
-                    onChange={(e) => {
-                        layers[layerActive].borderWidth = e.target.value
-                        this.props.setValue(layers)
-                    }}
+                    <input type="number" className="form-control" value={activeLayer.borderWidth}
+                        onChange={(e) => {
+                            layers[layerActive].borderWidth = e.target.value
+                            this.props.setValue(layers)
+                        }}
                     />
                 </div>
                 <div className="col-3">
                     <label>Border Color</label>
-                    <input type="color" className="form-control" value={""} value={activeLayer.borderColor} 
-                    onChange={(e) => {
-                        layers[layerActive].borderColor = e.target.value
-                        this.props.setValue(layers)
-                    }}
+                    <input type="color" className="form-control" value={activeLayer.borderColor}
+                        onChange={(e) => {
+                            layers[layerActive].borderColor = e.target.value
+                            this.props.setValue(layers)
+                        }}
                     />
                 </div>
             </div>
             <div className="row mt-2">
                 <div className="col-3">
                     <label>Action</label>
-                    <DropDown 
+                    <DropDown
                         selectedOption={onClickOptions.filter(option => option.value === activeLayer.action)}
                         onChange={(e) => {
                             layers[layerActive].action = e.value
-                            if(e.value === "Checked Layout" || e.value === "Change Layout") {
+                            if (e.value === "Checked Layout" || e.value === "Change Layout") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: []
                                 }
-                            } else if(e.value === "Record") {
+                            } else if (e.value === "Record") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: [],
@@ -113,26 +113,26 @@ export default class CircleForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <div className="mt-3">
-                    {
-                        (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm 
-                            setValue={(value) => {
-                                layers[layerActive].layers = value;
-                                this.props.setValue(layers)
-                            }}
-                            changedLayers={layers[layerActive].layers}
-                            layers={layers}
-                        />
-                    }
-                    {
-                        (layers[layerActive].action === "Record") && <RecordLayoutForm 
-                            setValue={(value) => {
-                                layers[layerActive].layers = value;
-                                this.props.setValue(layers)
-                            }}
-                            changedLayers={layers[layerActive].layers}
-                            layers={layers}
-                        />
-                    }
+                        {
+                            (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
+                        {
+                            (layers[layerActive].action === "Record") && <RecordLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
                     </div>
                 </div>
                 <div className="col-3">
@@ -143,7 +143,7 @@ export default class CircleForm extends React.Component {
                             placeholder=""
                             checked={activeLayer.visibility === "visible"}
                             onChange={(e) => {
-                                layers[layerActive].visibility = e.target.checked ? "visible": "hidden";
+                                layers[layerActive].visibility = e.target.checked ? "visible" : "hidden";
                                 this.props.setValue(layers)
                             }} />
                     </div>

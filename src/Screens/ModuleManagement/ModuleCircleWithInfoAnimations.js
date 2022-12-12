@@ -1,44 +1,28 @@
 import React from 'react';
 import DropDown from "../../Component/DropDown";
-import CloseImage from "../../../src/images/close.png";
-import MyConstant from '../../config/MyConstant';
 import EditorContent from "../EditorContent"
-import EditorContent_2 from "../EditorContent_2"
+import EditorContentTwo from "../EditorContent_2"
 import ModelView from '../ModelView';
 import ClassNameSelect from './Component/ClassNameSelect';
 
 
-
-
-
-
 class ModuleCircleWithInfoAnimations extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {}
 
   }
   render() {
-
     const { optionSelect, option, index_1, sectionLearning, type, editable,
       sectionBuildStory, staticIndex, loopIndex, themeType } = this.props;
     let arrayvalue = []
 
-    if (themeType == "StoryCard") {
-
-
+    if (themeType === "StoryCard") {
       arrayvalue.push(
         <React.Fragment>
           <div className="form-group" style={{ width: "100%" }}>
             <label> Title </label>
             <div>
-              {/* <input type={'text'} className={'form-control'} value={sectionBuildStory[loopIndex].content[staticIndex].title} placeholder={'Enter Title'} style={{ width: '100%' }}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].title = e.target.value;
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-
               <EditorContent
                 text={sectionBuildStory[loopIndex].content[staticIndex].title}
                 themeType={"TitleText"}
@@ -57,69 +41,62 @@ class ModuleCircleWithInfoAnimations extends React.Component {
           </div>
         </React.Fragment>
       )
-
       arrayvalue.push(
-          <div className="form-group">
-            <label>Image </label>
-            <div>
-              <DropDown
-                selectedOption={sectionBuildStory[loopIndex].content[staticIndex].content.image.title ?
-                  { label: sectionBuildStory[loopIndex].content[staticIndex].content.image.title, value: sectionBuildStory[loopIndex].content[staticIndex].content.image.title }
-                  :
-                  { label: 'Select', value: 'Select' }}
-                onChange={(e) => {
-                  if (editable != "false") {
-                    optionSelect[index_1] = e
-                    sectionBuildStory[loopIndex].content[staticIndex].content.image = e.json;
+        <div className="form-group">
+          <label>Image </label>
+          <div>
+            <DropDown
+              selectedOption={sectionBuildStory[loopIndex].content[staticIndex].content.image.title ?
+                { label: sectionBuildStory[loopIndex].content[staticIndex].content.image.title, value: sectionBuildStory[loopIndex].content[staticIndex].content.image.title }
+                :
+                { label: 'Select', value: 'Select' }}
+              onChange={(e) => {
+                if (editable !== "false") {
+                  optionSelect[index_1] = e
+                  sectionBuildStory[loopIndex].content[staticIndex].content.image = e.json;
 
-                    this.setState({ optionSelect, sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }
+                  this.setState({ optionSelect, sectionBuildStory })
+                  this.props.setValue(sectionBuildStory);
+                }
 
-                }}
-                options={option}
-                isDisabled={editable == "false" ? true : false}
-              />
+              }}
+              options={option}
+              isDisabled={editable === "false" ? true : false}
+            />
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionBuildStory[loopIndex].content[staticIndex].content.image_error}</span>
-            </div>
           </div>
-        )
+        </div>
+      )
 
 
       arrayvalue.push(
         <>
           <div className="form-group">
-              <label>Image Style</label>
-                <textarea
-                  rows="1"
-                  cols="50"
-                  className="form-control"
-                  placeholder="style"
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.imagestyle}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.imagestyle = e.target.value;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-                />
+            <label>Image Style</label>
+            <textarea
+              rows="1"
+              cols="50"
+              className="form-control"
+              placeholder="style"
+              value={sectionBuildStory[loopIndex].content[staticIndex].content.imagestyle}
+              onChange={e => {
+                sectionBuildStory[loopIndex].content[staticIndex].content.imagestyle = e.target.value;
+                this.setState({ sectionBuildStory })
+                this.props.setValue(sectionBuildStory);
+              }}
+            />
           </div>
           <div className="form-group">
             <label for="text">Image Class Name</label>
-            {/* <input type="text" className="form-control" placeholder="classname"
+
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname}
               onChange={e => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e.target.value;
+                sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e;
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> */}
-              <ClassNameSelect
-                  value={sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname}
-                  onChange={e => {
-                    sectionBuildStory[loopIndex].content[staticIndex].content.imageclassname = e;
-                    this.setState({ sectionBuildStory })
-                    this.props.setValue(sectionBuildStory);
-                  }}
-              />
+              }}
+            />
           </div>
         </>
       )
@@ -137,11 +114,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
       let circleHtmlData = []
 
       sectionBuildStory[loopIndex].content[staticIndex].content.circles.map(((ival, index) => {
-
         let datachange = ""
-
         if (type) {
-
           datachange = <input type={'text'} className={'form-control'} placeholder={'Name'} style={{ width: '100%' }} value={ival.name}
             onChange={(e) => {
               sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].name = e.target.value
@@ -164,7 +138,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
           />
         }
 
-        circleHtmlData.push(<div className="mb-2" style={{backgroundColor:"#eee", padding: 10}}>
+        circleHtmlData.push(<div className="mb-2" style={{ backgroundColor: "#eee", padding: 10 }}>
           <div className="form-group">
             <label>Text</label>
             {datachange}
@@ -173,9 +147,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
           <div className="form-group">
             <label>Color</label>
-            <input type={'text'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }} value={ival.color}
+            <input type={'text'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }} value={ival.color}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].color = e.target.value
                   this.setState({ sectionBuildStory })
                   this.props.setValue(sectionBuildStory);
@@ -187,13 +161,11 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
             <div className="form-group">
               <label>Correct answer</label>
-              <input style={{ marginLeft: 10 }} disabled={editable == "false" ? true : false} type="checkbox" id="" name="" value="" checked={
+              <input style={{ marginLeft: 10 }} disabled={editable === "false" ? true : false} type="checkbox" id="" name="" value="" checked={
                 sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].isCorrectanswer}
                 onChange={(e) => {
-
-                  if (editable != "false") {
-
-                    if (sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].isCorrectanswer == false) {
+                  if (editable !== "false") {
+                    if (sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].isCorrectanswer === false) {
                       sectionBuildStory[loopIndex].content[staticIndex].content.circles[index].isCorrectanswer = true
                     }
                     else {
@@ -209,11 +181,10 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             : null}
 
         </div>)
+        return true
       }))
 
-
       arrayvalue.push(circleHtmlData)
-
       arrayvalue.push(
         <React.Fragment>
           <div className="form-group">
@@ -287,12 +258,6 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               />
             </span></label>
           <div>
-            {/* <input type={'text'} className={'form-control'} placeholder={'text 1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.text1}
-              onChange={(e) => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.text1 = e.target.value
-                this.setState({ sectionBuildStory })
-              }} /> */}
-
             <EditorContent
               text={sectionBuildStory[loopIndex].content[staticIndex].content.text1}
               themeType={"StoryDropToSelection"}
@@ -313,35 +278,29 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
         <div className="form-group">
           <label>Class Name</label>
-          {/* <input type={'text'} className={'form-control'} placeholder={'storyclassName'} style={{ width: '100%' }}
+
+          <ClassNameSelect
             value={sectionBuildStory[loopIndex].content[staticIndex].content.storyclassName}
-            onChange={(e) => {
-              sectionBuildStory[loopIndex].content[staticIndex].content.storyclassName = e.target.value
+            onChange={e => {
+              sectionBuildStory[loopIndex].content[staticIndex].content.storyclassName = e;
               this.setState({ sectionBuildStory })
               this.props.setValue(sectionBuildStory);
-            }} /> */}
-            <ClassNameSelect
-                value={sectionBuildStory[loopIndex].content[staticIndex].content.storyclassName}
-                onChange={e => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.storyclassName = e;
-                  this.setState({ sectionBuildStory })
-                  this.props.setValue(sectionBuildStory);
-                }}
-            />
+            }}
+          />
         </div>
         <div className="form-group" style={{ width: '100%' }}>
           <label>Question <span onClick={() => { this.setState({ update: true }) }}>
-              <ModelView uniqueId={staticIndex + "T2" + loopIndex}
-                viewCode={sectionBuildStory[loopIndex].content[staticIndex].content.text2}
-                modelTextChange={(textValue) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.text2 = textValue
-                  this.setState({ sectionBuildStory })
-                  this.props.setValue(sectionBuildStory);
-                }}
-              />
-            </span></label>
+            <ModelView uniqueId={staticIndex + "T2" + loopIndex}
+              viewCode={sectionBuildStory[loopIndex].content[staticIndex].content.text2}
+              modelTextChange={(textValue) => {
+                sectionBuildStory[loopIndex].content[staticIndex].content.text2 = textValue
+                this.setState({ sectionBuildStory })
+                this.props.setValue(sectionBuildStory);
+              }}
+            />
+          </span></label>
           <div className="form-group">
-          
+
             <EditorContent
               text={sectionBuildStory[loopIndex].content[staticIndex].content.text2}
               themeType={"StoryDropToSelection"}
@@ -361,21 +320,15 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
 
           <div className="form-group">
-            {/* <input type={'text'} className={'form-control'} placeholder={'questionclassName'} style={{ width: '100%' }}
+
+            <label>Class Name</label>
+            <ClassNameSelect
               value={sectionBuildStory[loopIndex].content[staticIndex].content.questionclassName}
-              onChange={(e) => {
-                sectionBuildStory[loopIndex].content[staticIndex].content.questionclassName = e.target.value
+              onChange={e => {
+                sectionBuildStory[loopIndex].content[staticIndex].content.questionclassName = e
                 this.setState({ sectionBuildStory })
                 this.props.setValue(sectionBuildStory);
-              }} /> * */}
-              <label>Class Name</label>
-              <ClassNameSelect
-                value={sectionBuildStory[loopIndex].content[staticIndex].content.questionclassName}
-                onChange={e => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.questionclassName = e
-                this.setState({ sectionBuildStory })
-                this.props.setValue(sectionBuildStory);
-                }}
+              }}
             />
           </div>
 
@@ -397,12 +350,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
         <React.Fragment>
           <div className="form-group">
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_header_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-              <EditorContent_2
+
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_1}
                 themeType={"StoryDropToSelection"}
                 failure_header_1={true}
@@ -419,12 +368,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_body_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-              <EditorContent_2
+
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_1}
                 themeType={"StoryDropToSelection"}
                 failure_body_1={true}
@@ -441,13 +386,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_button_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_1}
                 themeType={"StoryDropToSelection"}
                 failure_button_1={true}
@@ -470,12 +411,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
           <div className="row form-group" style={{ width: '100%' }}>
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_header_2'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-              <EditorContent_2
+
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_header_2}
                 themeType={"StoryDropToSelection"}
                 failure_header_2={true}
@@ -492,13 +429,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_body_2'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_body_2}
                 themeType={"StoryDropToSelection"}
                 failure_body_2={true}
@@ -514,13 +445,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'failure_button_2'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
-
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.failure_button_2}
                 themeType={"StoryDropToSelection"} failure_button_2={true}
                 index={loopIndex} secondindex={staticIndex}
@@ -539,13 +464,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
           <div className="row form-group" style={{ width: '100%' }}>
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'success_header_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_1}
                 themeType={"StoryDropToSelection"}
                 success_header_1={true}
@@ -561,13 +481,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'success_body_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_1}
                 themeType={"StoryDropToSelection"}
                 success_body_1={true}
@@ -584,13 +499,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'success_button_1'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_1}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_1 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_1}
                 themeType={"StoryDropToSelection"}
                 success_button_1={true}
@@ -611,13 +521,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
           <div className="row form-group" style={{ width: '100%' }}>
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point header'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_header_2}
                 themeType={"StoryDropToSelection"}
                 success_header_2={true}
@@ -634,13 +539,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point body'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_body_2}
                 themeType={"StoryDropToSelection"}
                 success_body_2={true}
@@ -655,13 +555,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
             </div>
 
             <div className="col-sm-4 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point button'} style={{ width: '100%' }} value={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_2}
-                onChange={(e) => {
-                  sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_2 = e.target.value
-                  this.setState({ sectionBuildStory })
-                }} /> */}
 
-              <EditorContent_2
+
+              <EditorContentTwo
                 text={sectionBuildStory[loopIndex].content[staticIndex].content.message.success_button_2}
                 themeType={"StoryDropToSelection"}
                 success_button_2={true}
@@ -710,8 +606,6 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               }} />
           </div>
 
-
-
           <div className="col-sm-3 marginspace">
             <label>Number Of Points </label>
             <input type={'number'} className={'form-control'} placeholder={'Enter Number Of Points'} style={{ width: '100%' }}
@@ -733,25 +627,18 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                 this.props.setValue(sectionBuildStory);
               }} />
           </div>
-
-
-
         </div>
-
-
       </React.Fragment>)
-
-
 
     } else {
       arrayvalue.push(
         <React.Fragment>
           <div className="form-group">
-            Image 
+            Image
             <DropDown
               selectedOption={optionSelect[index_1] ? optionSelect[index_1] : { label: 'Select', value: 'Select' }}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   optionSelect[index_1] = e
                   sectionLearning[index_1].content.image = e.json;
 
@@ -760,7 +647,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                 }
               }}
               options={option}
-              isDisabled={editable == "false" ? true : false}
+              isDisabled={editable === "false" ? true : false}
             />
             <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.image_error}</span>
           </div>
@@ -770,57 +657,49 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
       arrayvalue.push(
         <>
-            <div className="form-group">
-              <label for="text">Image Style</label>
-              <textarea rows="1" cols="50" className="form-control" placeholder="Image Style"
-                value={sectionLearning[index_1].content.imagestyle}
-                onChange={e => {
-                  sectionLearning[index_1].content.imagestyle = e.target.value;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label for="text">Image Class Name</label>
-              {/* <input type="text" className="form-control" placeholder="Image Class Name"
-                value={sectionLearning[index_1].content.imageclassname}
-                onChange={e => {
-                  sectionLearning[index_1].content.imageclassname = e.target.value;
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }} /> */}
-
-                <ClassNameSelect
-                  value={sectionLearning[index_1].content.imageclassname}
-                  onChange={e => {
-                    sectionLearning[index_1].content.imageclassname = e;
-                    this.setState({ sectionLearning })
-                      this.props.setValue(sectionLearning);
-                  }}
-                />
-            </div>
+          <div className="form-group">
+            <label for="text">Image Style</label>
+            <textarea rows="1" cols="50" className="form-control" placeholder="Image Style"
+              value={sectionLearning[index_1].content.imagestyle}
+              onChange={e => {
+                sectionLearning[index_1].content.imagestyle = e.target.value;
+                this.setState({ sectionLearning })
+                this.props.setValue(sectionLearning);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label for="text">Image Class Name</label>
+            <ClassNameSelect
+              value={sectionLearning[index_1].content.imageclassname}
+              onChange={e => {
+                sectionLearning[index_1].content.imageclassname = e;
+                this.setState({ sectionLearning })
+                this.props.setValue(sectionLearning);
+              }}
+            />
+          </div>
         </>
       )
 
       arrayvalue.push(
         <div className="form-group">
-            <label for="text">Image Text</label>
-            <input type="text" className="form-control" placeholder="image Text"
-              value={sectionLearning[index_1].content.imageText}
-              onChange={e => {
-                sectionLearning[index_1].content.imageText = e.target.value;
-                this.setState({ sectionLearning })
-                this.props.setValue(sectionLearning);
-              }} />
+          <label for="text">Image Text</label>
+          <input type="text" className="form-control" placeholder="image Text"
+            value={sectionLearning[index_1].content.imageText}
+            onChange={e => {
+              sectionLearning[index_1].content.imageText = e.target.value;
+              this.setState({ sectionLearning })
+              this.props.setValue(sectionLearning);
+            }} />
         </div>
       )
 
       arrayvalue.push(
         <React.Fragment>
           <div className="row mt-5">
-            <div className="col-sm-12"> 
-              <h4>Circles</h4>  
+            <div className="col-sm-12">
+              <h4>Circles</h4>
             </div>
           </div>
         </React.Fragment>
@@ -838,12 +717,12 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               this.props.setValue(sectionLearning);
             }} />
         } else {
-          datachange = <EditorContent 
+          datachange = <EditorContent
             text={sectionLearning[index_1].content.circles[index].name}
-            themeType={"CircleWithInfoAnimations"} 
+            themeType={"CircleWithInfoAnimations"}
             name={true}
-            index={index_1} 
-            secondindex={index} 
+            index={index_1}
+            secondindex={index}
             sectionLearning={sectionLearning}
             textOnchange={(value) => {
               sectionLearning[index_1].content.circles[index].name = value
@@ -852,7 +731,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
           />
         }
 
-        circleDatahtml.push(<div className="mb-2" style={{backgroundColor: "#eee", padding: 10}}>
+        circleDatahtml.push(<div className="mb-2" style={{ backgroundColor: "#eee", padding: 10 }}>
           <div className="form-group">
             <label>Text</label>
             {datachange}
@@ -862,31 +741,22 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
           <div className="form-group">
             <label>Class Name </label>
-            {/* <input type={'text'} className={'form-control'} placeholder={'ClassName'}
+            <ClassNameSelect
               value={ival.nameClassName}
-              onChange={(e) => {
-                if (editable != "false") {
-                  sectionLearning[index_1].content.circles[index].nameClassName = e.target.value
-                  this.setState({ sectionLearning })
-                  this.props.setValue(sectionLearning);
-                }
-              }} /> */}
-              <ClassNameSelect
-                  value={ival.nameClassName}
-                  onChange={e => {
-                    sectionLearning[index_1].content.circles[index].nameClassName = e;
-                    this.setState({ sectionLearning })
-                    this.props.setValue(sectionLearning);
-                  }}
-                />
+              onChange={e => {
+                sectionLearning[index_1].content.circles[index].nameClassName = e;
+                this.setState({ sectionLearning })
+                this.props.setValue(sectionLearning);
+              }}
+            />
           </div>
 
 
           <div className="form-group">
             <label>Color </label>
-            <input type={'text'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }} value={ival.color}
+            <input type={'text'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }} value={ival.color}
               onChange={(e) => {
-                if (editable != "false") {
+                if (editable !== "false") {
                   sectionLearning[index_1].content.circles[index].color = e.target.value
                   this.setState({ sectionLearning })
                   this.props.setValue(sectionLearning);
@@ -897,14 +767,12 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
 
           {type ?
-
             <div className="col-sm-2 marginspace">
               <label>Correct answer</label>
-              <input style={{ marginLeft: 10 }} disabled={editable == "false" ? true : false} type="checkbox" id="" name="" value="" checked={sectionLearning[index_1].content.circles[index].isCorrectanswer}
+              <input style={{ marginLeft: 10 }} disabled={editable === "false" ? true : false} type="checkbox" id="" name="" value="" checked={sectionLearning[index_1].content.circles[index].isCorrectanswer}
                 onChange={(e) => {
-
-                  if (editable != "false") {
-                    if (sectionLearning[index_1].content.circles[index].isCorrectanswer == false) {
+                  if (editable !== "false") {
+                    if (sectionLearning[index_1].content.circles[index].isCorrectanswer === false) {
                       sectionLearning[index_1].content.circles[index].isCorrectanswer = true
                     }
                     else {
@@ -916,10 +784,10 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
                 }} />
             </div>
-
             : null}
 
         </div>)
+        return true;
       }))
 
       arrayvalue.push(
@@ -928,9 +796,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
         </div>
       )
 
-
       if (type) {
-
         arrayvalue.push(
           <React.Fragment>
             <div className="row item form-group" style={{ width: "100%" }}>
@@ -1001,13 +867,6 @@ class ModuleCircleWithInfoAnimations extends React.Component {
         arrayvalue.push(<React.Fragment>
           <div className="row form-group" style={{ width: '100%' }}>
             <div className="col-sm-5 marginspace">
-              {/* <input type={'text'} className={'form-control'} placeholder={'text 1'} style={{ width: '100%' }} 
-              value={sectionLearning[index_1].content.text1}
-                onChange={(e) => {
-                  sectionLearning[index_1].content.text1 = e.target.value
-                  this.setState({ sectionLearning })
-                }} /> */}
-
               <EditorContent
                 text={sectionLearning[index_1].content.text1}
                 themeType={"DropToSelection"}
@@ -1027,15 +886,6 @@ class ModuleCircleWithInfoAnimations extends React.Component {
           </div>
           <div className="row form-group" style={{ width: '100%' }}>
             <div className="col-sm-5 marginspace">
-
-              {/* <input type={'text'} className={'form-control'} placeholder={'text 2'} style={{ width: '100%' }} 
-              value={sectionLearning[index_1].content.text2}
-                onChange={(e) => {
-                  sectionLearning[index_1].content.text2 = e.target.value
-                  this.setState({ sectionLearning })
-                }} /> */}
-
-
               <EditorContent
                 text={sectionLearning[index_1].content.text2}
                 themeType={"DropToSelection"}
@@ -1059,21 +909,13 @@ class ModuleCircleWithInfoAnimations extends React.Component {
       }
 
 
-
-
       if (!type) {
 
         Object.keys(sectionLearning[index_1].content.text).map(((index) => {
-
           arrayvalue.push(<React.Fragment>
             <div className="row form-group" style={{ width: '100%' }}>
               <div className="col-sm-5 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'Value'} style={{ width: '100%' }}
-                  value={sectionLearning[index_1].content.text[index].value}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.text[index].value = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
+
                 <label>Text</label>
                 <EditorContent
                   text={sectionLearning[index_1].content.text[index].value}
@@ -1087,16 +929,15 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                     this.props.setValue(sectionLearning);
                   }}
                 />
-
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.text[index].value_error}</span>
               </div>
 
               <div className="col-sm-3 marginspace">
                 <label>Color</label>
-                <input type={'text'} disabled={editable == "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }}
+                <input type={'text'} disabled={editable === "false" ? true : false} className={'form-control'} placeholder={'Color'} style={{ width: '100%' }}
                   value={sectionLearning[index_1].content.text[index].style.color}
                   onChange={(e) => {
-                    if (editable != "false") {
+                    if (editable !== "false") {
                       sectionLearning[index_1].content.text[index].style.color = e.target.value
                       this.setState({ sectionLearning })
                       this.props.setValue(sectionLearning);
@@ -1105,60 +946,26 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.text[index].style.color_error}</span>
               </div>
 
-
               <div className="col-sm-3 marginspace">
                 <label>Class Name</label>
-                {/* <input type={'text'} className={'form-control'}
-                  placeholder={'nameClassName'} style={{ width: '100%' }}
+                <ClassNameSelect
                   value={sectionLearning[index_1].content.text[index].style.nameClassName}
-                  onChange={(e) => {
-                    if (editable != "false") {
-                      sectionLearning[index_1].content.text[index].style.nameClassName = e.target.value
-                      this.setState({ sectionLearning })
-                      this.props.setValue(sectionLearning);
-                    }
-                  }} /> */}
-                  <ClassNameSelect
-                    value={sectionLearning[index_1].content.text[index].style.nameClassName}
-                    onChange={e => {
-                      sectionLearning[index_1].content.text[index].style.nameClassName = e;
-                      this.setState({ sectionLearning })
-                      this.props.setValue(sectionLearning);
-                    }}
-                  />
+                  onChange={e => {
+                    sectionLearning[index_1].content.text[index].style.nameClassName = e;
+                    this.setState({ sectionLearning })
+                    this.props.setValue(sectionLearning);
+                  }}
+                />
               </div>
-
-              {/* <div className="col-sm-2 marginspace"
-                onClick={() => {
-                        if(editable !="false")
-                        {
-                        delete sectionLearning[index_1].content.text[index]
-
-                  sectionLearning[index_1].content.text.filter(function( element ) {
-                    return element !== null;
-                  })
-
-                        this.setState({  sectionLearning })
-                        }
-                }} >
-                {editable !="false" ?<img src={CloseImage} style={{ width: 30, height: 30 }} /> :null }
-              </div> */}
-
             </div>
 
           </React.Fragment>)
-
+          return true
         }))
-
-
 
       }
 
-
-
       if (sectionLearning[index_1].content.message) {
-
-
         arrayvalue.push(
           <React.Fragment>
             <div className="col-sm-4 text-ali-left" style={{ marginTop: 15 }}><h4>Message</h4> </div>
@@ -1168,13 +975,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
             <div className="row form-group" style={{ width: '100%' }}>
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_header_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_header_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_header_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
 
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_header_1}
                   themeType={"DropToSelection"}
                   failure_header_1={true}
@@ -1190,14 +992,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               </div>
 
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_body_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_body_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_body_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
 
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_body_1}
                   themeType={"DropToSelection"}
                   failure_body_1={true}
@@ -1214,13 +1010,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               </div>
 
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_button_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_button_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_button_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
 
-                <EditorContent_2
+
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_button_1}
                   themeType={"DropToSelection"}
                   failure_button_1={true}
@@ -1241,13 +1033,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
             <div className="row form-group" style={{ width: '100%' }}>
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_header_2'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_header_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_header_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
 
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_header_2}
                   themeType={"DropToSelection"}
                   failure_header_2={true}
@@ -1263,13 +1050,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               </div>
 
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_body_2'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_body_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_body_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_body_2}
                   themeType={"DropToSelection"}
                   failure_body_2={true}
@@ -1285,13 +1066,7 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               </div>
 
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'failure_button_2'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.failure_button_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.failure_button_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.failure_button_2}
                   themeType={"DropToSelection"}
                   failure_button_2={true}
@@ -1305,20 +1080,12 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.message.failure_button_2_error}</span>
               </div>
-
             </div>
-
 
 
             <div className="row form-group" style={{ width: '100%' }}>
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'success_header_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_header_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_header_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_header_1}
                   themeType={"DropToSelection"}
                   success_header_1={true}
@@ -1329,19 +1096,10 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                     this.props.setValue(sectionLearning);
                   }}
                 />
-
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.message.success_header_1_error}</span>
               </div>
-
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'success_body_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_body_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_body_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_body_1}
                   themeType={"DropToSelection"}
                   success_body_1={true}
@@ -1355,17 +1113,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.message.success_body_1_error}</span>
               </div>
-
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'success_button_1'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_button_1}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_button_1 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_button_1}
                   themeType={"DropToSelection"}
                   success_button_1={true}
@@ -1380,16 +1129,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
               </div>
 
             </div>
-
             <div className="row form-group" style={{ width: '100%' }}>
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point header'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_header_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_header_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_header_2}
                   themeType={"DropToSelection"}
                   success_header_2={true}
@@ -1403,16 +1145,9 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.message.success_header_2_error}</span>
               </div>
-
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point body'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_body_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_body_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
 
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_body_2}
                   themeType={"DropToSelection"}
                   success_body_2={true}
@@ -1426,15 +1161,8 @@ class ModuleCircleWithInfoAnimations extends React.Component {
 
                 <span style={{ color: 'red', fontSize: 12, float: 'inherit', marginTop: 10 }}>{sectionLearning[index_1].content.message.success_body_2_error}</span>
               </div>
-
               <div className="col-sm-4 marginspace">
-                {/* <input type={'text'} className={'form-control'} placeholder={'Learning Point button'} style={{ width: '100%' }} value={sectionLearning[index_1].content.message.success_button_2}
-                  onChange={(e) => {
-                    sectionLearning[index_1].content.message.success_button_2 = e.target.value
-                    this.setState({ sectionLearning })
-                  }} /> */}
-
-                <EditorContent_2
+                <EditorContentTwo
                   text={sectionLearning[index_1].content.message.success_button_2}
                   themeType={"DropToSelection"}
                   success_button_2={true}
@@ -1503,31 +1231,20 @@ class ModuleCircleWithInfoAnimations extends React.Component {
                 }} />
             </div>
 
-
-
           </div>
 
-
         </React.Fragment>)
-
       }
-
-
 
     }
 
-
-    if (themeType == "StoryCard") {
+    if (themeType === "StoryCard") {
       return (<div style={{ width: '100%' }}>{arrayvalue}</div>)
     }
     else {
       return (<div>{arrayvalue}</div>)
     }
-
-
   }
-
-
 }
 
 
