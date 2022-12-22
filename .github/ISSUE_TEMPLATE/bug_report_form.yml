@@ -45,7 +45,7 @@ body:
   id: reprod
   attributes:
     label: "Reproduction steps"
-    description: Please enter an explicit description of your issue
+    description: "How do you trigger this bug? Please walk us through it step by step."
     value: |
       1. Go to '...'
       2. Click on '....'
@@ -76,7 +76,7 @@ body:
   id: browsers
   attributes:
     label: Browsers
-    description: What browsers are you seeing the problem on ?
+    description: What browsers are you seeing the problem on?
     multiple: true
     options:
       - Firefox
