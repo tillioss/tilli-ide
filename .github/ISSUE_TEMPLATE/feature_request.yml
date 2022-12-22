@@ -8,7 +8,7 @@ assignees:
 body:
 - type: markdown
   attributes:
-    value: |
+    value: 
       Thanks for taking the time to request a feature!
 - type: input
   id: contact
