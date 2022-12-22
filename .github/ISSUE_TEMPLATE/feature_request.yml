@@ -1,7 +1,7 @@
 name: Feature Request Form
 description: Create a new ticket for a new feature request
-title: "Found a [bug]"
-labels: ["bug","development"]
+title: "Request for [feature]"
+labels: ["enhancement","question"]
 assignees:
   - Tilliforkids
   - mynap
