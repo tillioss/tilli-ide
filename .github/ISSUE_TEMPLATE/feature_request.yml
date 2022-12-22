@@ -1,5 +1,5 @@
 name: Feature Request Form
-description: File a bug Report for our Tilli IDE (Integrated Development Environment)
+description: Create a new ticket for a new feature request
 title: "Found a [bug]"
 labels: ["bug","development"]
 assignees:
