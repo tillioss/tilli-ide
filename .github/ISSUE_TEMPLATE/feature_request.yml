@@ -27,13 +27,13 @@ body:
   validations:
     required: true
 - type: textarea
-   id: problem_solve
-   attributes:
-     label: "Problem Solving”
-     description: Is the new feature related to a problem? Describe the problem
-     placeholder: Describe in a few lines about the problem and how this feature will solve it.
-   validations:
-     required: true
+  id: problem_solve
+  attributes:
+    label: "Problem Solving”
+    description: Is the new feature related to a problem? Describe the problem
+    placeholder: Describe in a few lines about the problem and how this feature will solve it.
+  validations:
+    required: true
 - type: textarea
   id: drawbacks
   attributes:
