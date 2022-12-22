@@ -41,6 +41,8 @@ body:
       - Image Manager
       - Module Language Mapping
       - Level Name Mapping
+  validations:
+    required: true
 - type: textarea
   id: reprod
   attributes:
