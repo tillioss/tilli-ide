@@ -21,15 +21,15 @@ body:
 - type: textarea
   id: summary
   attributes:
-    label: "Summary"
+    label: Summary
     description: Provide a brief explanation of the new feature
     placeholder: Describe in a few lines your feature request
   validations:
     required: true
 - type: textarea
-  id: problem_solve
+  id: problem-solve
   attributes:
-    label: "Problem Solving”
+    label: Problem Solving
     description: Is the new feature related to a problem? Describe the problem
     placeholder: Describe in a few lines about the problem and how this feature will solve it.
   validations:
@@ -37,7 +37,7 @@ body:
 - type: textarea
   id: drawbacks
   attributes:
-    label: "Drawbacks"
+    label: Drawbacks
     description: What are the drawbacks/impacts of your feature request?
     placeholder: Identify the drawbacks and impacts while being neutral on your feature request
   validations:
@@ -45,15 +45,15 @@ body:
 - type: textarea
   id: background
   attributes:
-    label: "Background"
+    label: Background
     description: Share context as to why this new feature is important or why it should be completed.
     placeholder: This feature is important because…
   validations:
     required: true
 - type: textarea
-  id: unresolved_question
+  id: unresolved-question
   attributes:
-    label: "Unresolved questions"
+    label: Unresolved questions
     description: What questions still remain unresolved ?
     placeholder: Identify any unresolved issues.
   validations:
