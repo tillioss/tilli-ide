@@ -11,5 +11,5 @@ body:
     attributes:
       label: "Background"
       description: Share context as to why this new feature is important or why it should be completed.
-      Placeholder: This feature is important because…
+      Placeholder: This feature is important because
       required: true
