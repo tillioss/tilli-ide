@@ -6,10 +6,6 @@ assignees:
   - Tilliforkids
   - mynap
 body:
-- type: markdown
-  attributes:
-    value: 
-      Thanks for taking the time to request a feature!
 - type: input
   id: contact
   attributes:
