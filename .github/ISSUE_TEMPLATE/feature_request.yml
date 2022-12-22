@@ -1,7 +1,7 @@
-name: Feature Request Form
-description: Create a new ticket for a new feature request
-title: "[REQUEST] - <title>"
-labels: ["enhancement","question"]
+name: Bug Report Form
+description: File a bug Report for our Tilli IDE (Integrated Development Environment)
+title: "Found a [bug]"
+labels: ["bug","development"]
 assignees:
   - Tilliforkids
   - mynap
