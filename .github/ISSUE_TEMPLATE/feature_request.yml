@@ -7,11 +7,10 @@ assignees:
   - mynap
 body:
   - type: textarea
-    id: background_id
+    id: background
     attributes:
-      label: "Background_id"
+      label: "Background"
       description: Share context as to why this new feature is important or why it should be completed.
-      Placeholder: This feature is important because
       required: true
   - type: textarea
     id: unresolved_question
