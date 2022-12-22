@@ -1,4 +1,4 @@
-name: Feature Request Form
+name: "Feature Request Form"
 description: Create a new ticket for a new feature request
 title: "Request for [feature]"
 labels: ["enhancement","question"]
