@@ -44,7 +44,7 @@ body:
 - type: textarea
     id: reprod
     attributes:
-      label: "Reproduction steps"
+      label: Reproduction steps
       description: Please enter the steps to recreate the same issue
       value: |
         1. Go to '...'
@@ -54,7 +54,7 @@ body:
 - type: textarea
     id: screenshot
     attributes:
-      label: "Screenshots"
+      label: Screenshots
       description: If applicable, add screenshots to help explain your problem.
       value: |
         ![DESCRIPTION](LINK.png)
@@ -64,7 +64,7 @@ body:
 - type: textarea
     id: logs
     attributes:
-      label: "Logs"
+      label: Logs
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: bash
     validations:
@@ -72,7 +72,7 @@ body:
 - type: dropdown
     id: browsers
     attributes:
-      label: "Browsers"
+      label: Browsers
       description: What browsers are you seeing the problem on ?
       multiple: true
       options:
@@ -86,7 +86,7 @@ body:
 - type: dropdown
     id: os
     attributes:
-      label: "OS"
+      label: OS
       description: What is the impacted environment ?
       multiple: true
       options:
