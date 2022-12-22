@@ -25,7 +25,7 @@ body:
        description: Provide a brief explanation of the new feature
        placeholder: Describe in a few lines your feature request
     validations:
-      required: true
+       required: true
   - type: textarea
     id: problem_solve
     attributes:
