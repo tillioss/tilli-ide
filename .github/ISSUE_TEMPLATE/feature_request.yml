@@ -6,6 +6,10 @@ assignees:
   - Tilliforkids
   - mynap
 body:
+- type: markdown
+  attributes:
+    value: |
+      Thanks for taking the time to request a feature!
 - type: input
   id: contact
   attributes:
@@ -15,11 +19,11 @@ body:
   validations:
     required: false
    - type: textarea
-    id: summary
-    attributes:
-      label: "Summary"
-      description: Provide a brief explanation of the new feature
-      placeholder: Describe in a few lines your feature request
+     id: summary
+     attributes:
+       label: "Summary"
+       description: Provide a brief explanation of the new feature
+       placeholder: Describe in a few lines your feature request
     validations:
       required: true
   - type: textarea
