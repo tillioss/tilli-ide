@@ -24,7 +24,6 @@ body:
     label: What happened?
     description: Also tell us, what did you expect to happen and what went wrong?
     placeholder: Tell us what you see! Suggestions are welcome
-    value: "A bug happened and here is a suggestion!"
   validations:
     required: true
 - type: dropdown
