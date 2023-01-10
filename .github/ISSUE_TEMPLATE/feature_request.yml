@@ -41,7 +41,7 @@ body:
     description: What are the drawbacks/impacts of your feature request?
     placeholder: Identify the drawbacks and impacts while being neutral on your feature request
   validations:
-    required: true
+    required: false
 - type: textarea
   id: background
   attributes:
