@@ -1,0 +1,60 @@
+name: Feature Request Form
+description: Create a new ticket for a new feature request
+title: "Request for [feature]"
+labels: ["enhancement","question"]
+assignees:
+  - Tilliforkids
+  - mynap
+body:
+- type: markdown
+  attributes:
+    value: |
+      Thanks for taking the time to request a feature!
+- type: input
+  id: contact
+  attributes:
+    label: Contact Details
+    description: How can we get in touch with you if we need more info?
+    placeholder: ex. email@example.com
+  validations:
+    required: false
+- type: textarea
+  id: summary
+  attributes:
+    label: Summary
+    description: Provide a brief explanation of the new feature
+    placeholder: Describe in a few lines your feature request
+  validations:
+    required: true
+- type: textarea
+  id: problem-solve
+  attributes:
+    label: Problem Solving
+    description: Is the new feature related to a problem? Describe the problem
+    placeholder: Describe in a few lines about the problem and how this feature will solve it.
+  validations:
+    required: true
+- type: textarea
+  id: drawbacks
+  attributes:
+    label: Drawbacks
+    description: What are the drawbacks/impacts of your feature request?
+    placeholder: Identify the drawbacks and impacts while being neutral on your feature request
+  validations:
+    required: false
+- type: textarea
+  id: background
+  attributes:
+    label: Background
+    description: Share context as to why this new feature is important or why it should be completed.
+    placeholder: This feature is important because…
+  validations:
+    required: true
+- type: textarea
+  id: unresolved-question
+  attributes:
+    label: Unresolved questions
+    description: What questions still remain unresolved ?
+    placeholder: Identify any unresolved issues.
+  validations:
+    required: false
