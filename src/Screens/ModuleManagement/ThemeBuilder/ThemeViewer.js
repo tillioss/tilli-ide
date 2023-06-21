@@ -62,11 +62,11 @@ export default class ThemeViewer extends React.Component {
                 hidden = layer.layers.hidden;
                 visible.map((row) => {
                     layers[row].visibility = "visible";
-                    return true
+                    return layers
                 })
                 hidden.map((row) => {
                     layers[row].visibility = "hidden";
-                    return true
+                    return layers
                 })
                 break;
             case "Record":
@@ -75,11 +75,11 @@ export default class ThemeViewer extends React.Component {
                 audioRecognize = layer.layers.recordValue[0];
                 visible.map((row) => {
                     layers[row].visibility = "visible";
-                    return true
+                    return layers
                 })
                 hidden.map((row) => {
                     layers[row].visibility = "hidden";
-                    return true
+                    return layers
                 })
                 this.setState({
                     audioRecognize
@@ -116,14 +116,14 @@ export default class ThemeViewer extends React.Component {
                     this.mouseMouseLeavefunction()
                 }, false);
                 break;
-                case "Reset Text":
+            case "Reset Text":
                 let resetDiv = "layer" + layer.layers.resetText[0];
                 if (resetDiv) {
                     document.getElementById(resetDiv).innerHTML = "";
                     this.setState({ recordText: "", resetTextState: true })
                 }
                 break;
-                default:
+            default:
         }
 
         this.setState({
@@ -152,6 +152,7 @@ export default class ThemeViewer extends React.Component {
     }
 
     setRecord(text) {
+        console.log("log1")
         this.setState({
             recordText: text
         })
@@ -185,7 +186,7 @@ export default class ThemeViewer extends React.Component {
                     {recordText}
                 </div>
                 break;
-                default:
+            default:
         }
 
         return builder;
@@ -333,7 +334,7 @@ export default class ThemeViewer extends React.Component {
                     </video>
                 </div>
                 break;
-                default:
+            default:
         }
         return builder;
     }
@@ -341,14 +342,14 @@ export default class ThemeViewer extends React.Component {
 
     render() {
         let { layers, audioRecognize, recordText } = this.state;
-        console.log("audioRecognize", audioRecognize)
         return <div className="mobile-responsive tilli-web"
             ref={(e) => { this.mobile = e }}
         >
             <div className="dynamic-form" style={{ position: "relative", height: "100%" }}>
                 {
                     layers.map((layer, index) => {
-                        return audioRecognize === index ? <AudioRecognize resetTextState={this.state.resetTextState}
+                        return audioRecognize === index ? <AudioRecognize
+                            resetTextState={this.state.resetTextState} recordText={recordText}
                             setRecord={this.setRecord} updateResetText={() => {
                                 this.setState({ resetTextState: false })
                             }}>{this.layerBuildRecord(layer, index, recordText)}</AudioRecognize> : this.layerBuild(layer, index)

@@ -39,6 +39,10 @@ import ThemeViewer from './Screens/ModuleManagement/ThemeBuilder/ThemeViewer';
 import ModuleManagerThemeIDE from './Screens/ModuleManagement/ThemeBuilder/ModuleManagerThemeIDE';
 import GodotPreview from './Screens/GodotPreview';
 
+import MachingLearning from './Screens/MachingLearning';
+import PageNotFound from './Screens/PageNotFound'
+
+
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -192,7 +196,10 @@ class App extends React.Component {
                             <Route exact path={"/" + MyConstant.keyList.projectUrl + "/godotpreview/:themeId"} render={(props) =>
                                 <GodotPreview {...props} />
                             } />
-
+                            <Route exact path={"/" + MyConstant.keyList.projectUrl + "/machinelearning"} render={(props) =>
+                                <MachingLearning {...props} />
+                            } />
+                            <Route component={PageNotFound} />
                         </Switch>
                     </Menu>
                 </div>

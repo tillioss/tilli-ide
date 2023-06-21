@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import MyConstant from "../../config/MyConstant";
 import logo from "../../images/logos.png"
-import teqbahnLogo from '../../images/Teqbahn_logo1.png';
+import teqbahnLogo from '../../images/teqbahn.png';
 import { ToastContainer } from 'react-toastify';
 import { doConnect } from "../../config/Common";
 

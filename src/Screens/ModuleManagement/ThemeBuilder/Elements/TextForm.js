@@ -3,6 +3,8 @@ import MyConfig from '../../../../config/MyConfig';
 import DropDown from '../../../../Component/DropDown';
 import EditorContent from '../../Component/EditorContent';
 import CheckedLayoutForm from './CheckedLayoutForm';
+import UserActionText from './UserActionText';
+
 
 export default class TextForm extends React.Component {
     render() {
@@ -10,6 +12,7 @@ export default class TextForm extends React.Component {
         let activeLayer = layers[layerActive];
 
         let onClickOptions = MyConfig.themeEvent;
+        let includesUserActionText = ["Previous", "Record", "Record Press", "Reset Text"]
         return <div className="p-2">
             <div className="row">
                 <div className="col-3">
@@ -19,7 +22,7 @@ export default class TextForm extends React.Component {
                             type="number"
                             className="form-control"
                             placeholder=""
-                            value={activeLayer.x} 
+                            value={activeLayer.x}
                             onChange={(e) => {
                                 layers[layerActive].x = e.target.value
                                 this.props.setValue(layers)
@@ -32,11 +35,11 @@ export default class TextForm extends React.Component {
                 <div className="col-3">
                     <label>Y</label>
                     <div className="input-group mb-3">
-                        <input type="number" className="form-control" placeholder="" value={activeLayer.y} 
-                        onChange={(e) => {
-                            layers[layerActive].y = e.target.value
-                            this.props.setValue(layers)
-                        }}
+                        <input type="number" className="form-control" placeholder="" value={activeLayer.y}
+                            onChange={(e) => {
+                                layers[layerActive].y = e.target.value
+                                this.props.setValue(layers)
+                            }}
                         />
                         <div className="input-group-append">
                             <span className="input-group-text">%</span>
@@ -47,10 +50,10 @@ export default class TextForm extends React.Component {
                     <label>Width</label>
                     <div className="input-group mb-3">
                         <input type="number" className="form-control" placeholder="" value={activeLayer.width}
-                        onChange={(e) => {
-                            layers[layerActive].width = e.target.value
-                            this.props.setValue(layers)
-                        }} />
+                            onChange={(e) => {
+                                layers[layerActive].width = e.target.value
+                                this.props.setValue(layers)
+                            }} />
                         <div className="input-group-append">
                             <span className="input-group-text">%</span>
                         </div>
@@ -59,11 +62,11 @@ export default class TextForm extends React.Component {
                 <div className="col-3">
                     <label>Height</label>
                     <div className="input-group mb-3">
-                        <input type="number" className="form-control" placeholder="" value={activeLayer.height} 
-                        onChange={(e) => {
-                            layers[layerActive].height = e.target.value
-                            this.props.setValue(layers)
-                        }}/>
+                        <input type="number" className="form-control" placeholder="" value={activeLayer.height}
+                            onChange={(e) => {
+                                layers[layerActive].height = e.target.value
+                                this.props.setValue(layers)
+                            }} />
                         <div className="input-group-append">
                             <span className="input-group-text">%</span>
                         </div>
@@ -73,7 +76,7 @@ export default class TextForm extends React.Component {
             <div className="row">
                 <div className="col-12">
                     <label>Text</label>
-                    <EditorContent 
+                    <EditorContent
                         text={activeLayer.text}
                         textOnchange={(value) => {
                             layers[layerActive].text = value
@@ -86,15 +89,18 @@ export default class TextForm extends React.Component {
             <div className="row mt-2">
                 <div className="col-3">
                     <label>Action</label>
-                    <DropDown 
+                    <DropDown
                         selectedOption={onClickOptions.filter(option => option.value === activeLayer.action)}
                         onChange={(e) => {
                             layers[layerActive].action = e.value;
-                            if(e.value === "Checked Layout" || e.value === "Change Layout") {
+                            if (e.value === "Checked Layout" || e.value === "Change Layout") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: []
                                 }
+                            }
+                            if (!includesUserActionText.includes(e.value)) {
+                                layers[layerActive].userActionText = ""
                             }
                             this.props.setValue(layers)
                         }}
@@ -103,16 +109,16 @@ export default class TextForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <div className="mt-3">
-                    {
-                       (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm 
-                        setValue={(value) => {
-                            layers[layerActive].layers = value;
-                            this.props.setValue(layers)
-                        }}
-                        changedLayers={layers[layerActive].layers}
-                        layers={layers}
-                    />
-                    }
+                        {
+                            (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
                     </div>
                 </div>
                 <div className="col-3">
@@ -123,11 +129,27 @@ export default class TextForm extends React.Component {
                             placeholder=""
                             checked={activeLayer.visibility === "visible"}
                             onChange={(e) => {
-                                layers[layerActive].visibility = e.target.checked ? "visible": "hidden";
+                                layers[layerActive].visibility = e.target.checked ? "visible" : "hidden";
                                 this.props.setValue(layers)
                             }} />
                     </div>
                 </div>
+                {
+                    (!includesUserActionText.includes(layers[layerActive].action) && layers[layerActive].action) &&
+                    <div className="col-4">
+                        <div className="mt-3">
+                            <UserActionText
+                                setValue={(value) => {
+                                    layers[layerActive].userActionText = value;
+                                    this.props.setValue(layers)
+                                }}
+                                layers={layers}
+                                layerActive={layerActive}
+                                userActionText={layers[layerActive].userActionText ? layers[layerActive].userActionText : ""}
+                            />
+                        </div>
+                    </div>
+                }
             </div>
         </div>;
     }
