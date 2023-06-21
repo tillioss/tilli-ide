@@ -321,7 +321,9 @@ export default class ModuleManagerIDE extends React.Component {
       selectAudioFiles: "",
       audioJsonFiles: {},
       sectionAudioSelected: {},
-      storySelectAudioFiles: {}
+      storySelectAudioFiles: {},
+      welcomeScreenCheck: true,
+      apiPostOptions: [{ label: "Yes", value: "emotion" }]
     }
 
     this.setThemeSelected = this.setThemeSelected.bind(this);
@@ -335,11 +337,11 @@ export default class ModuleManagerIDE extends React.Component {
     this.setState({
       deviceHeight: height,
       deviceWidth: width,
-    }, () => {
-      this.getThemes()
-      this.getImages()
-      this.getAudioFils()
-      this.getLevels()
+    }, async () => {
+      await this.getImages()
+      await this.getAudioFils()
+      await this.getThemes()
+      await this.getLevels()
     });
   }
 
@@ -436,7 +438,7 @@ export default class ModuleManagerIDE extends React.Component {
 
   async submitFuntion() {
     const { sectionLearning, sectionBuildStory } = this.state
-
+    let { welcomeScreenCheck } = this.state
     if (sectionBuildStory.length === 0 && sectionLearning.length === 0) {
       alert("Add story")
       return false
@@ -444,7 +446,8 @@ export default class ModuleManagerIDE extends React.Component {
 
     // let addData = { sectionLearning, sectionBuildStory };
     let addData = [...sectionLearning, ...sectionBuildStory];
-    let postJson = { levelId: this.state.levelSelect.value, stagesData: JSON.stringify(addData), sessionId: '1223' };
+    let stagesData = { welcomeScreen: welcomeScreenCheck, stage: addData }
+    let postJson = { levelId: this.state.levelSelect.value, stagesData: JSON.stringify(stagesData), sessionId: '1223' };
     let responseData = await doConnect("updateLevelMapping", "POST", postJson);
     var json = responseData;
     var response = json.response;
@@ -479,26 +482,35 @@ export default class ModuleManagerIDE extends React.Component {
         select_Level.label = levelsMap[level_Id].name;
       }
 
-
-      that.setState({ levelsJson: levelsMap, levelSelect: select_Level })
-
-      this.getLevelMappingData(level_Id)
-
+      that.setState({ levelsJson: levelsMap, levelSelect: select_Level }, () => {
+        this.getLevelMappingData(level_Id)
+      })
     }
   }
 
 
   async getLevelMappingData(levelId) {
     const { storyThemeSelect } = this.state;
+    let { welcomeScreenCheck } = this.state
     let { audioFiles } = this.state
-    console.log('levelId', levelId)
     let postJson = { levelId: levelId, sessionId: '1223' };
     let that = this;
     let responseData = await doConnect("getLevelMappingData", "POST", postJson);
 
     // alert(JSON.stringify(responseData))
     let contentdata = responseData.response;
-    if (contentdata) {
+    let getStageData = responseData.response;
+    if (getStageData) {
+      getStageData = JSON.parse(getStageData);
+      /*restructure change */
+      if (Array.isArray(getStageData) || typeof (getStageData.welcomeScreen) === "undefined") {
+        getStageData = { welcomeScreen: true, stage: getStageData }
+      }
+      /*restructure change */
+    }
+    if (getStageData) {
+      welcomeScreenCheck = getStageData.welcomeScreen;
+      contentdata = getStageData.stage;
       let imageViews = []
       let withOutStory = []
       let withStory = []
@@ -507,7 +519,6 @@ export default class ModuleManagerIDE extends React.Component {
       let sectionAudioSelected = {}
       let storySelectAudioFiles = {}
 
-      contentdata = JSON.parse(contentdata);
       if (Array.isArray(contentdata)) {
         contentdata.map((ival, index) => {
           var found_index = this.state.themeOptions.findIndex((a) =>
@@ -516,7 +527,15 @@ export default class ModuleManagerIDE extends React.Component {
 
           if (ival.themeType && ival.themeType === "Dynamic") {
             if (ival.backgroundAudio && ival.backgroundAudio !== "") {
-              let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.previewAudioPath === ival.backgroundAudio })
+              let prevAudPath = ival.backgroundAudio;
+              let findAudPath = ""
+              let splitAnd = prevAudPath.split("&")[1]
+              if (splitAnd) {
+                splitAnd = splitAnd.split("key=");
+                findAudPath = splitAnd[1];
+              }
+
+              let filterAudioIndex = audioFiles.findIndex((e) => { return e.json.fileName === findAudPath })
               if (filterAudioIndex !== "-1") {
                 let selectedFile = audioFiles[filterAudioIndex]
                 sectionAudioSelected[index] = { ...selectedFile }
@@ -575,7 +594,8 @@ export default class ModuleManagerIDE extends React.Component {
         imageView: imageViews,
         storyThemeSelect,
         sectionAudioSelected,
-        storySelectAudioFiles
+        storySelectAudioFiles,
+        welcomeScreenCheck
       }, () => {
         that.historyCapture()
       })
@@ -1600,7 +1620,7 @@ export default class ModuleManagerIDE extends React.Component {
   }
 
   buildContent() {
-    let { OptionData, themeOptions, sectionLearning, sectionBuildStory, storyThemeSelect, sectionTab, themeIndex, storyCardTab, sectionAudioSelected, storySelectAudioFiles } = this.state;
+    let { OptionData, themeOptions, sectionLearning, sectionBuildStory, storyThemeSelect, sectionTab, themeIndex, storyCardTab, sectionAudioSelected, storySelectAudioFiles, apiPostOptions } = this.state;
     let returnContent;
     if (sectionTab === "learning" && sectionLearning.length > 0) {
       let index = themeIndex;
@@ -1945,6 +1965,29 @@ export default class ModuleManagerIDE extends React.Component {
             </div>
           </div>}
 
+
+          {sectionLearning[index].themeType && sectionLearning[index].themeType === "Dynamic" && <div className='row pl-4'>
+            <div className="col-sm-4">
+              <div className='form-group'>
+                <div> Is this Emotion page?</div>
+                <DropDown
+                  selectedOption={apiPostOptions.filter((e) => { return e.value === sectionLearning[index].apiPredict })}
+                  onChange={(e) => {
+                    sectionLearning[index].apiPredict = e.value
+                    this.setState({ sectionLearning, })
+                  }}
+                  options={apiPostOptions}
+                />
+              </div>
+            </div>
+            {typeof (sectionLearning[index].apiPredict) !== "undefined" && sectionLearning[index].apiPredict !== "" && <div className="col-sm-3 mt-3">
+              <button className='btn btn-primary' onClick={() => {
+                delete sectionLearning[index].apiPredict
+                this.setState({ sectionLearning, })
+              }}>Rest emotion</button>
+            </div>}
+          </div>}
+
         </div>
         <div className="panel-body">
           {
@@ -2180,6 +2223,28 @@ export default class ModuleManagerIDE extends React.Component {
                       />
                     </div>
                   </div>}
+
+                  {sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] && sectionBuildStory[jindex].content.themes[storyCardTab].themeType === "Dynamic" && <div className="mt-2 mb-2 row">
+                    <div className='col-sm-6 form-group'>
+                      <div> Is this Emotion page?</div>
+                      <DropDown
+                        selectedOption={(sectionBuildStory[jindex].content !== undefined && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] !== undefined) ? apiPostOptions.filter((e) => { return e.value === sectionBuildStory[jindex].content.themes[storyCardTab].apiPredict }) : []}
+                        onChange={(e) => {
+                          sectionBuildStory[jindex].content.themes[storyCardTab].apiPredict = e.value;
+                          this.setState({ sectionBuildStory, storySelectAudioFiles })
+                        }}
+                        options={apiPostOptions}
+                      />
+                    </div>
+
+                    {typeof (sectionBuildStory[jindex].content.themes[storyCardTab].apiPredict) !== "undefined" && sectionBuildStory[jindex].content.themes[storyCardTab].apiPredict !== "" && <div className="col-sm-3 mt-3">
+                      <button className='btn btn-primary' onClick={() => {
+                        delete sectionBuildStory[jindex].content.themes[storyCardTab].apiPredict
+                        this.setState({ sectionBuildStory, })
+                      }}>Rest emotion</button>
+                    </div>}
+                  </div>}
+
 
                   <div>
                     {
@@ -2659,7 +2724,7 @@ export default class ModuleManagerIDE extends React.Component {
 
   render() {
     const { sectionTab, sectionLearning, sectionBuildStory, themeIndex, previewModal, moduleJson, cloneModal, cloneLevelSelect } = this.state;
-
+    let { welcomeScreenCheck } = this.state
     let levelOption = [];
     Object.keys(this.state.levelsJson).map((ival, index) => {
       let levelData = this.state.levelsJson[ival];
@@ -2705,6 +2770,18 @@ export default class ModuleManagerIDE extends React.Component {
                         </div>
                         <div className="col-sm-6"> </div>
                       </div>
+
+                      <div className="row item form-group" >
+                        <div className="col-sm-5">Welcome Screen
+                          <span className='ml-3'>
+                            <input type={"checkbox"} checked={welcomeScreenCheck} onChange={(e) => {
+                              welcomeScreenCheck = e.target.checked;
+                              this.setState({ welcomeScreenCheck })
+                            }} />
+                          </span>
+                        </div>
+                      </div>
+
                       <div className="my-3">
                         <div className="tabs">
                           <div className={`tab ${sectionTab === "learning" ? "active" : ""}`} onClick={() => this.setState({

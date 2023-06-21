@@ -1,5 +1,5 @@
 import React from 'react';
-import image1 from "../../src/images/Teqbahn_logo1.png";
+import image1 from "../../src/images/teqbahn.png";
 import MyConstant from '../config/MyConstant';
 import image2 from "../images/logos.png"
 import { ToastContainer, toast } from 'react-toastify';

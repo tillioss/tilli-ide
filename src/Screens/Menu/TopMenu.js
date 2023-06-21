@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import image1 from '../../images/Teqbahn_logo1.png';
+import image1 from '../../images/teqbahn.png';
 
 class TopMenu extends React.Component {
   constructor(props) {

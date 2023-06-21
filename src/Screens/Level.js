@@ -19,7 +19,8 @@ class Level extends React.Component {
             buttonName: "Submit",
             sortOrder: '',
             defineModule: false,
-            sortOrderArray: []
+            sortOrderArray: [],
+            editSortOrder: ''
         }
     }
 
@@ -143,8 +144,12 @@ class Level extends React.Component {
     }
 
     async updateLevels() {
-        const { levelName, levelColor, sortOrder, sortOrderArray } = this.state;
+        let { levelName, levelColor, sortOrder, sortOrderArray, editSortOrder } = this.state;
         let validLength = levelColor ? levelColor.search("#") : 0;
+        let indexofSortOrder = sortOrderArray.indexOf(editSortOrder.toString())
+        if (indexofSortOrder > -1) {
+            sortOrderArray.splice(indexofSortOrder, 1)
+        }
         if (levelName.length === 0) {
             this.setState({ levelNameValidate: 'Please Enter Value' })
             return false
@@ -191,7 +196,7 @@ class Level extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "", defineModule: false })
+                this.setState({ buttonName: 'Submit', selectedOption: {}, typeSelect: '', idvalue: "", levelColor: "", levelName: "", defineModule: false, editSortOrder: "" })
 
                 this.getLevels();
             } else {
@@ -266,8 +271,6 @@ class Level extends React.Component {
                     <div id={row.id}>
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={row.id} className="btn btn-info" onClick={(e) => {
-                            console.log(this.state.gamingArray)
-
                             let object = {};
                             object.value = this.state.gamingArray[e.target.id].id;
                             object.label = this.state.gamingArray[e.target.id].image.title;
@@ -276,7 +279,8 @@ class Level extends React.Component {
                             let levelName = this.state.gamingArray[e.target.id].name
                             let levelColor = this.state.gamingArray[e.target.id].color
                             let sortOrder = this.state.gamingArray[e.target.id].sortOrder
-                            this.setState({ defineModule: true, buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName, sortOrder })
+
+                            this.setState({ defineModule: true, buttonName: 'Update', selectedOption: object, typeSelect: 'Edit', idvalue: e.target.id, levelColor, levelName, sortOrder, editSortOrder: sortOrder })
                         }}>Edit</button>
                     </div>,
             },

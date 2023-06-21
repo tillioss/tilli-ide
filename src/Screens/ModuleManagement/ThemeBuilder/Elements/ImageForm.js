@@ -5,6 +5,8 @@ import ImageSelect from '../../Component/ImageSelect';
 import CheckedLayoutForm from './CheckedLayoutForm';
 import RecordLayoutForm from './RecordLayoutForm';
 import ReSetTextLayoutForm from './ReSetTextLayoutForm';
+import UserActionText from './UserActionText';
+
 
 
 export default class ImageForm extends React.Component {
@@ -14,6 +16,7 @@ export default class ImageForm extends React.Component {
         let activeLayer = layers[layerActive];
 
         let onClickOptions = MyConfig.themeEvent;
+        let includesUserActionText = ["Previous", "Record", "Record Press", "Reset Text"]
         return <div className="p-2">
             <div className="row">
                 <div className="col-3">
@@ -96,16 +99,16 @@ export default class ImageForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <label>Action</label>
-                    <DropDown 
+                    <DropDown
                         selectedOption={onClickOptions.filter(option => option.value === activeLayer.action)}
                         onChange={(e) => {
                             layers[layerActive].action = e.value;
-                            if(e.value === "Checked Layout" || e.value === "Change Layout") {
+                            if (e.value === "Checked Layout" || e.value === "Change Layout") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: []
                                 }
-                            } else if(e.value === "Record") {
+                            } else if (e.value === "Record") {
                                 layers[layerActive].layers = {
                                     visible: [],
                                     hidden: [],
@@ -118,6 +121,9 @@ export default class ImageForm extends React.Component {
                                     resetText: []
                                 }
                             }
+                            if (!includesUserActionText.includes(e.value)) {
+                                layers[layerActive].userActionText = ""
+                            }
                             this.props.setValue(layers)
                         }}
                         options={onClickOptions}
@@ -125,27 +131,27 @@ export default class ImageForm extends React.Component {
                 </div>
                 <div className="col-3">
                     <div className="mt-3">
-                    {
-                        (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm 
-                        setValue={(value) => {
-                            layers[layerActive].layers = value;
-                            this.props.setValue(layers)
-                        }}
-                        changedLayers={layers[layerActive].layers}
-                        layers={layers}
-                    />
-                    }
-                    {
-                        (layers[layerActive].action === "Record") && <RecordLayoutForm 
-                            setValue={(value) => {
-                                layers[layerActive].layers = value;
-                                this.props.setValue(layers)
-                            }}
-                            changedLayers={layers[layerActive].layers}
-                            layers={layers}
-                        />
-                    }
-                     {
+                        {
+                            (layers[layerActive].action === "Checked Layout" || layers[layerActive].action === "Change Layout") && <CheckedLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
+                        {
+                            (layers[layerActive].action === "Record") && <RecordLayoutForm
+                                setValue={(value) => {
+                                    layers[layerActive].layers = value;
+                                    this.props.setValue(layers)
+                                }}
+                                changedLayers={layers[layerActive].layers}
+                                layers={layers}
+                            />
+                        }
+                        {
                             (layers[layerActive].action === "Reset Text") && <ReSetTextLayoutForm
                                 setValue={(value) => {
                                     layers[layerActive].layers = value;
@@ -165,11 +171,27 @@ export default class ImageForm extends React.Component {
                             placeholder=""
                             checked={activeLayer.visibility === "visible"}
                             onChange={(e) => {
-                                layers[layerActive].visibility = e.target.checked ? "visible": "hidden";
+                                layers[layerActive].visibility = e.target.checked ? "visible" : "hidden";
                                 this.props.setValue(layers)
                             }} />
                     </div>
                 </div>
+                {
+                    (!includesUserActionText.includes(layers[layerActive].action) && layers[layerActive].action) &&
+                    <div className="col-4">
+                        <div className="mt-3">
+                            <UserActionText
+                                setValue={(value) => {
+                                    layers[layerActive].userActionText = value;
+                                    this.props.setValue(layers)
+                                }}
+                                layers={layers}
+                                layerActive={layerActive}
+                                userActionText={layers[layerActive].userActionText ? layers[layerActive].userActionText : ""}
+                            />
+                        </div>
+                    </div>
+                }
             </div>
         </div>;
     }

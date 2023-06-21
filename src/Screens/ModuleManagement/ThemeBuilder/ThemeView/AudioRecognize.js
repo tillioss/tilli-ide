@@ -6,11 +6,11 @@ import { useSpeechRecognition } from 'react-speech-recognition'
 const AudioRecognize = (props) => {
   const { transcript, resetTranscript } = useSpeechRecognition()
   useEffect(() => {
-    console.log(transcript)
-    if (transcript !== "") {
+    console.log(transcript,props.recordText)
+    if (transcript !== "" && props.recordText !== transcript) {
       props.setRecord(transcript)
     }
-  }, [transcript,props]);
+  }, [transcript, props]);
 
   React.useEffect(() => {
     if (props.resetTextState) {

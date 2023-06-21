@@ -2,6 +2,8 @@ import React from 'react';
 import DropDown from '../../../../Component/DropDown';
 import MyConfig from '../../../../config/MyConfig';
 import CheckedLayoutForm from './CheckedLayoutForm';
+import UserActionText from './UserActionText';
+
 
 export default class RectangleForm extends React.Component {
     render() {
@@ -11,6 +13,7 @@ export default class RectangleForm extends React.Component {
         let onClickOptions = MyConfig.themeEvent;
         let editorFontFamily = MyConfig.editorFontFamily.map((e, i) => { return { label: e, value: i } });
         let editorFontSize = MyConfig.editorFontSize.map((e, i) => { return { label: e, value: i } });
+        let includesUserActionText = ["Previous", "Record", "Record Press", "Reset Text"];
         return <div className="p-2">
             <div className="row">
                 <div className="col-3">
@@ -146,6 +149,9 @@ export default class RectangleForm extends React.Component {
                                     hidden: []
                                 }
                             }
+                            if (!includesUserActionText.includes(e.value)) {
+                                layers[layerActive].userActionText = ""
+                            }
                             this.props.setValue(layers)
                         }}
                         options={onClickOptions}
@@ -178,6 +184,24 @@ export default class RectangleForm extends React.Component {
                             }} />
                     </div>
                 </div>
+
+                {
+                    (!includesUserActionText.includes(layers[layerActive].action) && layers[layerActive].action) &&
+                    <div className="col-4">
+                        <div className="mt-3">
+                            <UserActionText
+                                setValue={(value) => {
+                                    layers[layerActive].userActionText = value;
+                                    this.props.setValue(layers)
+                                }}
+                                layers={layers}
+                                layerActive={layerActive}
+                                userActionText={layers[layerActive].userActionText ? layers[layerActive].userActionText : ""}
+                            />
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>;
     }

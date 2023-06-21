@@ -153,11 +153,23 @@ export default class LanguageJsonMapping extends React.Component {
 
     let removeThemeText = []
     let responceJsonData = responseData.response;
+
+    let getStageData = responseData.response;
+    if (getStageData) {
+      getStageData = JSON.parse(getStageData);
+      if (Array.isArray(getStageData)) {
+        responceJsonData = getStageData
+      }
+      else {
+        responceJsonData = getStageData.stage
+      }
+    }
+
     if (responceJsonData) {
       let changeIndex = 0
       let withOutStory = []
       let withStory = []
-      JSON.parse(responceJsonData).map((ival, index) => {
+      responceJsonData.map((ival, index) => {
         //console.log("s",ival)
         var found_index = this.state.themeOptions.findIndex((a) =>
           a.label === ival.theme)
@@ -189,7 +201,7 @@ export default class LanguageJsonMapping extends React.Component {
       // console.log('removeThemeText', removeThemeText)
       //console.log('ThemeJson',ThemeJson.Tamil)
       //tamilData: ThemeJson.Tamil
-      let moduleJson = [...JSON.parse(responceJsonData)]
+      let moduleJson = [...responceJsonData]
       that.setState({ moduleJson, imageView, removeThemeText, storyThemeSelect })
 
     }
