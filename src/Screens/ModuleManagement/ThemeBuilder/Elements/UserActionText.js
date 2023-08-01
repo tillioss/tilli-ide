@@ -10,7 +10,7 @@ export default class UserActionText extends React.Component {
     }
 
     componentDidMount() {
-        if (typeof (this.props.userActionText) !== undefined) {
+        if (typeof (this.props.userActionText) !== "undefined") {
             let { userActionText } = this.props;
             this.setState({
                 userActionText
