@@ -4,11 +4,12 @@ import MyConfig from '../../../../config/MyConfig';
 import CheckedLayoutForm from './CheckedLayoutForm';
 import RecordLayoutForm from './RecordLayoutForm';
 import UserActionText from './UserActionText';
+import UserTrackKey from './UserTrackKey';
 
 
 export default class CircleForm extends React.Component {
     render() {
-        let { layers, layerActive } = this.props;
+        let { layers, layerActive, userTrackKey } = this.props;
         let activeLayer = layers[layerActive];
 
         let onClickOptions = MyConfig.themeEvent;
@@ -169,6 +170,22 @@ export default class CircleForm extends React.Component {
                                 layers={layers}
                                 layerActive={layerActive}
                                 userActionText={layers[layerActive].userActionText ? layers[layerActive].userActionText : ""}
+                            />
+                        </div>
+                    </div>
+                }
+                {
+                    userTrackKey &&
+                    <div className="col-4">
+                        <div className="mt-3">
+                            <UserTrackKey
+                                setValue={(value) => {
+                                    layers[layerActive].userTrackKey = value;
+                                    this.props.setValue(layers)
+                                }}
+                                layers={layers}
+                                layerActive={layerActive}
+                                userTrackKey={layers[layerActive].userTrackKey ? layers[layerActive].userTrackKey : ""}
                             />
                         </div>
                     </div>

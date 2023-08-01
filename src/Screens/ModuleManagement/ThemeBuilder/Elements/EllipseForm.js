@@ -3,11 +3,12 @@ import DropDown from '../../../../Component/DropDown';
 import MyConfig from '../../../../config/MyConfig';
 import CheckedLayoutForm from './CheckedLayoutForm';
 import UserActionText from './UserActionText';
+import UserTrackKey from './UserTrackKey';
 
 
 export default class EllipseForm extends React.Component {
     render() {
-        let { layers, layerActive } = this.props;
+        let { layers, layerActive, userTrackKey } = this.props;
         let activeLayer = layers[layerActive];
 
         let onClickOptions = MyConfig.themeEvent;
@@ -176,6 +177,24 @@ export default class EllipseForm extends React.Component {
                         </div>
                     </div>
                 }
+
+                {
+                    userTrackKey &&
+                    <div className="col-4">
+                        <div className="mt-3">
+                            <UserTrackKey
+                                setValue={(value) => {
+                                    layers[layerActive].userTrackKey = value;
+                                    this.props.setValue(layers)
+                                }}
+                                layers={layers}
+                                layerActive={layerActive}
+                                userTrackKey={layers[layerActive].userTrackKey ? layers[layerActive].userTrackKey : ""}
+                            />
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>;
     }

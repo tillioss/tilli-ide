@@ -16,6 +16,8 @@ import GroupedInput from './Theme/GroupedInput';
 import GroupedInputForm from './Elements/GroupedInputForm';
 import Card from '../../../Component/Card';
 import Modal from '../../../Component/Modal';
+import DropDown from "../../../Component/DropDown";
+import MyConfig from '../../../config/MyConfig';
 import { doConnect } from '../../../config/Common';
 
 export default class Builder extends React.Component {
@@ -29,7 +31,8 @@ export default class Builder extends React.Component {
             deviceWidth: "",
             fileData: {},
             themeId: "",
-            hiddenViewModal: false
+            hiddenViewModal: false,
+            selectPageType: ""
         }
         this.buildDesign = this.buildDesign.bind(this);
         this.setValue = this.setValue.bind(this);
@@ -109,8 +112,10 @@ export default class Builder extends React.Component {
         let responseData = await doConnect("getThemeContent", "POST", postJson);
         responseData = JSON.parse(responseData)
         if (responseData.response !== null) {
+            let { layers, pageType } = responseData.response
             this.setState({
-                layers: JSON.parse(responseData.response)
+                layers: JSON.parse(layers),
+                selectPageType: pageType
             })
         }
     }
@@ -515,7 +520,7 @@ export default class Builder extends React.Component {
     }
 
     buildDesign() {
-        let { layers, layerActive } = this.state;
+        let { layers, layerActive, selectPageType } = this.state;
         let builder;
 
         let x = 0;
@@ -525,7 +530,7 @@ export default class Builder extends React.Component {
             let layerType = activeLayer.type;
             switch (layerType) {
                 case "rectangle":
-                    builder = <RectangleForm layerActive={layerActive} layers={layers} setValue={this.setValue} />
+                    builder = <RectangleForm layerActive={layerActive} layers={layers} setValue={this.setValue} userTrackKey={selectPageType} />
                     break;
                 case "groupedInput":
                     builder = <GroupedInputForm layerActive={layerActive} layers={layers} setValue={this.setValue} />
@@ -537,16 +542,16 @@ export default class Builder extends React.Component {
                     builder = <DragAndDropForm layerActive={layerActive} layers={layers} setValue={this.setValue} x={x} y={y} imageOptions={this.getImageOption()} />
                     break;
                 case "ellipse":
-                    builder = <EllipseForm layerActive={layerActive} layers={layers} setValue={this.setValue} />
+                    builder = <EllipseForm layerActive={layerActive} layers={layers} setValue={this.setValue} userTrackKey={selectPageType} />
                     break;
                 case "circle":
-                    builder = <CircleForm layerActive={layerActive} layers={layers} setValue={this.setValue} />
+                    builder = <CircleForm layerActive={layerActive} layers={layers} setValue={this.setValue} userTrackKey={selectPageType} />
                     break;
                 case "text":
-                    builder = <TextForm layerActive={layerActive} layers={layers} setValue={this.setValue} />
+                    builder = <TextForm layerActive={layerActive} layers={layers} setValue={this.setValue} userTrackKey={selectPageType} />
                     break;
                 case "image":
-                    builder = <ImageForm layerActive={layerActive} layers={layers} imageOptions={this.getImageOption()} setValue={this.setValue} />
+                    builder = <ImageForm layerActive={layerActive} layers={layers} imageOptions={this.getImageOption()} setValue={this.setValue} userTrackKey={selectPageType} />
                     break;
                 case "video":
                     builder = <VideoForm layerActive={layerActive} layers={layers} videoOptions={this.getVideoOption()} setValue={this.setValue} />
@@ -575,8 +580,8 @@ export default class Builder extends React.Component {
     }
 
     async save() {
-        let { themeId, layers } = this.state;
-        let postJson = { themeId, data: JSON.stringify(layers) };
+        let { themeId, layers, selectPageType } = this.state;
+        let postJson = { themeId, data: JSON.stringify(layers), pageType: selectPageType };
         let responseData = await doConnect("updateThemeContent", "POST", postJson);
         responseData = JSON.parse(responseData)
         if (responseData.response === "Success") {
@@ -617,8 +622,17 @@ export default class Builder extends React.Component {
             this.props.history.push(url);
         }
     }
+
+    resetPageType() {
+        let { layers, layerActive } = this.state
+        if (layers[layerActive] && layers[layerActive].userTrackKey) {
+            delete layers[layerActive].userTrackKey
+        }
+        this.setState({ selectPageType: "", layers })
+    }
+
     render() {
-        let { layers, layerActive, hiddenViewModal, deviceHeight } = this.state;
+        let { layers, layerActive, hiddenViewModal, deviceHeight, selectPageType } = this.state;
         return <div className="main-content">
             <ToastContainer />
             <div className="layer-builder d-flex dynamic-form">
@@ -648,6 +662,32 @@ export default class Builder extends React.Component {
                             <button className="btn btn-sm btn-primary" onClick={() => this.save()}>Save</button>
                         </div>
                     </div>
+
+                    <div className='row mb-2 mt-2 ml-2'>
+                        <div className='col-4'>
+                            <label>Choose Page Type</label>
+                            <DropDown
+                                selectedOption={MyConfig.ChoosePageType.filter((e) => { return e.value === selectPageType })}
+                                onChange={(e) => {
+                                    this.setState({ selectPageType: e.value })
+
+                                }}
+                                options={MyConfig.ChoosePageType}
+                                isDisabled={(layerActive === "")}
+                            />
+
+                        </div>
+                        {selectPageType && <div className='col-2' style={{ marginTop: 30 }}>
+                            <button className="btn btn-sm btn-primary"
+                                disabled={(layerActive === "")}
+                                onClick={() => {
+                                    this.resetPageType()
+
+                                }}>Reset</button>
+                        </div>}
+
+                    </div>
+
                     <div style={{ height: 'calc(100vh - 175px)', overflow: "auto" }}>
 
                         <div className="row mx-0 p-2">
