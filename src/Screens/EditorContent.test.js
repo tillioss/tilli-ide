@@ -1,13 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import EditorContent from "./EditorContent";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
 
-describe("App", () => {
-  test("renders without errors", () => {
+describe("EditorContent", () => {
+  it("renders the component", () => {
     render(
       <Router>
-        <App />
+        <EditorContent />
       </Router>
     );
   });

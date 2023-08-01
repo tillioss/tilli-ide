@@ -1,13 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import ModelView from "./ModelView";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
 
-describe("App", () => {
-  test("renders without errors", () => {
+describe("ModelView", () => {
+  it("renders the component", () => {
     render(
       <Router>
-        <App />
+        <ModelView />
       </Router>
     );
   });

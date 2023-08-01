@@ -1,13 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import LanguageScreen from "./LanguageScreen";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
 
-describe("App", () => {
-  test("renders without errors", () => {
+describe("LanguageScreen", () => {
+  it("renders the component", () => {
     render(
       <Router>
-        <App />
+        <LanguageScreen />
       </Router>
     );
   });

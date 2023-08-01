@@ -1,13 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import GodotPreview from "./GodotPreview";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
 
-describe("App", () => {
-  test("renders without errors", () => {
+describe("GodotPreview", () => {
+  it("renders the component", () => {
     render(
       <Router>
-        <App />
+        <GodotPreview />
       </Router>
     );
   });
