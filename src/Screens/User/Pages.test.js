@@ -1,13 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import GodotPreview from "./GodotPreview";
+import Pages from "./Pages";
 import { BrowserRouter as Router } from "react-router-dom";
 
-describe("GodotPreview", () => {
+describe("Pages", () => {
   it("renders the component", () => {
     render(
       <Router>
-        <GodotPreview />
+        <Pages />
       </Router>
     );
   });
