@@ -1,3 +1,5 @@
+[![Unit tests](https://github.com/tillioss/tilli-ide/actions/workflows/unit.yml/badge.svg)](https://github.com/tillioss/tilli-ide/actions/workflows/unit.yml)
+
 # tilli-ide
 
 The IDE (Integrated Development Environment) helps users create, manage, and modify content on the Tilli Web App without the need for specialized technical knowledge. In simple terms this tool helps you build more modules.
