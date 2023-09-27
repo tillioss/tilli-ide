@@ -34,9 +34,11 @@ export default class CloneTheme extends React.Component {
 
         let contentdata = responseData.response;
         if (contentdata) {
+            let JsonParseData = JSON.parse(contentdata);
+            let { stage } = JsonParseData
             let withOutStory = []
             let withStory = []
-            JSON.parse(contentdata).map((ival, index) => {
+            stage.map((ival, index) => {
                 if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender") {
                     withStory.push(ival)
                 }

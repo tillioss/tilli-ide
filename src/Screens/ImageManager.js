@@ -229,19 +229,22 @@ class ImageManager extends React.Component {
         const columns = [
             {
                 name: 'Title',
-                selector: 'title',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.title}</div>
+                },
             },
             {
                 name: 'type',
-                selector: 'fileType',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.fileType}</div>
+                },
             },
             {
                 name: 'file',
-                selector: 'file',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
 
                     <React.Fragment>
                         <div id={row.id}>
@@ -280,9 +283,8 @@ class ImageManager extends React.Component {
             },
             {
                 name: 'Edit',
-                selector: 'Edit',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div id={row.id} >
                         <button id={row.id} className="btn btn-info" onClick={(e) => {
                             this.setState({ editId: row.id, editTitle: row.title, actionType: 'edit' })
@@ -293,9 +295,8 @@ class ImageManager extends React.Component {
             },
             {
                 name: 'Delete',
-                selector: 'Delete',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div id={row.id}
                     >
                         <div style={{ fontWeight: 700 }}></div>
@@ -443,7 +444,7 @@ class ImageManager extends React.Component {
                                                         <div className="col-sm-1"></div>
                                                         <div className="col-sm-3">
                                                             <button type="button" className="btn btn-primary"
-                                                                onClick={() => this.editFunction()}>Edit
+                                                                onClick={() => this.editFunction()}>Update
                                                             </button>
                                                             <button type="button" className="btn btn-info"
                                                                 onClick={() => this.setState({ actionType: 'add' })}>Add new

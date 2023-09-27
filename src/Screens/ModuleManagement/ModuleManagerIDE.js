@@ -500,7 +500,7 @@ export default class ModuleManagerIDE extends React.Component {
     let responseData = await doConnect("getLevelMappingData", "POST", postJson);
 
     // alert(JSON.stringify(responseData))
-    let contentdata = responseData.response;
+    let contentdata = [];
     let getStageData = responseData.response;
     if (getStageData) {
       getStageData = JSON.parse(getStageData);
@@ -512,17 +512,15 @@ export default class ModuleManagerIDE extends React.Component {
       /*restructure change */
     }
     if (getStageData) {
-      welcomeScreenCheck = getStageData.welcomeScreen;
+      welcomeScreenCheck = getStageData.welcomeScreen
       trackModuleScreen = getStageData.trackModuleScreen
       contentdata = getStageData.stage;
       let imageViews = []
       let withOutStory = []
       let withStory = []
-      let changeIndex = 0
-
+      let changeIndex = 0;
       let sectionAudioSelected = {}
       let storySelectAudioFiles = {}
-
       if (Array.isArray(contentdata)) {
         contentdata.map((ival, index) => {
           var found_index = this.state.themeOptions.findIndex((a) =>
@@ -547,7 +545,7 @@ export default class ModuleManagerIDE extends React.Component {
             }
           }
 
-          if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender") {
+          if (ival.theme === "StoryCard" || ival.theme === "Ask Age" || ival.theme === "Ask Gender" || ival.theme === "Dynamic Theme") {
             withStory.push(ival)
             storyThemeSelect[changeIndex] = { label: ival.theme, value: ival.theme }
             changeIndex++;
@@ -555,9 +553,8 @@ export default class ModuleManagerIDE extends React.Component {
           else {
             withOutStory.push(ival)
           }
-          return true;
+          return true
         })
-
 
         let filterInsideContentThemes = contentdata.filter((e) => { return e.content && Object.keys(e.content).length > 0 })
         if (filterInsideContentThemes && filterInsideContentThemes.length > 0) {
@@ -573,10 +570,10 @@ export default class ModuleManagerIDE extends React.Component {
                     storySelectAudioFiles[index][dindex] = { ...selectedFile }
                   }
                 }
-                return true;
+                return true
               })
             }
-            return true;
+            return true
           })
 
         }
@@ -585,10 +582,9 @@ export default class ModuleManagerIDE extends React.Component {
         let { sectionLearning, sectionBuildStory } = contentdata;
         withOutStory = sectionLearning;
         withStory = sectionBuildStory;
-
         sectionBuildStory.map((ival) => {
           storyThemeSelect.push({ label: ival.theme, value: ival.theme })
-          return true;
+          return true
         })
       }
 
@@ -2226,7 +2222,7 @@ export default class ModuleManagerIDE extends React.Component {
                 </div>
               </div>
               <div className="my-3">
-                <div className="tabs">
+                <div className="tabs themewidth text-center">
                   {
                     sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes.map((theme, themeIndex) => {
                       return <div key={themeIndex} className={`tab ${storyCardTab === themeIndex ? "active" : ""}`} onClick={() => this.setState({
@@ -2238,13 +2234,14 @@ export default class ModuleManagerIDE extends React.Component {
                   }
                 </div>
                 <div className="p-2" style={{ border: '1px solid #d9edf7' }}>
-                  <DropDown
+                  {sectionBuildStory[jindex].content !== undefined && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] !== undefined && <DropDown
                     selectedOption={(sectionBuildStory[jindex].content !== undefined && sectionBuildStory[jindex].content.themes !== undefined) ? { label: sectionBuildStory[jindex].content.themes[storyCardTab].theme, value: sectionBuildStory[jindex].content.themes[storyCardTab].theme } : []}
                     onChange={(e) => {
                       this.changeStoryTheme(jindex, storyCardTab, e)
                     }}
                     options={themeOptions}
-                  />
+                  />}
+
                   {sectionBuildStory[jindex].content && sectionBuildStory[jindex].content.themes !== undefined && sectionBuildStory[jindex].content.themes[storyCardTab] && sectionBuildStory[jindex].content.themes[storyCardTab].themeType === "Dynamic" && <div className="mt-2 mb-2">
                     <div className='form-group'>
                       <div> Background Audio</div>
@@ -2517,7 +2514,7 @@ export default class ModuleManagerIDE extends React.Component {
           if (theme) {
             currentThemeType = buildSection[themeIndex].content.themes[storyCardTab].themeType;
           }
-          if (theme.layers !== undefined) {
+          if (theme && theme.layers !== undefined) {
             content = <div>
               {
                 theme.layers.map((layer, index) => {
@@ -2861,7 +2858,7 @@ export default class ModuleManagerIDE extends React.Component {
                           </div>
                         </div>
 
-                        <div className="tabs">
+                        <div className="tabs themewidth text-center">
                           {
                             sectionTab === "learning" && sectionLearning.map((val, index) => {
                               return <div key={index} className={`tab ${themeIndex === index ? "active" : ""}`} onClick={() => {

@@ -888,6 +888,11 @@ h2 {
   width: 80%;
 }
 
+.themewidth {
+  overflow-x: scroll;
+  height: auto;
+}
+
 @media only screen and (max-width: 768px) {
   .mobile-responsive {
     width: 100% !important;
