@@ -84,7 +84,7 @@ class Login extends React.Component {
                         </div>
 
                         <div className="text-center pt-1 mb-5 pb-1">
-                          <Link className="btn btn-success btn-block fa-lg " onClick={() => this.getLogin()} >Login</Link>
+                          <Link to={"#"} className="btn btn-success btn-block fa-lg " onClick={() => this.getLogin()} >Login</Link>
                         </div>
                       </form>
                     </div>
