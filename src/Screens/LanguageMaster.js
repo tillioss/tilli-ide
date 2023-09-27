@@ -92,14 +92,15 @@ export default class LanguageMaster extends React.Component {
         let columns = [
             {
                 name: 'Language',
-                selector: 'name',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.name}</div>
+                },
             },
             {
                 name: 'Edit',
-                selector: 'Edit',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div >
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={index} className="btn btn-info" onClick={(e) => {

@@ -181,24 +181,29 @@ class LevelModule extends React.Component {
         const columns = [
             {
                 name: 'Order',
-                selector: 'sortOrder',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.sortOrder.toString()}</div>
+                },
             },
             {
                 name: 'Name',
-                selector: 'name',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.name}</div>
+                },
             },
             {
                 name: 'Color',
-                selector: 'color',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.color}</div>
+                },
             },
             {
                 name: 'Image',
-                selector: 'Button',
                 sortable: true,
-                cell: (row, index, column, id) => {
+                selector: (row, index, column, id) => {
                     let image = row.image;
                     return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" alt="loading" /></div>
                 },
@@ -207,7 +212,7 @@ class LevelModule extends React.Component {
             {
                 name: 'Manage',
                 sortable: true,
-                cell: (row, index, column, id) => {
+                selector: (row, index, column, id) => {
                     return <div style={{ padding: 10 }}>
                         <button id={row.id} className="btn btn-primary" onClick={() => {
                             // this.props.history.push('/'+MyConstant.keyList.projectUrl+'/ModuleLanguageMapping/'+row.id )

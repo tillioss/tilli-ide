@@ -190,18 +190,19 @@ class Theme extends React.Component {
         const columns = [
             {
                 name: 'Name',
-                selector: 'name',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.name}</div>
+                },
             },
 
             {
                 name: 'Image',
-                selector: 'Button',
                 sortable: true,
-                cell: (row, index, column, id) => {
+                selector: (row, index, column, id) => {
                     let image = row.image;
                     let imgPath = MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType
-                    return <div style={{ padding: 10 }}><img src={imgPath} width="75" height="75" alt='loading' onClick={async () => {
+                    return <div><img src={imgPath} width="75" height="75" alt='loading' onClick={async () => {
                         await this.setState({ imageView: { json: row.image }, displayImage: "block" })
                     }} /></div>
                 },
@@ -209,9 +210,8 @@ class Theme extends React.Component {
             },
             {
                 name: 'Manage',
-                selector: 'Manage',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     row.themeType === "Dynamic" ? <div id={row.id}>
                         <div style={{ fontWeight: 700 }}></div>
                         <Link to={"/" + MyConstant.keyList.projectUrl + "/theme-builder/" + row.id} className="btn btn-primary">Manage</Link>
@@ -219,9 +219,8 @@ class Theme extends React.Component {
             },
             {
                 name: 'Edit',
-                selector: 'Edit',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div id={row.id}                       >
                         <div style={{ fontWeight: 700 }}></div>
                         {
@@ -252,9 +251,8 @@ class Theme extends React.Component {
             },
             {
                 name: 'Delete',
-                selector: 'Delete',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div id={row.id} >
                         <div style={{ fontWeight: 700 }}></div>
                         <button id={row.id} className="btn btn-danger" onClick={(e) => {
@@ -266,9 +264,8 @@ class Theme extends React.Component {
             },
             {
                 name: 'Godot Preview',
-                selector: '',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     (row.themeType === "godot" && row.gameFile && Object.keys(row.gameFile).length > 0) ? <div id={row.id}>
                         <div style={{ fontWeight: 700 }}></div>
                         <Link className="btn btn-primary" onClick={() => {

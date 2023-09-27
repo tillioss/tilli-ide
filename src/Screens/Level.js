@@ -214,34 +214,39 @@ class Level extends React.Component {
         const columns = [
             {
                 name: 'Order',
-                selector: 'sortOrder',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.sortOrder.toString()}</div>
+                },
             },
             {
                 name: 'Title',
-                selector: 'name',
                 sortable: true,
+                selector: (row,) => {
+                    return <div >{row.name}</div>
+                },
             },
             {
                 name: 'Color',
-                selector: 'color',
                 sortable: true,
+                selector: (row, index, column, id) => {
+                    return <div >{row.color}</div>
+                },
             },
             {
                 name: 'Graphic',
-                selector: 'Button',
                 sortable: true,
-                cell: (row, index, column, id) => {
+                selector: (row, index, column, id) => {
                     let image = row.image;
-                    return <div style={{ padding: 10 }}><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" alt="loading" /></div>
+                    return <div ><img src={MyConstant.keyList.apiURL + "vp?action=module&key=" + image.fileName + "&id=" + image.fileType} width="75" height="75" alt="loading" /></div>
                 },
 
             },
             {
                 name: 'Manage',
                 sortable: true,
-                cell: (row, index, column, id) => {
-                    return <div style={{ padding: 10 }}>
+                selector: (row, index, column, id) => {
+                    return <div >
                         <button id={row.id} className="btn btnc" onClick={() => {
                             this.props.history.push('/' + MyConstant.keyList.projectUrl + '/module-manager-ide/' + row.id)
                         }}>Manage</button>
@@ -265,7 +270,6 @@ class Level extends React.Component {
             //             },
             {
                 name: 'Edit',
-                selector: 'Edit',
                 sortable: true,
                 cell: (row, index, column, id) =>
                     <div id={row.id}>
@@ -286,9 +290,8 @@ class Level extends React.Component {
             },
             {
                 name: 'Delete',
-                selector: 'Delete',
                 sortable: true,
-                cell: (row, index, column, id) =>
+                selector: (row, index, column, id) =>
                     <div id={row.id}
                     >
                         <div style={{ fontWeight: 700 }}></div>
