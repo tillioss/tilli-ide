@@ -258,6 +258,14 @@ class Menu extends React.Component {
                                         </li>
                                     </React.Fragment>
                                 }
+                                {
+                                    (developerLogin || pageAccess.includes("Machine Learning Demo")) && <li>
+                                        <Link to={"/" + MyConstant.keyList.projectUrl + "/machinelearning"} >
+                                            <span className="link-icon"><i className="fa fa-file"></i></span>
+                                            <span className="link-text">Machine Learning Demo</span>
+                                        </Link>
+                                    </li>
+                                }
 
                                 <li>
                                     <Link to="#" onClick={(e) => this.logout(e)} >
