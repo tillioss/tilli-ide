@@ -1,5 +1,5 @@
 import React from 'react';
-import { doConnect } from '../config/Common';
+import { doPredictConnect } from '../config/Common';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -50,7 +50,7 @@ class MachingLearning extends React.Component {
     if (Object.keys(errors).length === 0) {
       let postJson = { 'emotion': emotionText, 'feedback': feedBackText, apiKey: apiKeyText }
       console.log("postData ", postJson)
-      let getResponse = await doConnect("predict", "POST", postJson)
+      let getResponse = await doPredictConnect("predict", "POST", postJson)
       if (getResponse) {
         toast.success('Date submited!', {
           position: "top-center",

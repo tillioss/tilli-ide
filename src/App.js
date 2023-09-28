@@ -86,6 +86,7 @@ class App extends React.Component {
             "/workspace",
             "/pages",
             "/theme-builder",
+            "/machinelearning"
         ];
 
         menuIncludePaths.forEach(element => {
