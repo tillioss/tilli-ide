@@ -119,7 +119,7 @@ export function getMonthAndDate(UNIX_timestamp, fullmonth = false) {
     return time;
 }
 
-export function pageNumbers(totalPages, page, maxLength) {    
+export function pageNumbers(totalPages, page, maxLength) {
     if (maxLength < 5) throw new Error("maxLength must be at least 5");
     function range(start, end) {
         return Array.from(Array(end - start + 1), (_, i) => i + start);
@@ -173,3 +173,23 @@ export async function doFileConnectZip(dataJson) {
     }
 
 }
+
+
+export async function doPredictConnect(subUrl, method, postJson) {
+    return fetch(MyConstant.keyList.predictUrl + subUrl, {
+        method: method,
+        mode: 'cors',
+        redirect: 'follow',
+        body: JSON.stringify(postJson),
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        })
+    }).then(
+        function (response) {
+            return response.json();
+        }
+    ).then(function (dataresponse) {
+        return dataresponse;
+    });
+}
+
